@@ -13,6 +13,7 @@
 		321D5E7F27425D5700C82735 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 321D5E7D27425D5700C82735 /* Main.storyboard */; };
 		321D5E8127425D5800C82735 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 321D5E8027425D5800C82735 /* Assets.xcassets */; };
 		321D5E8427425D5800C82735 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 321D5E8227425D5800C82735 /* LaunchScreen.storyboard */; };
+		321D5E8C27426CAC00C82735 /* ProductDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 321D5E8B27426CAC00C82735 /* ProductDetail.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		321D5E8027425D5800C82735 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		321D5E8327425D5800C82735 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		321D5E8527425D5800C82735 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		321D5E8B27426CAC00C82735 /* ProductDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ProductDetail.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 				321D5E7927425D5700C82735 /* SceneDelegate.swift */,
 				321D5E7B27425D5700C82735 /* ViewController.swift */,
 				321D5E7D27425D5700C82735 /* Main.storyboard */,
+				321D5E8B27426CAC00C82735 /* ProductDetail.storyboard */,
 				321D5E8027425D5800C82735 /* Assets.xcassets */,
 				321D5E8227425D5800C82735 /* LaunchScreen.storyboard */,
 				321D5E8527425D5800C82735 /* Info.plist */,
@@ -126,6 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				321D5E8427425D5800C82735 /* LaunchScreen.storyboard in Resources */,
+				321D5E8C27426CAC00C82735 /* ProductDetail.storyboard in Resources */,
 				321D5E8127425D5800C82735 /* Assets.xcassets in Resources */,
 				321D5E7F27425D5700C82735 /* Main.storyboard in Resources */,
 			);
