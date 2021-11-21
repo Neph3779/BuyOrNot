@@ -21,6 +21,8 @@
 		32657E5C274A82DC0020C4A8 /* NaverShoppingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E5B274A82DC0020C4A8 /* NaverShoppingItem.swift */; };
 		32657E5E274A83DA0020C4A8 /* YoutubeVideoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E5D274A83DA0020C4A8 /* YoutubeVideoItem.swift */; };
 		32657E60274AA47C0020C4A8 /* APIKeyList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32657E5F274AA47C0020C4A8 /* APIKeyList.plist */; };
+		32657E64274AA6EF0020C4A8 /* YoutubeAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E63274AA6EF0020C4A8 /* YoutubeAPIClient.swift */; };
+		32657E66274AAE960020C4A8 /* NaverAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E65274AAE960020C4A8 /* NaverAPIClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,8 @@
 		32657E5B274A82DC0020C4A8 /* NaverShoppingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverShoppingItem.swift; sourceTree = "<group>"; };
 		32657E5D274A83DA0020C4A8 /* YoutubeVideoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeVideoItem.swift; sourceTree = "<group>"; };
 		32657E5F274AA47C0020C4A8 /* APIKeyList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKeyList.plist; sourceTree = "<group>"; };
+		32657E63274AA6EF0020C4A8 /* YoutubeAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeAPIClient.swift; sourceTree = "<group>"; };
+		32657E65274AAE960020C4A8 /* NaverAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverAPIClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				32657E45274A68160020C4A8 /* EntryPoint */,
+				32657E67274AB1330020C4A8 /* APIClients */,
 				32657E62274AA6680020C4A8 /* APIModels */,
 				32657E61274AA6590020C4A8 /* ViewControllers */,
 				32528AB5274529E5006988D6 /* LaunchScreen.storyboard */,
@@ -109,6 +114,15 @@
 				32657E5D274A83DA0020C4A8 /* YoutubeVideoItem.swift */,
 			);
 			path = APIModels;
+			sourceTree = "<group>";
+		};
+		32657E67274AB1330020C4A8 /* APIClients */ = {
+			isa = PBXGroup;
+			children = (
+				32657E63274AA6EF0020C4A8 /* YoutubeAPIClient.swift */,
+				32657E65274AAE960020C4A8 /* NaverAPIClient.swift */,
+			);
+			path = APIClients;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,6 +233,8 @@
 				32528AAF274529E4006988D6 /* MainTabBarController.swift in Sources */,
 				32528AAB274529E4006988D6 /* AppDelegate.swift in Sources */,
 				32657E5A274A70AD0020C4A8 /* SearchViewController.swift in Sources */,
+				32657E64274AA6EF0020C4A8 /* YoutubeAPIClient.swift in Sources */,
+				32657E66274AAE960020C4A8 /* NaverAPIClient.swift in Sources */,
 				32657E5C274A82DC0020C4A8 /* NaverShoppingItem.swift in Sources */,
 				32657E5E274A83DA0020C4A8 /* YoutubeVideoItem.swift in Sources */,
 				32657E55274A6A170020C4A8 /* HomeViewController.swift in Sources */,
