@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class SearchViewController: UIViewController {
 
@@ -14,5 +15,4 @@ class SearchViewController: UIViewController {
         view.backgroundColor = .white
         navigationItem.title = "검색"
     }
-
 }

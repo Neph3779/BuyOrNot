@@ -18,6 +18,9 @@
 		32657E55274A6A170020C4A8 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E54274A6A170020C4A8 /* HomeViewController.swift */; };
 		32657E58274A6D210020C4A8 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 32657E57274A6D210020C4A8 /* SnapKit */; };
 		32657E5A274A70AD0020C4A8 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E59274A70AD0020C4A8 /* SearchViewController.swift */; };
+		32657E5C274A82DC0020C4A8 /* NaverShoppingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E5B274A82DC0020C4A8 /* NaverShoppingItem.swift */; };
+		32657E5E274A83DA0020C4A8 /* YoutubeVideoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E5D274A83DA0020C4A8 /* YoutubeVideoItem.swift */; };
+		32657E60274AA47C0020C4A8 /* APIKeyList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32657E5F274AA47C0020C4A8 /* APIKeyList.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +33,9 @@
 		32657E43274A67760020C4A8 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		32657E54274A6A170020C4A8 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		32657E59274A70AD0020C4A8 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		32657E5B274A82DC0020C4A8 /* NaverShoppingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverShoppingItem.swift; sourceTree = "<group>"; };
+		32657E5D274A83DA0020C4A8 /* YoutubeVideoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeVideoItem.swift; sourceTree = "<group>"; };
+		32657E5F274AA47C0020C4A8 /* APIKeyList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKeyList.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,12 +74,12 @@
 			isa = PBXGroup;
 			children = (
 				32657E45274A68160020C4A8 /* EntryPoint */,
-				32528AAE274529E4006988D6 /* MainTabBarController.swift */,
-				32657E59274A70AD0020C4A8 /* SearchViewController.swift */,
-				32657E54274A6A170020C4A8 /* HomeViewController.swift */,
+				32657E62274AA6680020C4A8 /* APIModels */,
+				32657E61274AA6590020C4A8 /* ViewControllers */,
 				32528AB5274529E5006988D6 /* LaunchScreen.storyboard */,
 				32528AB3274529E5006988D6 /* Assets.xcassets */,
 				32528AB8274529E5006988D6 /* Info.plist */,
+				32657E5F274AA47C0020C4A8 /* APIKeyList.plist */,
 			);
 			path = BuyOrNot;
 			sourceTree = "<group>";
@@ -84,6 +90,25 @@
 				32528AAA274529E4006988D6 /* AppDelegate.swift */,
 			);
 			path = EntryPoint;
+			sourceTree = "<group>";
+		};
+		32657E61274AA6590020C4A8 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				32528AAE274529E4006988D6 /* MainTabBarController.swift */,
+				32657E54274A6A170020C4A8 /* HomeViewController.swift */,
+				32657E59274A70AD0020C4A8 /* SearchViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		32657E62274AA6680020C4A8 /* APIModels */ = {
+			isa = PBXGroup;
+			children = (
+				32657E5B274A82DC0020C4A8 /* NaverShoppingItem.swift */,
+				32657E5D274A83DA0020C4A8 /* YoutubeVideoItem.swift */,
+			);
+			path = APIModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -158,6 +183,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				32657E44274A67760020C4A8 /* .swiftlint.yml in Resources */,
+				32657E60274AA47C0020C4A8 /* APIKeyList.plist in Resources */,
 				32528AB7274529E5006988D6 /* LaunchScreen.storyboard in Resources */,
 				32528AB4274529E5006988D6 /* Assets.xcassets in Resources */,
 			);
@@ -193,6 +219,8 @@
 				32528AAF274529E4006988D6 /* MainTabBarController.swift in Sources */,
 				32528AAB274529E4006988D6 /* AppDelegate.swift in Sources */,
 				32657E5A274A70AD0020C4A8 /* SearchViewController.swift in Sources */,
+				32657E5C274A82DC0020C4A8 /* NaverShoppingItem.swift in Sources */,
+				32657E5E274A83DA0020C4A8 /* YoutubeVideoItem.swift in Sources */,
 				32657E55274A6A170020C4A8 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
