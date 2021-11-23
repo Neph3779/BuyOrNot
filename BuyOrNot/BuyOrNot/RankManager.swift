@@ -8,11 +8,13 @@
 import Foundation
 
 final class RankManager {
-    static var rankedProducts: [ProductCategory: [RankedProduct]] = [:]
+    var rankedProducts: [ProductCategory: [RankedProduct]] = [:]
 
     func refreshRank() {
-        ProductCategory.allCases.forEach {
-            RankManager.rankedProducts.updateValue(DanawaAPIClient.shared.fetchRankData(category: $0), forKey: $0)
+        DispatchQueue.global().async {
+            ProductCategory.allCases.forEach { [weak self] in
+                self?.rankedProducts.updateValue(DanawaAPIClient.shared.fetchRankData(category: $0), forKey: $0)
+            }
         }
     }
     private init() {}

@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftSoup
+import Alamofire
 
 // TODO: data 가공 로직, Danawa URL 추가
 
@@ -15,24 +16,42 @@ final class DanawaAPIClient {
     static let shared = DanawaAPIClient()
 
     func fetchRankData(category: ProductCategory) -> [RankedProduct] {
+        var rankedProducts = [RankedProduct]()
         do {
             let html = try String(contentsOf: danawaUrl(category: category), encoding: .utf8)
-            let document = try SwiftSoup.parse(html)
-            let doc = try document.select(".product_list").select(".prod_name").select("a").text()
+            let productLists = try SwiftSoup.parse(html).select(".product_list")
+            let productNames = try productLists.select(".prod_name").select("[name=productName]").array()
+            let thumbnails = try productLists.select(".thumb_image").select(".thumb_link").array()
 
-            let list = doc.replacingOccurrences(of: ", 공기계", with: "")
-                .replacingOccurrences(of: "NEW", with: "")
+            for indexCount in 0..<productNames.count {
+                var fullName = try productNames[indexCount].text()
+                    .replacingOccurrences(of: ", 공기계", with: "")
+                    .replacingOccurrences(of: "NEW", with: "")
+                    .replacingOccurrences(of: "(정품)", with: "")
 
-            print(list)
+                stringToRemove.forEach {
+                    fullName = fullName.replacingOccurrences(of: $0, with: "")
+                }
+
+                let thumbnailURL = try thumbnails[indexCount].attr("href").asURL()
+                let fullNameToList = fullName.split(separator: " ").map { String($0) }
+                let brand = fullNameToList.first!
+                let name = fullNameToList.dropFirst().joined(separator: " ")
+                let rank = indexCount
+                rankedProducts.append(RankedProduct(category: category, brand: brand,
+                                                    name: name, rank: rank, image: thumbnailURL))
+            }
         } catch {
-
+            print(error)
         }
-        return []
+
+        return rankedProducts
     }
 }
 
 extension DanawaAPIClient {
-    func danawaUrl(category: ProductCategory) -> URL {
+    private var stringToRemove: [String] { return [", 공기계", "NEW", "(정품)"] }
+    private func danawaUrl(category: ProductCategory) -> URL {
         switch category {
         case .phone:
             return URL(string: DanawaURL.phone)!
@@ -49,7 +68,7 @@ extension DanawaAPIClient {
         }
     }
 
-    enum DanawaURL {
+    private enum DanawaURL {
         static let phone = "https://prod.danawa.com/list/?cate=12215709&logger_kw=ca_main_more"
         static let keyboard = "http://prod.danawa.com/list/?cate=112782&logger_kw=ca_list_more"
         static let monitor = "http://prod.danawa.com/list/?cate=112757&logger_kw=ca_list_more"
