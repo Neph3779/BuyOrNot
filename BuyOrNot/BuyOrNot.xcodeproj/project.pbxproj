@@ -22,7 +22,13 @@
 		32657E5E274A83DA0020C4A8 /* YoutubeVideoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E5D274A83DA0020C4A8 /* YoutubeVideoItem.swift */; };
 		32657E60274AA47C0020C4A8 /* APIKeyList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32657E5F274AA47C0020C4A8 /* APIKeyList.plist */; };
 		32657E64274AA6EF0020C4A8 /* YoutubeAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E63274AA6EF0020C4A8 /* YoutubeAPIClient.swift */; };
-		32657E66274AAE960020C4A8 /* NaverAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E65274AAE960020C4A8 /* NaverAPIClient.swift */; };
+		32657E66274AAE960020C4A8 /* NaverSearchAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E65274AAE960020C4A8 /* NaverSearchAPIClient.swift */; };
+		32657E69274ABA220020C4A8 /* NaverBlogPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E68274ABA220020C4A8 /* NaverBlogPost.swift */; };
+		32657E6B274ABD560020C4A8 /* DanawaAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6A274ABD560020C4A8 /* DanawaAPIClient.swift */; };
+		32657E6D274ACDEB0020C4A8 /* BuyOrNotError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6C274ACDEB0020C4A8 /* BuyOrNotError.swift */; };
+		32657E6F274AD3D30020C4A8 /* RankedProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6E274AD3D30020C4A8 /* RankedProduct.swift */; };
+		32657E77274CB84E0020C4A8 /* RankManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E76274CB84E0020C4A8 /* RankManager.swift */; };
+		32657E79274D119C0020C4A8 /* NaverShoppingInsightAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E78274D119C0020C4A8 /* NaverShoppingInsightAPIClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,7 +45,13 @@
 		32657E5D274A83DA0020C4A8 /* YoutubeVideoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeVideoItem.swift; sourceTree = "<group>"; };
 		32657E5F274AA47C0020C4A8 /* APIKeyList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKeyList.plist; sourceTree = "<group>"; };
 		32657E63274AA6EF0020C4A8 /* YoutubeAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeAPIClient.swift; sourceTree = "<group>"; };
-		32657E65274AAE960020C4A8 /* NaverAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverAPIClient.swift; sourceTree = "<group>"; };
+		32657E65274AAE960020C4A8 /* NaverSearchAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverSearchAPIClient.swift; sourceTree = "<group>"; };
+		32657E68274ABA220020C4A8 /* NaverBlogPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverBlogPost.swift; sourceTree = "<group>"; };
+		32657E6A274ABD560020C4A8 /* DanawaAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DanawaAPIClient.swift; sourceTree = "<group>"; };
+		32657E6C274ACDEB0020C4A8 /* BuyOrNotError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyOrNotError.swift; sourceTree = "<group>"; };
+		32657E6E274AD3D30020C4A8 /* RankedProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankedProduct.swift; sourceTree = "<group>"; };
+		32657E76274CB84E0020C4A8 /* RankManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankManager.swift; sourceTree = "<group>"; };
+		32657E78274D119C0020C4A8 /* NaverShoppingInsightAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverShoppingInsightAPIClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +89,9 @@
 		32528AA9274529E4006988D6 /* BuyOrNot */ = {
 			isa = PBXGroup;
 			children = (
+				32657E6E274AD3D30020C4A8 /* RankedProduct.swift */,
+				32657E76274CB84E0020C4A8 /* RankManager.swift */,
+				32657E6C274ACDEB0020C4A8 /* BuyOrNotError.swift */,
 				32657E45274A68160020C4A8 /* EntryPoint */,
 				32657E67274AB1330020C4A8 /* APIClients */,
 				32657E62274AA6680020C4A8 /* APIModels */,
@@ -111,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				32657E5B274A82DC0020C4A8 /* NaverShoppingItem.swift */,
+				32657E68274ABA220020C4A8 /* NaverBlogPost.swift */,
 				32657E5D274A83DA0020C4A8 /* YoutubeVideoItem.swift */,
 			);
 			path = APIModels;
@@ -120,7 +136,9 @@
 			isa = PBXGroup;
 			children = (
 				32657E63274AA6EF0020C4A8 /* YoutubeAPIClient.swift */,
-				32657E65274AAE960020C4A8 /* NaverAPIClient.swift */,
+				32657E6A274ABD560020C4A8 /* DanawaAPIClient.swift */,
+				32657E65274AAE960020C4A8 /* NaverSearchAPIClient.swift */,
+				32657E78274D119C0020C4A8 /* NaverShoppingInsightAPIClient.swift */,
 			);
 			path = APIClients;
 			sourceTree = "<group>";
@@ -230,14 +248,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32657E6D274ACDEB0020C4A8 /* BuyOrNotError.swift in Sources */,
+				32657E77274CB84E0020C4A8 /* RankManager.swift in Sources */,
 				32528AAF274529E4006988D6 /* MainTabBarController.swift in Sources */,
 				32528AAB274529E4006988D6 /* AppDelegate.swift in Sources */,
 				32657E5A274A70AD0020C4A8 /* SearchViewController.swift in Sources */,
 				32657E64274AA6EF0020C4A8 /* YoutubeAPIClient.swift in Sources */,
-				32657E66274AAE960020C4A8 /* NaverAPIClient.swift in Sources */,
+				32657E6F274AD3D30020C4A8 /* RankedProduct.swift in Sources */,
+				32657E66274AAE960020C4A8 /* NaverSearchAPIClient.swift in Sources */,
 				32657E5C274A82DC0020C4A8 /* NaverShoppingItem.swift in Sources */,
+				32657E79274D119C0020C4A8 /* NaverShoppingInsightAPIClient.swift in Sources */,
 				32657E5E274A83DA0020C4A8 /* YoutubeVideoItem.swift in Sources */,
 				32657E55274A6A170020C4A8 /* HomeViewController.swift in Sources */,
+				32657E69274ABA220020C4A8 /* NaverBlogPost.swift in Sources */,
+				32657E6B274ABD560020C4A8 /* DanawaAPIClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
