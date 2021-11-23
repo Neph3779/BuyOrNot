@@ -27,9 +27,12 @@ final class YoutubeAPIClient {
         return value
     }
 
-    private var parameters: [String: String] = [:]
+    private init() {}
+    static let shared = YoutubeAPIClient()
 
     func fetchYoutubeVideos(query: String, count: Int = 10, completion: @escaping (DataResponse<YoutubeSearchResult, AFError>) -> Void) {
+        var parameters: [String: String] = [:]
+
         parameters.updateValue(apiKey, forKey: "key")
         parameters.updateValue("snippet", forKey: "part")
         parameters.updateValue(query, forKey: "q")

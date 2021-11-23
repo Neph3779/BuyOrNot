@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 
-final class NaverAPIClient {
+final class NaverSearchAPIClient {
     private var blogSearchURL: URL {
         guard let url = URL(string: "https://openapi.naver.com/v1/search/blog.json") else {
             fatalError("Can not convert blogSearchURL")
@@ -45,10 +45,12 @@ final class NaverAPIClient {
         return value
     }
 
-    private var parameters: [String: String] = [:]
-    private var headers: HTTPHeaders = []
+    private init() {}
+    static let shared = NaverSearchAPIClient()
 
     func fetchNaverBlogPosts(query: String, count: Int = 10, completion: @escaping (DataResponse<YoutubeSearchResult, AFError>) -> Void) {
+        var headers: HTTPHeaders = []
+        var parameters: [String: String] = [:]
         headers.update(name: "X-Naver-Client-Id", value: clientId)
         headers.update(name: "X-Naver-Client-Secret", value: clientSecret)
 
