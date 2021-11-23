@@ -28,6 +28,7 @@
 		32657E6D274ACDEB0020C4A8 /* BuyOrNotError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6C274ACDEB0020C4A8 /* BuyOrNotError.swift */; };
 		32657E6F274AD3D30020C4A8 /* ProductCategory+RankedProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6E274AD3D30020C4A8 /* ProductCategory+RankedProduct.swift */; };
 		32657E77274CB84E0020C4A8 /* RankManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E76274CB84E0020C4A8 /* RankManager.swift */; };
+		32CEBEEA274D72CB00D62074 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CEBEE9274D72CB00D62074 /* CategoryCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		32657E6C274ACDEB0020C4A8 /* BuyOrNotError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyOrNotError.swift; sourceTree = "<group>"; };
 		32657E6E274AD3D30020C4A8 /* ProductCategory+RankedProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductCategory+RankedProduct.swift"; sourceTree = "<group>"; };
 		32657E76274CB84E0020C4A8 /* RankManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankManager.swift; sourceTree = "<group>"; };
+		32CEBEE9274D72CB00D62074 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 				32657E45274A68160020C4A8 /* EntryPoint */,
 				32657E67274AB1330020C4A8 /* APIClients */,
 				32657E62274AA6680020C4A8 /* APIModels */,
+				32CEBEEB274D72ED00D62074 /* Views */,
 				32657E61274AA6590020C4A8 /* ViewControllers */,
 				32528AB5274529E5006988D6 /* LaunchScreen.storyboard */,
 				32528AB3274529E5006988D6 /* Assets.xcassets */,
@@ -138,6 +141,14 @@
 				32657E65274AAE960020C4A8 /* NaverSearchAPIClient.swift */,
 			);
 			path = APIClients;
+			sourceTree = "<group>";
+		};
+		32CEBEEB274D72ED00D62074 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				32CEBEE9274D72CB00D62074 /* CategoryCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -248,6 +259,7 @@
 				32657E6D274ACDEB0020C4A8 /* BuyOrNotError.swift in Sources */,
 				32657E77274CB84E0020C4A8 /* RankManager.swift in Sources */,
 				32528AAF274529E4006988D6 /* MainTabBarController.swift in Sources */,
+				32CEBEEA274D72CB00D62074 /* CategoryCell.swift in Sources */,
 				32528AAB274529E4006988D6 /* AppDelegate.swift in Sources */,
 				32657E5A274A70AD0020C4A8 /* SearchViewController.swift in Sources */,
 				32657E64274AA6EF0020C4A8 /* YoutubeAPIClient.swift in Sources */,
