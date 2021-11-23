@@ -9,21 +9,14 @@ import Foundation
 import Alamofire
 
 final class YoutubeAPIClient {
-    private var url: URL {
-        guard let url = URL(string: "https://www.googleapis.com/youtube/v3/search") else {
-            fatalError("Can not convert to URL")
-        }
-        return url
-    }
+    private var url = URL(string: "https://www.googleapis.com/youtube/v3/search")!
 
     private var apiKey: String {
-        guard let filePath = Bundle.main.path(forResource: "APIKeyList", ofType: "plist") else {
-            fatalError("Couldn't find file 'KeyList.plist'.")
-        }
-        let plist = NSDictionary(contentsOfFile: filePath)
-        guard let value = plist?.object(forKey: "YoutubeAPIKey") as? String else {
-            fatalError("Couldn't find key 'YoutubeAPIKey' in 'APIKeyList.plist'.")
-        }
+        guard let filePath = Bundle.main.path(forResource: "APIKeyList", ofType: "plist"),
+              let plist = NSDictionary(contentsOfFile: filePath),
+              let value = plist.object(forKey: "YoutubeAPIKey") as? String else {
+                  fatalError("Couldn't find file 'KeyList.plist'.")
+              }
         return value
     }
 

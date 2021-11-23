@@ -7,7 +7,17 @@
 
 import Foundation
 
+enum ProductCategory: CaseIterable {
+    case phone
+    case keyboard
+    case monitor
+    case spaeker
+    case tablet
+    case smartWatch
+}
+
 struct RankedProduct {
+    let category: ProductCategory
     let brand: String
     let name: String
     var rank: Int
