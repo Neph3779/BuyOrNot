@@ -9,8 +9,6 @@ import Foundation
 import SwiftSoup
 import Alamofire
 
-// TODO: data 가공 로직, Danawa URL 추가
-
 final class DanawaAPIClient {
     private init() {}
     static let shared = DanawaAPIClient()
@@ -42,7 +40,7 @@ final class DanawaAPIClient {
                                                     name: name, rank: rank, image: thumbnailURL))
             }
         } catch {
-            print(error)
+            print(error) // TODO: Error 처리 로직 구현 필수
         }
 
         return rankedProducts

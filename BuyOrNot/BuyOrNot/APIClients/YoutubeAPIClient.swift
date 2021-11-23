@@ -15,7 +15,7 @@ final class YoutubeAPIClient {
         guard let filePath = Bundle.main.path(forResource: "APIKeyList", ofType: "plist"),
               let plist = NSDictionary(contentsOfFile: filePath),
               let value = plist.object(forKey: "YoutubeAPIKey") as? String else {
-                  fatalError("Couldn't find file 'KeyList.plist'.")
+                  fatalError("API key valid failed")
               }
         return value
     }
