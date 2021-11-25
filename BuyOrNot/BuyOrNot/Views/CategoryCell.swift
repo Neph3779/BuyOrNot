@@ -14,20 +14,39 @@ final class CategoryCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .brown
-        setImageViewLayout()
+        setUpCellAppearance()
+        setUpProductImageView()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-    private func setImageViewLayout() {
-        self.contentView.addSubview(productImageView)
-        productImageView.backgroundColor = .gray
+    private func setUpCellAppearance() {
+        backgroundColor = .clear
+        contentView.backgroundColor = .white
+        contentView.layer.cornerRadius = 5
+        contentView.layer.borderWidth = 1.0
+        contentView.layer.borderColor = UIColor.clear.cgColor
+        layer.masksToBounds = true
+
+        layer.shadowColor = UIColor.lightGray.cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 2.0)
+        layer.shadowRadius = 2.0
+        layer.shadowOpacity = 1.0
+        layer.masksToBounds = false
+        layer.shadowPath = UIBezierPath(roundedRect: bounds,
+                                        cornerRadius: contentView.layer.cornerRadius).cgPath
+    }
+
+    private func setUpProductImageView() {
+        contentView.addSubview(productImageView)
+        productImageView.backgroundColor = .clear
         productImageView.snp.makeConstraints { view in
-            view.width.equalTo(self.contentView.snp.width).multipliedBy(0.5)
+            view.width.equalTo(self.contentView.snp.width).multipliedBy(0.7)
             view.top.bottom.trailing.equalTo(self.contentView)
         }
+        productImageView.image = UIImage(named: "phoneCategoryImage")
+        productImageView.contentMode = .scaleAspectFit
     }
 }

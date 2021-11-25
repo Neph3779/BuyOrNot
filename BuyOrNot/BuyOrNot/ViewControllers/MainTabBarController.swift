@@ -22,6 +22,10 @@ final class MainTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tabBar.tintColor = .black
+        if #available(iOS 13.0, *) {
+            overrideUserInterfaceStyle = .light
+        }
         view.backgroundColor = .white
         viewControllers = [homeViewController, searchViewController]
     }
