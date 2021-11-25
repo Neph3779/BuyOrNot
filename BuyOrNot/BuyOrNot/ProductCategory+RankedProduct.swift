@@ -14,6 +14,23 @@ enum ProductCategory: CaseIterable {
     case spaeker
     case tablet
     case smartWatch
+
+    var image: String {
+        switch self {
+        case .phone:
+            return "phoneCategoryImage"
+        case .keyboard:
+            return "keyboardCategoryImage"
+        case .monitor:
+            return "monitorCategoryImage"
+        case .spaeker:
+            return "speakerCategoryImage"
+        case .tablet:
+            return "tabletCategoryImage"
+        case .smartWatch:
+            return "smartWatchCategoryImage"
+        }
+    }
 }
 
 struct RankedProduct {
