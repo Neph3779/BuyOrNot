@@ -33,6 +33,7 @@
 		32B5537D274F4FA600CFA954 /* CategoryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B5537C274F4FA600CFA954 /* CategoryCollectionView.swift */; };
 		32B5537F274F56B200CFA954 /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B5537E274F56B200CFA954 /* UITableViewExtension.swift */; };
 		32B55381274F577400CFA954 /* RecommendCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B55380274F577400CFA954 /* RecommendCollectionView.swift */; };
+		32B55385274F87E500CFA954 /* ViewSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B55384274F87E500CFA954 /* ViewSize.swift */; };
 		32CEBEEA274D72CB00D62074 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CEBEE9274D72CB00D62074 /* CategoryCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -61,6 +62,7 @@
 		32B5537C274F4FA600CFA954 /* CategoryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionView.swift; sourceTree = "<group>"; };
 		32B5537E274F56B200CFA954 /* UITableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
 		32B55380274F577400CFA954 /* RecommendCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCollectionView.swift; sourceTree = "<group>"; };
+		32B55384274F87E500CFA954 /* ViewSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSize.swift; sourceTree = "<group>"; };
 		32CEBEE9274D72CB00D62074 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -159,6 +161,7 @@
 				32657E6E274AD3D30020C4A8 /* ProductCategory+RankedProduct.swift */,
 				32657E6C274ACDEB0020C4A8 /* BuyOrNotError.swift */,
 				32B55378274E928800CFA954 /* ColorSet.swift */,
+				32B55384274F87E500CFA954 /* ViewSize.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 				32B55381274F577400CFA954 /* RecommendCollectionView.swift in Sources */,
 				32657E5C274A82DC0020C4A8 /* NaverShoppingItem.swift in Sources */,
 				32657E5E274A83DA0020C4A8 /* YoutubeVideoItem.swift in Sources */,
+				32B55385274F87E500CFA954 /* ViewSize.swift in Sources */,
 				32657E55274A6A170020C4A8 /* HomeViewController.swift in Sources */,
 				32B5537F274F56B200CFA954 /* UITableViewExtension.swift in Sources */,
 				32657E69274ABA220020C4A8 /* NaverBlogPost.swift in Sources */,

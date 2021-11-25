@@ -13,16 +13,13 @@ final class RecommendProductCell: UICollectionViewCell {
     private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.distribution = .fill
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 10
         return stackView
     }()
 
     private let productImageView = UIImageView()
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "시험"
-        return label
-    }()
+    private let titleLabel = UILabel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,14 +35,18 @@ final class RecommendProductCell: UICollectionViewCell {
     private func setUpStackView() {
         contentView.addSubview(stackView)
         stackView.snp.makeConstraints { stackView in
-            stackView.top.leading.trailing.equalTo(contentView)
+            stackView.edges.equalTo(contentView)
             stackView.bottom.equalTo(contentView).inset(10)
+            stackView.height.equalTo(180)
         }
     }
 
     private func setUpProductImageView() {
         productImageView.image = UIImage(named: "phoneCategoryImage")
         productImageView.contentMode = .scaleAspectFit
+        productImageView.layer.cornerRadius = 5
+        productImageView.layer.borderWidth = 1
+        productImageView.layer.borderColor = UIColor.lightGray.cgColor
         stackView.addArrangedSubview(productImageView)
     }
 

@@ -37,11 +37,6 @@ extension CategoryCollectionView: UICollectionViewDataSource {
 
 extension CategoryCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellWidth = (collectionView.safeAreaLayoutGuide.layoutFrame.width - 30) / CGFloat(2)
-        return CGSize(width: cellWidth, height: cellWidth * 0.85)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        return ViewSize.categoryCellSize
     }
 }

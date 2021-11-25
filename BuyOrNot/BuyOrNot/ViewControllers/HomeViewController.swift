@@ -16,15 +16,7 @@ final class HomeViewController: UIViewController {
         return view
     }()
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Category"
-        label.font = UIFont.boldSystemFont(ofSize: 40)
-        label.textColor = .white
-        return label
-    }()
-
-    private let outerTableView = UITableView()
+    private let outerTableView = UITableView(frame: .zero, style: .grouped)
     private let categoryCollectionView = CategoryCollectionView()
     private let recommendCollectionView = RecommendCollectionView()
 
@@ -33,7 +25,6 @@ final class HomeViewController: UIViewController {
         view.backgroundColor = .white
         navigationController?.navigationBar.isHidden = true
         setBackgroundColorView()
-        setTitleLabel()
         setOuterTableView()
     }
 
@@ -46,22 +37,16 @@ final class HomeViewController: UIViewController {
         }
     }
 
-    private func setTitleLabel() {
-        view.addSubview(titleLabel)
-        titleLabel.snp.makeConstraints { label in
-            label.leading.trailing.top.equalTo(view.safeAreaLayoutGuide).inset(20)
-        }
-    }
-
     private func setOuterTableView() {
         outerTableView.register(UITableViewCell.self, forCellReuseIdentifier: "outerTableViewCell")
+        outerTableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "outerTableViewHeader")
         outerTableView.dataSource = self
         outerTableView.delegate = self
         outerTableView.backgroundColor = .clear
+        outerTableView.separatorColor = .clear
         view.addSubview(outerTableView)
         outerTableView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(30)
-            $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
+            $0.edges.equalTo(view.safeAreaLayoutGuide).inset(10)
         }
 
         outerTableView.rowHeight = UITableView.automaticDimension
@@ -83,6 +68,7 @@ extension HomeViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         cell.backgroundColor = .clear
+        cell.selectionStyle = .none
 
         if indexPath.section == 0 {
             cell.setContentView(view: categoryCollectionView)
@@ -97,15 +83,35 @@ extension HomeViewController: UITableViewDataSource {
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            let cellWidth = (tableView.safeAreaLayoutGuide.layoutFrame.width - 30) / CGFloat(2)
-            let cellHeight = cellWidth * 0.85
-            return cellHeight * 3 + 30
+            let cellHeight = ViewSize.categoryCellSize.height
+            return (cellHeight + 20) * trunc(CGFloat(ProductCategory.allCases.count / 2))
         } else {
-            return 220
+            let cellHeight = ViewSize.recommendCellSize.height
+            return cellHeight + 20
         }
     }
 
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 800
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "outerTableViewHeader") else {
+            return UIView()
+        }
+
+        if #available(iOS 14.0, *) {
+            var content = headerView.defaultContentConfiguration()
+            content.textProperties.font = section == 0 ? .boldSystemFont(ofSize: 40)
+            : .preferredFont(forTextStyle: .title3)
+
+            content.text = section == 0 ? "Category" : "이런 제품은 어떠세요?"
+            content.textProperties.color = section == 0 ? .white : .black
+            headerView.contentConfiguration = content
+        } else {
+            headerView.textLabel?.font = section == 0 ? .boldSystemFont(ofSize: 40)
+            : .preferredFont(forTextStyle: .title3)
+
+            headerView.textLabel?.text = section == 0 ? "Category" : "이런 제품은 어떠세요?"
+            headerView.textLabel?.textColor = section == 0 ? .white : .black
+        }
+
+        return headerView
     }
 }
