@@ -19,7 +19,10 @@ final class DanawaAPIClient {
             let html = try String(contentsOf: danawaUrl(category: category), encoding: .utf8)
             let productLists = try SwiftSoup.parse(html).select(".product_list")
             let productNames = try productLists.select(".prod_name").select("[name=productName]").array()
-            let thumbnails = try productLists.select(".thumb_image").select(".thumb_link").array()
+            let thumbnails = try productLists.select(".thumb_image").select(".thumb_link")
+            let earlyThumnails = try thumbnails.select("img[src]").array()
+            let lazyThumbnails = try thumbnails.select(".image_lazy").array()
+            let thumnailElements = earlyThumnails + lazyThumbnails
 
             for indexCount in 0..<productNames.count {
                 var fullName = try productNames[indexCount].text()
@@ -31,7 +34,11 @@ final class DanawaAPIClient {
                     fullName = fullName.replacingOccurrences(of: $0, with: "")
                 }
 
-                let thumbnailURL = try thumbnails[indexCount].attr("href").asURL()
+                var thumbnailURLString = try thumnailElements[indexCount].attr("src")
+                if thumbnailURLString == "" {
+                    thumbnailURLString = try thumnailElements[indexCount].attr("data-original")
+                }
+                let thumbnailURL = try ("https:" + thumbnailURLString).asURL()
                 let fullNameToList = fullName.split(separator: " ").map { String($0) }
                 let brand = fullNameToList.first!
                 let name = fullNameToList.dropFirst().joined(separator: " ")

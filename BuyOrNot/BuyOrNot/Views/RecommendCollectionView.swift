@@ -9,10 +9,16 @@ import UIKit
 import SnapKit
 
 final class RecommendCollectionView: UICollectionView {
+    private var randomCategoryProducts = RankManager.shared.rankedProducts.randomElement()?.value
+
     init() {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
         super.init(frame: .zero, collectionViewLayout: flowLayout)
+        RankManager.shared.refreshRank {
+            self.randomCategoryProducts = RankManager.shared.rankedProducts.randomElement()?.value
+            self.reloadData()
+        }
 
         register(RecommendProductCell.self, forCellWithReuseIdentifier: RecommendProductCell.reuseIdentifier)
         dataSource = self
@@ -28,12 +34,19 @@ final class RecommendCollectionView: UICollectionView {
 
 extension RecommendCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        guard let products = randomCategoryProducts else { return 0 }
+
+        return products.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendProductCell.reuseIdentifier,
-                                                      for: indexPath)
+        guard let products = randomCategoryProducts,
+              let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendProductCell.reuseIdentifier,
+                                                            for: indexPath) as? RecommendProductCell else {
+                  return UICollectionViewCell()
+              }
+
+        cell.setContents(product: products[indexPath.row])
         return cell
     }
 }

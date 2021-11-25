@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 final class RecommendProductCell: UICollectionViewCell {
     static let reuseIdentifier = "recommendProductCell"
@@ -34,6 +35,13 @@ final class RecommendProductCell: UICollectionViewCell {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+
+    func setContents(product: RankedProduct) {
+        productImageView.kf.setImage(with: product.image, options: [.loadDiskFileSynchronously])
+        print(product.image.description)
+        brandNameLabel.text = product.brand
+        titleLabel.text = product.name
     }
 
     private func setUpStackView() {
