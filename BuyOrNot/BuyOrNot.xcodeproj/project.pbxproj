@@ -28,9 +28,12 @@
 		32657E6D274ACDEB0020C4A8 /* BuyOrNotError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6C274ACDEB0020C4A8 /* BuyOrNotError.swift */; };
 		32657E6F274AD3D30020C4A8 /* ProductCategory+RankedProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6E274AD3D30020C4A8 /* ProductCategory+RankedProduct.swift */; };
 		32657E77274CB84E0020C4A8 /* RankManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E76274CB84E0020C4A8 /* RankManager.swift */; };
+		3284061C274FFD97008032E7 /* RankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284061B274FFD97008032E7 /* RankViewController.swift */; };
+		3284061E274FFEF3008032E7 /* RankCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284061D274FFEF3008032E7 /* RankCollectionViewCell.swift */; };
+		3284062027500483008032E7 /* UIApplicationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284061F27500483008032E7 /* UIApplicationExtension.swift */; };
 		32B55379274E928800CFA954 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B55378274E928800CFA954 /* ColorSet.swift */; };
 		32B5537B274F269A00CFA954 /* RecommendProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B5537A274F269A00CFA954 /* RecommendProductCell.swift */; };
-		32B5537D274F4FA600CFA954 /* HomeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B5537C274F4FA600CFA954 /* HomeCollectionView.swift */; };
+		32B5537D274F4FA600CFA954 /* CategoryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B5537C274F4FA600CFA954 /* CategoryCollectionView.swift */; };
 		32B5537F274F56B200CFA954 /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B5537E274F56B200CFA954 /* UITableViewExtension.swift */; };
 		32B55381274F577400CFA954 /* RecommendCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B55380274F577400CFA954 /* RecommendCollectionView.swift */; };
 		32B55385274F87E500CFA954 /* ViewSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B55384274F87E500CFA954 /* ViewSize.swift */; };
@@ -57,9 +60,12 @@
 		32657E6C274ACDEB0020C4A8 /* BuyOrNotError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyOrNotError.swift; sourceTree = "<group>"; };
 		32657E6E274AD3D30020C4A8 /* ProductCategory+RankedProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductCategory+RankedProduct.swift"; sourceTree = "<group>"; };
 		32657E76274CB84E0020C4A8 /* RankManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankManager.swift; sourceTree = "<group>"; };
+		3284061B274FFD97008032E7 /* RankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankViewController.swift; sourceTree = "<group>"; };
+		3284061D274FFEF3008032E7 /* RankCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankCollectionViewCell.swift; sourceTree = "<group>"; };
+		3284061F27500483008032E7 /* UIApplicationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplicationExtension.swift; sourceTree = "<group>"; };
 		32B55378274E928800CFA954 /* ColorSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
 		32B5537A274F269A00CFA954 /* RecommendProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendProductCell.swift; sourceTree = "<group>"; };
-		32B5537C274F4FA600CFA954 /* HomeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionView.swift; sourceTree = "<group>"; };
+		32B5537C274F4FA600CFA954 /* CategoryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionView.swift; sourceTree = "<group>"; };
 		32B5537E274F56B200CFA954 /* UITableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
 		32B55380274F577400CFA954 /* RecommendCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCollectionView.swift; sourceTree = "<group>"; };
 		32B55384274F87E500CFA954 /* ViewSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSize.swift; sourceTree = "<group>"; };
@@ -130,6 +136,7 @@
 			children = (
 				32528AAE274529E4006988D6 /* MainTabBarController.swift */,
 				32657E54274A6A170020C4A8 /* HomeViewController.swift */,
+				3284061B274FFD97008032E7 /* RankViewController.swift */,
 				32657E59274A70AD0020C4A8 /* SearchViewController.swift */,
 			);
 			path = ViewControllers;
@@ -170,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				32B5537E274F56B200CFA954 /* UITableViewExtension.swift */,
+				3284061F27500483008032E7 /* UIApplicationExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -178,9 +186,10 @@
 			isa = PBXGroup;
 			children = (
 				32CEBEE9274D72CB00D62074 /* CategoryCell.swift */,
-				32B5537C274F4FA600CFA954 /* HomeCollectionView.swift */,
+				32B5537C274F4FA600CFA954 /* CategoryCollectionView.swift */,
 				32B5537A274F269A00CFA954 /* RecommendProductCell.swift */,
 				32B55380274F577400CFA954 /* RecommendCollectionView.swift */,
+				3284061D274FFEF3008032E7 /* RankCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -290,10 +299,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				32B5537D274F4FA600CFA954 /* HomeCollectionView.swift in Sources */,
+				32B5537D274F4FA600CFA954 /* CategoryCollectionView.swift in Sources */,
 				32B5537B274F269A00CFA954 /* RecommendProductCell.swift in Sources */,
+				3284062027500483008032E7 /* UIApplicationExtension.swift in Sources */,
+				3284061C274FFD97008032E7 /* RankViewController.swift in Sources */,
 				32657E6D274ACDEB0020C4A8 /* BuyOrNotError.swift in Sources */,
 				32657E77274CB84E0020C4A8 /* RankManager.swift in Sources */,
+				3284061E274FFEF3008032E7 /* RankCollectionViewCell.swift in Sources */,
 				32528AAF274529E4006988D6 /* MainTabBarController.swift in Sources */,
 				32CEBEEA274D72CB00D62074 /* CategoryCell.swift in Sources */,
 				32B55379274E928800CFA954 /* ColorSet.swift in Sources */,

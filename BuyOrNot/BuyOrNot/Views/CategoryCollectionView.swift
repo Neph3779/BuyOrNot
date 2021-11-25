@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class HomeCollectionView: UICollectionView {
+final class CategoryCollectionView: UICollectionView {
     init() {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
@@ -26,7 +26,7 @@ final class HomeCollectionView: UICollectionView {
     }
 }
 
-extension HomeCollectionView: UICollectionViewDataSource {
+extension CategoryCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return ProductCategory.allCases.count
     }
@@ -45,7 +45,14 @@ extension HomeCollectionView: UICollectionViewDataSource {
     }
 }
 
-extension HomeCollectionView: UICollectionViewDelegateFlowLayout {
+extension CategoryCollectionView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let categoryViewController = UIApplication.topViewController()
+        categoryViewController?.navigationController?.pushViewController(RankViewController(), animated: true)
+    }
+}
+
+extension CategoryCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return ViewSize.categoryCellSize
     }

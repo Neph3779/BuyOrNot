@@ -17,7 +17,7 @@ final class HomeViewController: UIViewController {
     }()
 
     private let outerTableView = UITableView(frame: .zero, style: .grouped)
-    private let categoryCollectionView = HomeCollectionView()
+    private let categoryCollectionView = CategoryCollectionView()
     private let recommendCollectionView = RecommendCollectionView()
 
     override func viewDidLoad() {
