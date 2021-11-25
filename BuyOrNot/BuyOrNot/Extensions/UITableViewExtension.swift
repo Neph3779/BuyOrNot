@@ -12,7 +12,7 @@ extension UITableViewCell {
     func setContentView(view: UIView) {
         contentView.addSubview(view)
         view.snp.makeConstraints { view in
-            view.edges.equalToSuperview().inset(10)
+            view.edges.equalToSuperview()
         }
     }
 }

@@ -10,43 +10,54 @@ import SnapKit
 
 final class CategoryCell: UICollectionViewCell {
     static let reuseIdentifier = "categoryCell"
-    let productImageView = UIImageView()
+
+    private let categoryLabel = UILabel()
+    private let productImageView = UIImageView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setUpCellAppearance()
+        contentView.backgroundColor = .lightGray
+        setUpCategoryLabel()
         setUpProductImageView()
+        setUpCellAppearance()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-    private func setUpCellAppearance() {
-        backgroundColor = .clear
-        contentView.backgroundColor = .white
-        contentView.layer.cornerRadius = 5
-        contentView.layer.borderWidth = 1.0
-        contentView.layer.borderColor = UIColor.clear.cgColor
-        layer.masksToBounds = true
+    func setImage(image: UIImage) {
+        productImageView.image = image
+    }
 
-        layer.shadowColor = UIColor.lightGray.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 2.0)
-        layer.shadowRadius = 2.0
-        layer.shadowOpacity = 1.0
-        layer.masksToBounds = false
-        layer.shadowPath = UIBezierPath(roundedRect: bounds,
-                                        cornerRadius: contentView.layer.cornerRadius).cgPath
+    func setTitle(title: String) {
+        categoryLabel.text = title
+    }
+
+    private func setUpCategoryLabel() {
+        categoryLabel.text = "Phone"
+        categoryLabel.textColor = .white
+        categoryLabel.font = UIFont.boldSystemFont(ofSize: 28)
+
+        contentView.addSubview(categoryLabel)
+        categoryLabel.snp.makeConstraints { label in
+            label.leading.equalTo(contentView.snp.leading).inset(10)
+            label.top.equalTo(contentView.snp.top).inset(30)
+        }
     }
 
     private func setUpProductImageView() {
         contentView.addSubview(productImageView)
         productImageView.backgroundColor = .clear
         productImageView.snp.makeConstraints { view in
-            view.width.equalTo(self.contentView.snp.width).multipliedBy(0.7)
-            view.top.bottom.trailing.equalTo(self.contentView)
+            view.height.width.equalTo(contentView.snp.width).multipliedBy(0.8)
+            view.bottom.trailing.equalTo(contentView).inset(10)
         }
         productImageView.image = UIImage(named: "phoneCategoryImage")
         productImageView.contentMode = .scaleAspectFit
+    }
+
+    private func setUpCellAppearance() {
+        contentView.layer.cornerRadius = 10
     }
 }
