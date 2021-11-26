@@ -6,13 +6,14 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class RankCollectionViewCell: UICollectionViewCell {
     static let reuseidentifier = "rankTableViewCell"
 
     private let productImageView = UIImageView()
     private let titleLabel = UILabel()
-    private let brankLabel = UILabel()
+    private let brandLabel = UILabel()
     private let rankBadge: UIView? = nil
 
     override init(frame: CGRect) {
@@ -28,6 +29,12 @@ final class RankCollectionViewCell: UICollectionViewCell {
         super.init(coder: coder)
     }
 
+    func setContents(product: RankedProduct) {
+        productImageView.kf.setImage(with: product.image, options: [.loadDiskFileSynchronously])
+        titleLabel.text = product.name
+        brandLabel.text = product.brand
+    }
+
     private func setProductImageView() {
         productImageView.image = UIImage(named: "phoneCategoryImage")
         productImageView.contentMode = .scaleAspectFit
@@ -39,23 +46,24 @@ final class RankCollectionViewCell: UICollectionViewCell {
     }
 
     private func setTitleLabel() {
-        titleLabel.text = "Title"
         titleLabel.numberOfLines = 2
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        titleLabel.font = UIFont.systemFont(ofSize: 16)
         contentView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { label in
             label.leading.equalTo(productImageView.snp.trailing).offset(10)
-            label.top.equalTo(contentView).inset(10)
+            label.top.trailing.equalTo(contentView).inset(20)
         }
     }
 
     private func setBrandLabel() {
-        brankLabel.text = "Brand"
-        contentView.addSubview(brankLabel)
-        brankLabel.snp.makeConstraints { label in
+        brandLabel.textColor = .lightGray
+        brandLabel.numberOfLines = 1
+        brandLabel.font = UIFont.systemFont(ofSize: 14)
+        contentView.addSubview(brandLabel)
+        brandLabel.snp.makeConstraints { label in
             label.leading.equalTo(productImageView.snp.trailing).offset(10)
-            label.top.equalTo(titleLabel.snp.bottom).offset(10)
-            label.bottom.equalTo(contentView.snp.bottom).inset(10)
+            label.top.equalTo(titleLabel.snp.bottom).offset(5)
+            label.trailing.equalTo(contentView.snp.trailing)
         }
     }
 

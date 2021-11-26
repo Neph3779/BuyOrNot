@@ -13,6 +13,7 @@ final class CategoryCell: UICollectionViewCell {
 
     private let categoryLabel = UILabel()
     private let productImageView = UIImageView()
+    private(set) var category: ProductCategory = .phone
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,16 +27,13 @@ final class CategoryCell: UICollectionViewCell {
         super.init(coder: coder)
     }
 
-    func setImage(image: UIImage) {
-        productImageView.image = image
-    }
-
-    func setTitle(title: String) {
-        categoryLabel.text = title
+    func setCategory(category: ProductCategory) {
+        self.category = category
+        productImageView.image = UIImage(named: category.image)
+        categoryLabel.text = category.name
     }
 
     private func setUpCategoryLabel() {
-        categoryLabel.text = "Phone"
         categoryLabel.textColor = .white
         categoryLabel.font = UIFont.boldSystemFont(ofSize: 28)
 

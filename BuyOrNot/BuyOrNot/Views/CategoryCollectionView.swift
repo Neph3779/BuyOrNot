@@ -33,13 +33,11 @@ extension CategoryCollectionView: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let index = indexPath.row
-        guard let cellImage = UIImage(named: ProductCategory.allCases[index].image),
-              let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCell.reuseIdentifier,
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCell.reuseIdentifier,
                                                             for: indexPath) as? CategoryCell else {
-                  return UICollectionViewCell()
-              }
-        cell.setTitle(title: ProductCategory.allCases[index].name)
-        cell.setImage(image: cellImage)
+            return UICollectionViewCell()
+        }
+        cell.setCategory(category: ProductCategory.allCases[index])
         cell.contentView.backgroundColor = ProductCategory.allCases[index].backgroundColor
         return cell
     }
@@ -47,8 +45,11 @@ extension CategoryCollectionView: UICollectionViewDataSource {
 
 extension CategoryCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCell else { return }
         let categoryViewController = UIApplication.topViewController()
-        categoryViewController?.navigationController?.pushViewController(RankViewController(), animated: true)
+        let category = cell.category
+        categoryViewController?.navigationController?.pushViewController(RankViewController(category: category),
+                                                                         animated: true)
     }
 }
 
