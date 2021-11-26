@@ -12,6 +12,10 @@ enum ViewSize {
         return UIScreen.main.bounds.width
     }
 
-    static let categoryCellSize = CGSize(width: 180, height: 300)
+    static var viewHeight: CGFloat {
+        return UIScreen.main.bounds.height
+    }
+
+    static let categoryCellSize = CGSize(width: viewWidth * 0.5, height: viewHeight * 0.4)
     static let recommendCellSize = CGSize(width: 200, height: 200)
 }

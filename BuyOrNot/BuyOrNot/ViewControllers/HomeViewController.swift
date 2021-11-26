@@ -9,22 +9,38 @@ import UIKit
 import SnapKit
 
 final class HomeViewController: UIViewController {
-    private let backgroundColorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = ColorSet.mainThemeColor
-        view.layer.cornerRadius = 20
-        return view
-    }()
-
+    private let searchIcon = UIImageView()
     private let outerTableView = UITableView(frame: .zero, style: .grouped)
     private let categoryCollectionView = CategoryCollectionView()
     private let recommendCollectionView = RecommendCollectionView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if #available(iOS 13.0, *) {
+            overrideUserInterfaceStyle = .light
+        }
         view.backgroundColor = .white
         navigationController?.navigationBar.isHidden = true
+        setSearchIcon()
         setOuterTableView()
+    }
+
+    private func setSearchIcon() {
+        searchIcon.image = UIImage(named: "search")
+        searchIcon.tintColor = .darkGray
+        searchIcon.isUserInteractionEnabled = true
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(moveToSearchView(_:)))
+        searchIcon.addGestureRecognizer(gesture)
+        view.addSubview(searchIcon)
+        searchIcon.snp.makeConstraints { imageView in
+            imageView.top.equalTo(view.safeAreaLayoutGuide).inset(10)
+            imageView.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
+            imageView.width.height.equalTo(30)
+        }
+    }
+
+    @objc private func moveToSearchView(_ sender: UITapGestureRecognizer) {
+        navigationController?.pushViewController(SearchViewController(), animated: true)
     }
 
     private func setOuterTableView() {
@@ -37,7 +53,10 @@ final class HomeViewController: UIViewController {
         outerTableView.separatorColor = .clear
 
         view.addSubview(outerTableView)
-        outerTableView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
+        outerTableView.snp.makeConstraints { tableView in
+            tableView.top.equalTo(searchIcon.snp.bottom).offset(10)
+            tableView.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
     }
 }
 

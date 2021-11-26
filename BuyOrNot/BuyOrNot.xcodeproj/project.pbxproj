@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		32528AAB274529E4006988D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32528AAA274529E4006988D6 /* AppDelegate.swift */; };
-		32528AAF274529E4006988D6 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32528AAE274529E4006988D6 /* MainTabBarController.swift */; };
 		32528AB4274529E5006988D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32528AB3274529E5006988D6 /* Assets.xcassets */; };
 		32528AB7274529E5006988D6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32528AB5274529E5006988D6 /* LaunchScreen.storyboard */; };
 		32657E44274A67760020C4A8 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 32657E43274A67760020C4A8 /* .swiftlint.yml */; };
@@ -43,7 +42,6 @@
 /* Begin PBXFileReference section */
 		32528AA7274529E4006988D6 /* BuyOrNot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuyOrNot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32528AAA274529E4006988D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		32528AAE274529E4006988D6 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		32528AB3274529E5006988D6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		32528AB6274529E5006988D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		32528AB8274529E5006988D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -134,7 +132,6 @@
 		32657E61274AA6590020C4A8 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				32528AAE274529E4006988D6 /* MainTabBarController.swift */,
 				32657E54274A6A170020C4A8 /* HomeViewController.swift */,
 				3284061B274FFD97008032E7 /* RankViewController.swift */,
 				32657E59274A70AD0020C4A8 /* SearchViewController.swift */,
@@ -306,7 +303,6 @@
 				32657E6D274ACDEB0020C4A8 /* BuyOrNotError.swift in Sources */,
 				32657E77274CB84E0020C4A8 /* RankManager.swift in Sources */,
 				3284061E274FFEF3008032E7 /* RankCollectionViewCell.swift in Sources */,
-				32528AAF274529E4006988D6 /* MainTabBarController.swift in Sources */,
 				32CEBEEA274D72CB00D62074 /* CategoryCell.swift in Sources */,
 				32B55379274E928800CFA954 /* ColorSet.swift in Sources */,
 				32528AAB274529E4006988D6 /* AppDelegate.swift in Sources */,
