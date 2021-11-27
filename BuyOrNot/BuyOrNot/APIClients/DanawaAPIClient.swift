@@ -13,8 +13,8 @@ final class DanawaAPIClient {
     private init() {}
     static let shared = DanawaAPIClient()
 
-    func fetchRankData(category: ProductCategory) -> [RankedProduct] {
-        var rankedProducts = [RankedProduct]()
+    func fetchRankData(category: ProductCategory) -> [Product] {
+        var rankedProducts = [Product]()
         do {
             let html = try String(contentsOf: danawaUrl(category: category), encoding: .utf8)
             let productLists = try SwiftSoup.parse(html).select(".product_list")
@@ -43,7 +43,7 @@ final class DanawaAPIClient {
                 let brand = fullNameToList.first!
                 let name = fullNameToList.dropFirst().joined(separator: " ")
                 let rank = indexCount
-                rankedProducts.append(RankedProduct(category: category, brand: brand,
+                rankedProducts.append(Product(category: category, brand: brand,
                                                     name: name, rank: rank, image: thumbnailURL))
             }
         } catch {

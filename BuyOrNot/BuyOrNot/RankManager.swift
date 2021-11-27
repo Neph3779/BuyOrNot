@@ -8,7 +8,7 @@
 import Foundation
 
 final class RankManager {
-    var rankedProducts: [ProductCategory: [RankedProduct]] = [:]
+    var rankedProducts: [ProductCategory: [Product]] = [:]
 
     func refreshRank(completion: @escaping () -> Void) {
         DispatchQueue.global().async {

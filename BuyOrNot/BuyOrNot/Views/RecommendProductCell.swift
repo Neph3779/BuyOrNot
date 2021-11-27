@@ -37,7 +37,7 @@ final class RecommendProductCell: UICollectionViewCell {
         super.init(coder: coder)
     }
 
-    func setContents(product: RankedProduct) {
+    func setContents(product: Product) {
         productImageView.kf.setImage(with: product.image, options: [.loadDiskFileSynchronously])
         brandNameLabel.text = product.brand
         titleLabel.text = product.name

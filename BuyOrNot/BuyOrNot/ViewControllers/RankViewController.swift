@@ -25,6 +25,7 @@ final class RankViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         navigationController?.navigationBar.isHidden = true
         setCategoryView()
         setRankColletionView()
@@ -87,7 +88,7 @@ extension RankViewController: UICollectionViewDataSource {
 
 extension RankViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
+        navigationController?.pushViewController(ProductDetailViewController(), animated: true)
     }
 }
 

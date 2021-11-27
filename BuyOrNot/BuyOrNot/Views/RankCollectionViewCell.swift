@@ -29,7 +29,7 @@ final class RankCollectionViewCell: UICollectionViewCell {
         super.init(coder: coder)
     }
 
-    func setContents(product: RankedProduct) {
+    func setContents(product: Product) {
         productImageView.kf.setImage(with: product.image, options: [.loadDiskFileSynchronously])
         titleLabel.text = product.name
         brandLabel.text = product.brand

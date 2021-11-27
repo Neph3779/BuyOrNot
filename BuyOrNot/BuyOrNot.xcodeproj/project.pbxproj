@@ -25,11 +25,14 @@
 		32657E69274ABA220020C4A8 /* NaverBlogPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E68274ABA220020C4A8 /* NaverBlogPost.swift */; };
 		32657E6B274ABD560020C4A8 /* DanawaAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6A274ABD560020C4A8 /* DanawaAPIClient.swift */; };
 		32657E6D274ACDEB0020C4A8 /* BuyOrNotError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6C274ACDEB0020C4A8 /* BuyOrNotError.swift */; };
-		32657E6F274AD3D30020C4A8 /* ProductCategory+RankedProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6E274AD3D30020C4A8 /* ProductCategory+RankedProduct.swift */; };
+		32657E6F274AD3D30020C4A8 /* ProductCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6E274AD3D30020C4A8 /* ProductCategory.swift */; };
 		32657E77274CB84E0020C4A8 /* RankManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E76274CB84E0020C4A8 /* RankManager.swift */; };
 		3284061C274FFD97008032E7 /* RankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284061B274FFD97008032E7 /* RankViewController.swift */; };
 		3284061E274FFEF3008032E7 /* RankCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284061D274FFEF3008032E7 /* RankCollectionViewCell.swift */; };
 		3284062027500483008032E7 /* UIApplicationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284061F27500483008032E7 /* UIApplicationExtension.swift */; };
+		328406222751176A008032E7 /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328406212751176A008032E7 /* ProductDetailViewController.swift */; };
+		328406242751219C008032E7 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328406232751219C008032E7 /* Product.swift */; };
+		3284062627512453008032E7 /* ReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284062527512453008032E7 /* ReviewCollectionViewCell.swift */; };
 		32B55379274E928800CFA954 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B55378274E928800CFA954 /* ColorSet.swift */; };
 		32B5537B274F269A00CFA954 /* RecommendProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B5537A274F269A00CFA954 /* RecommendProductCell.swift */; };
 		32B5537D274F4FA600CFA954 /* CategoryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B5537C274F4FA600CFA954 /* CategoryCollectionView.swift */; };
@@ -56,11 +59,14 @@
 		32657E68274ABA220020C4A8 /* NaverBlogPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverBlogPost.swift; sourceTree = "<group>"; };
 		32657E6A274ABD560020C4A8 /* DanawaAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DanawaAPIClient.swift; sourceTree = "<group>"; };
 		32657E6C274ACDEB0020C4A8 /* BuyOrNotError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyOrNotError.swift; sourceTree = "<group>"; };
-		32657E6E274AD3D30020C4A8 /* ProductCategory+RankedProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductCategory+RankedProduct.swift"; sourceTree = "<group>"; };
+		32657E6E274AD3D30020C4A8 /* ProductCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCategory.swift; sourceTree = "<group>"; };
 		32657E76274CB84E0020C4A8 /* RankManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankManager.swift; sourceTree = "<group>"; };
 		3284061B274FFD97008032E7 /* RankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankViewController.swift; sourceTree = "<group>"; };
 		3284061D274FFEF3008032E7 /* RankCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankCollectionViewCell.swift; sourceTree = "<group>"; };
 		3284061F27500483008032E7 /* UIApplicationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplicationExtension.swift; sourceTree = "<group>"; };
+		328406212751176A008032E7 /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
+		328406232751219C008032E7 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		3284062527512453008032E7 /* ReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCollectionViewCell.swift; sourceTree = "<group>"; };
 		32B55378274E928800CFA954 /* ColorSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
 		32B5537A274F269A00CFA954 /* RecommendProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendProductCell.swift; sourceTree = "<group>"; };
 		32B5537C274F4FA600CFA954 /* CategoryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionView.swift; sourceTree = "<group>"; };
@@ -133,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				32657E54274A6A170020C4A8 /* HomeViewController.swift */,
+				328406212751176A008032E7 /* ProductDetailViewController.swift */,
 				3284061B274FFD97008032E7 /* RankViewController.swift */,
 				32657E59274A70AD0020C4A8 /* SearchViewController.swift */,
 			);
@@ -162,7 +169,8 @@
 		32B55382274F6F4B00CFA954 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				32657E6E274AD3D30020C4A8 /* ProductCategory+RankedProduct.swift */,
+				32657E6E274AD3D30020C4A8 /* ProductCategory.swift */,
+				328406232751219C008032E7 /* Product.swift */,
 				32657E6C274ACDEB0020C4A8 /* BuyOrNotError.swift */,
 				32B55378274E928800CFA954 /* ColorSet.swift */,
 				32B55384274F87E500CFA954 /* ViewSize.swift */,
@@ -187,6 +195,7 @@
 				32B5537A274F269A00CFA954 /* RecommendProductCell.swift */,
 				32B55380274F577400CFA954 /* RecommendCollectionView.swift */,
 				3284061D274FFEF3008032E7 /* RankCollectionViewCell.swift */,
+				3284062527512453008032E7 /* ReviewCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -308,10 +317,13 @@
 				32528AAB274529E4006988D6 /* AppDelegate.swift in Sources */,
 				32657E5A274A70AD0020C4A8 /* SearchViewController.swift in Sources */,
 				32657E64274AA6EF0020C4A8 /* YoutubeAPIClient.swift in Sources */,
-				32657E6F274AD3D30020C4A8 /* ProductCategory+RankedProduct.swift in Sources */,
+				32657E6F274AD3D30020C4A8 /* ProductCategory.swift in Sources */,
+				3284062627512453008032E7 /* ReviewCollectionViewCell.swift in Sources */,
 				32657E66274AAE960020C4A8 /* NaverSearchAPIClient.swift in Sources */,
 				32B55381274F577400CFA954 /* RecommendCollectionView.swift in Sources */,
+				328406222751176A008032E7 /* ProductDetailViewController.swift in Sources */,
 				32657E5C274A82DC0020C4A8 /* NaverShoppingItem.swift in Sources */,
+				328406242751219C008032E7 /* Product.swift in Sources */,
 				32657E5E274A83DA0020C4A8 /* YoutubeVideoItem.swift in Sources */,
 				32B55385274F87E500CFA954 /* ViewSize.swift in Sources */,
 				32657E55274A6A170020C4A8 /* HomeViewController.swift in Sources */,

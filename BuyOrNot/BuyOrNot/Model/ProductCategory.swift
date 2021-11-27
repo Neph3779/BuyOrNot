@@ -66,11 +66,3 @@ enum ProductCategory: CaseIterable {
         }
     }
 }
-
-struct RankedProduct {
-    let category: ProductCategory
-    let brand: String
-    let name: String
-    var rank: Int
-    let image: URL
-}
