@@ -8,18 +8,19 @@
 import Foundation
 
 struct NaverBlogPost: Decodable {
+    let items: [NaverBlogItem]
+}
+
+struct NaverBlogItem: Decodable {
     let title: String
-    let link: URL
-    let image: URL
+    let link: String
     let description: String
     let bloggerName: String
-    let bloggerLink: URL
-    let postDate: String
+    let bloggerLink: String
 
     enum CodingKeys: String, CodingKey {
-        case title, link, image, description
+        case title, link, description
         case bloggerName = "bloggername"
         case bloggerLink = "bloggerlink"
-        case postDate = "postdate"
     }
 }

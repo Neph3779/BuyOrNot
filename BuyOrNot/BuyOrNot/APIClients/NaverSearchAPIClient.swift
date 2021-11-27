@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 final class NaverSearchAPIClient {
-    private var blogSearchURL = URL(string: "https://openapi.naver.com/v1/search/shop.json")!
+    private var blogSearchURL = URL(string: "https://openapi.naver.com/v1/search/blog.json")!
     private var shoppingSearchURL = URL(string: "https://openapi.naver.com/v1/search/shop.json")!
 
     private var clientId: String {
@@ -33,7 +33,7 @@ final class NaverSearchAPIClient {
     private init() {}
     static let shared = NaverSearchAPIClient()
 
-    func fetchNaverBlogPosts(query: String, count: Int = 10, completion: @escaping (DataResponse<YoutubeSearchResult, AFError>) -> Void) {
+    func fetchNaverBlogPosts(query: String, count: Int = 10, completion: @escaping (DataResponse<NaverBlogPost, AFError>) -> Void) {
         var headers: HTTPHeaders = []
         var parameters: [String: String] = [:]
         headers.update(name: "X-Naver-Client-Id", value: clientId)
@@ -43,6 +43,19 @@ final class NaverSearchAPIClient {
         parameters.updateValue(String(count), forKey: "display")
 
         AF.request(blogSearchURL, method: .get, parameters: parameters, headers: headers)
+            .responseDecodable(completionHandler: completion)
+    }
+
+    func fetchNaverShoppingItem(query: String, count: Int = 10, completion: @escaping (DataResponse<NaverShoppingItem, AFError>) -> Void) {
+        var headers: HTTPHeaders = []
+        var parameters: [String: String] = [:]
+        headers.update(name: "X-Naver-Client-Id", value: clientId)
+        headers.update(name: "X-Naver-Client-Secret", value: clientSecret)
+
+        parameters.updateValue(query, forKey: "query")
+        parameters.updateValue(String(count), forKey: "display")
+
+        AF.request(shoppingSearchURL, method: .get, parameters: parameters, headers: headers)
             .responseDecodable(completionHandler: completion)
     }
 }
