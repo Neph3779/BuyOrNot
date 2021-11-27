@@ -101,8 +101,17 @@ extension ProductDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { 10 }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionView.dequeueReusableCell(withReuseIdentifier: ReviewCollectionViewCell.reuseIdentifier,
-                                                  for: indexPath)
+        guard let cell = collectionView
+                .dequeueReusableCell(withReuseIdentifier: ReviewCollectionViewCell.reuseIdentifier,
+                                     for: indexPath) as? ReviewCollectionViewCell else { return UICollectionViewCell() }
+        if indexPath.row == 0 {
+            cell.setSiteKind(siteKind: .youtube)
+        } else if indexPath.row == 1 {
+            cell.setSiteKind(siteKind: .naver)
+        } else if indexPath.row == 2 {
+            cell.setSiteKind(siteKind: .daum)
+        }
+        return cell
     }
 }
 

@@ -33,6 +33,7 @@
 		328406222751176A008032E7 /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328406212751176A008032E7 /* ProductDetailViewController.swift */; };
 		328406242751219C008032E7 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328406232751219C008032E7 /* Product.swift */; };
 		3284062627512453008032E7 /* ReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284062527512453008032E7 /* ReviewCollectionViewCell.swift */; };
+		32B4564A2752929700EADAEF /* ReviewSiteKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B456492752929700EADAEF /* ReviewSiteKind.swift */; };
 		32B55379274E928800CFA954 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B55378274E928800CFA954 /* ColorSet.swift */; };
 		32B5537B274F269A00CFA954 /* RecommendProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B5537A274F269A00CFA954 /* RecommendProductCell.swift */; };
 		32B5537D274F4FA600CFA954 /* CategoryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B5537C274F4FA600CFA954 /* CategoryCollectionView.swift */; };
@@ -67,6 +68,7 @@
 		328406212751176A008032E7 /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
 		328406232751219C008032E7 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		3284062527512453008032E7 /* ReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCollectionViewCell.swift; sourceTree = "<group>"; };
+		32B456492752929700EADAEF /* ReviewSiteKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewSiteKind.swift; sourceTree = "<group>"; };
 		32B55378274E928800CFA954 /* ColorSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
 		32B5537A274F269A00CFA954 /* RecommendProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendProductCell.swift; sourceTree = "<group>"; };
 		32B5537C274F4FA600CFA954 /* CategoryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionView.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				32657E6C274ACDEB0020C4A8 /* BuyOrNotError.swift */,
 				32B55378274E928800CFA954 /* ColorSet.swift */,
 				32B55384274F87E500CFA954 /* ViewSize.swift */,
+				32B456492752929700EADAEF /* ReviewSiteKind.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				32657E5C274A82DC0020C4A8 /* NaverShoppingItem.swift in Sources */,
 				328406242751219C008032E7 /* Product.swift in Sources */,
 				32657E5E274A83DA0020C4A8 /* YoutubeVideoItem.swift in Sources */,
+				32B4564A2752929700EADAEF /* ReviewSiteKind.swift in Sources */,
 				32B55385274F87E500CFA954 /* ViewSize.swift in Sources */,
 				32657E55274A6A170020C4A8 /* HomeViewController.swift in Sources */,
 				32B5537F274F56B200CFA954 /* UITableViewExtension.swift in Sources */,
