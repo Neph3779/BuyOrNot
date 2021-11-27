@@ -11,16 +11,19 @@ import Kingfisher
 
 final class ProductDetailViewController: UIViewController {
     private let productImageView = UIImageView()
+    private let reviewContentView = UIView()
     private let productNameLabel = UILabel()
     private let productBrandLabel = UILabel()
     private let categoryLabel = UILabel()
     private let reviewCollectionView = UICollectionView(frame: .zero,
-                                                         collectionViewLayout: UICollectionViewFlowLayout())
+                                                        collectionViewLayout: UICollectionViewFlowLayout())
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setProductImageView()
+        setReviewContentView()
+        setCategoryLabel()
         setReviewCollectionView()
     }
 
@@ -42,17 +45,68 @@ final class ProductDetailViewController: UIViewController {
         }
     }
 
+    private func setReviewContentView() {
+        reviewContentView.backgroundColor = .white
+        reviewContentView.alpha = 0.7
+        reviewContentView.layer.cornerRadius = 5
+        reviewContentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        view.addSubview(reviewContentView)
+        reviewContentView.snp.makeConstraints { contentView in
+            contentView.top.equalTo(productImageView.snp.bottom).inset(100)
+            contentView.leading.trailing.equalTo(view).inset(10)
+            contentView.bottom.equalTo(productImageView.snp.bottom)
+        }
+
+        setProductBrandLabel()
+        setProductNameLabel()
+    }
+
+    private func setProductBrandLabel() {
+        productBrandLabel.text = "Apple"
+        reviewContentView.addSubview(productBrandLabel)
+
+        productBrandLabel.snp.makeConstraints { label in
+            label.leading.top.equalTo(reviewContentView).inset(10)
+        }
+    }
+
+    private func setProductNameLabel() {
+        productNameLabel.text = "iPhone 13 Pro Max"
+        productNameLabel.font = UIFont.boldSystemFont(ofSize: 30)
+        reviewContentView.addSubview(productNameLabel)
+
+        productNameLabel.snp.makeConstraints { label in
+            label.top.equalTo(productBrandLabel.snp.bottom).offset(5)
+            label.leading.equalTo(reviewContentView).inset(10)
+        }
+    }
+
+    private func setCategoryLabel() {
+        categoryLabel.backgroundColor = .white
+        categoryLabel.clipsToBounds = true
+        categoryLabel.layer.cornerRadius = 10
+        categoryLabel.text = "Phone"
+        view.addSubview(categoryLabel)
+        categoryLabel.snp.makeConstraints { label in
+            label.trailing.equalTo(productImageView).inset(10)
+            label.bottom.equalTo(reviewContentView.snp.top).inset(-10)
+        }
+    }
+
     private func setReviewCollectionView() {
         reviewCollectionView.register(ReviewCollectionViewCell.self,
                                       forCellWithReuseIdentifier: ReviewCollectionViewCell.reuseIdentifier)
         reviewCollectionView.dataSource = self
         reviewCollectionView.delegate = self
-        reviewCollectionView.alpha = 0.7
+        reviewCollectionView.layer.cornerRadius = 5
+        reviewCollectionView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        reviewCollectionView.backgroundColor = .lightGray
 
         view.addSubview(reviewCollectionView)
         reviewCollectionView.snp.makeConstraints { collectionView in
-            collectionView.top.equalTo(productImageView.snp.bottom).inset(50)
-            collectionView.leading.trailing.bottom.equalTo(view).inset(10)
+            collectionView.top.equalTo(productImageView.snp.bottom)
+            collectionView.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(10)
+            collectionView.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
         }
     }
 }
@@ -78,6 +132,6 @@ extension ProductDetailViewController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 5, bottom: 0, right: 5)
+        return UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
     }
 }
