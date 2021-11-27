@@ -19,7 +19,7 @@ final class HomeViewController: UIViewController {
         if #available(iOS 13.0, *) {
             overrideUserInterfaceStyle = .light
         }
-        view.backgroundColor = .white
+        view.backgroundColor = ColorSet.backgroundColor
         navigationController?.navigationBar.isHidden = true
         setSearchIcon()
         setOuterTableView()

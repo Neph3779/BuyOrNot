@@ -25,7 +25,7 @@ final class RankViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = ColorSet.backgroundColor
         navigationController?.navigationBar.isHidden = true
         setCategoryView()
         setRankColletionView()
@@ -58,7 +58,7 @@ final class RankViewController: UIViewController {
                                     forCellWithReuseIdentifier: RankCollectionViewCell.reuseidentifier)
         rankCollectionView.dataSource = self
         rankCollectionView.delegate = self
-        rankCollectionView.backgroundColor = .white
+        rankCollectionView.backgroundColor = ColorSet.backgroundColor
 
         view.addSubview(rankCollectionView)
         rankCollectionView.snp.makeConstraints { tableView in

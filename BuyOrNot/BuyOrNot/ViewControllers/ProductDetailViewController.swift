@@ -14,16 +14,14 @@ final class ProductDetailViewController: UIViewController {
     private let reviewContentView = UIView()
     private let productNameLabel = UILabel()
     private let productBrandLabel = UILabel()
-    private let categoryLabel = UILabel()
     private let reviewCollectionView = UICollectionView(frame: .zero,
                                                         collectionViewLayout: UICollectionViewFlowLayout())
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = ColorSet.backgroundColor
         setProductImageView()
         setReviewContentView()
-        setCategoryLabel()
         setReviewCollectionView()
     }
 
@@ -31,16 +29,16 @@ final class ProductDetailViewController: UIViewController {
         productImageView.kf.setImage(with: product.image, options: [.loadDiskFileSynchronously])
         productNameLabel.text = product.name
         productBrandLabel.text = product.brand
-        categoryLabel.text = product.category.name
     }
 
     private func setProductImageView() {
         productImageView.contentMode = .scaleAspectFit
-        productImageView.backgroundColor = .darkGray.withAlphaComponent(0.5) // 고민중
+        productImageView.backgroundColor = ColorSet.backgroundColor
+        productImageView.image = UIImage(named: "phoneCategoryImage")
         let height = ViewSize.viewHeight * 0.4 // makeConstraint 내부에서 계산시 오류 발생해서 밖으로 빼낸 것
         view.addSubview(productImageView)
         productImageView.snp.makeConstraints { imageView in
-            imageView.top.leading.trailing.equalTo(view)
+            imageView.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
             imageView.height.equalTo(height)
         }
     }
@@ -81,18 +79,6 @@ final class ProductDetailViewController: UIViewController {
         }
     }
 
-    private func setCategoryLabel() {
-        categoryLabel.backgroundColor = .white
-        categoryLabel.clipsToBounds = true
-        categoryLabel.layer.cornerRadius = 10
-        categoryLabel.text = "Phone"
-        view.addSubview(categoryLabel)
-        categoryLabel.snp.makeConstraints { label in
-            label.trailing.equalTo(productImageView).inset(10)
-            label.bottom.equalTo(reviewContentView.snp.top).inset(-10)
-        }
-    }
-
     private func setReviewCollectionView() {
         reviewCollectionView.register(ReviewCollectionViewCell.self,
                                       forCellWithReuseIdentifier: ReviewCollectionViewCell.reuseIdentifier)
@@ -100,7 +86,7 @@ final class ProductDetailViewController: UIViewController {
         reviewCollectionView.delegate = self
         reviewCollectionView.layer.cornerRadius = 5
         reviewCollectionView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        reviewCollectionView.backgroundColor = .lightGray
+        reviewCollectionView.backgroundColor = .white
 
         view.addSubview(reviewCollectionView)
         reviewCollectionView.snp.makeConstraints { collectionView in
