@@ -20,7 +20,7 @@ enum ReviewSiteKind {
         case .naver:
             return UIColor(red: 33/255, green: 191/255, blue: 115/255, alpha: 1)
         case .daum:
-            return UIColor(red: 205/255, green: 201/255, blue: 195/255, alpha: 1)
+            return UIColor(red: 85/255, green: 85/255, blue: 85/255, alpha: 1)
         }
     }
 

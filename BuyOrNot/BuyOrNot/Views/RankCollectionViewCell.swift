@@ -46,6 +46,7 @@ final class RankCollectionViewCell: UICollectionViewCell {
     }
 
     private func setTitleLabel() {
+        titleLabel.textColor = .black
         titleLabel.numberOfLines = 2
         titleLabel.font = UIFont.systemFont(ofSize: 16)
         contentView.addSubview(titleLabel)

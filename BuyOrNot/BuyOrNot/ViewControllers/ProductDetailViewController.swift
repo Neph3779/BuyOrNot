@@ -61,6 +61,7 @@ final class ProductDetailViewController: UIViewController {
 
     private func setProductBrandLabel() {
         productBrandLabel.text = "Apple"
+        productBrandLabel.textColor = .black
         reviewContentView.addSubview(productBrandLabel)
 
         productBrandLabel.snp.makeConstraints { label in
@@ -70,6 +71,7 @@ final class ProductDetailViewController: UIViewController {
 
     private func setProductNameLabel() {
         productNameLabel.text = "iPhone 13 Pro Max"
+        productNameLabel.textColor = .black
         productNameLabel.font = UIFont.boldSystemFont(ofSize: 30)
         reviewContentView.addSubview(productNameLabel)
 
