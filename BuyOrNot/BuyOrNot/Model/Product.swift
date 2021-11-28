@@ -12,5 +12,5 @@ struct Product {
     let brand: String
     let name: String
     var rank: Int?
-    let image: URL
+    let image: URL?
 }

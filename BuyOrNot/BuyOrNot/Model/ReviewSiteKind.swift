@@ -16,11 +16,11 @@ enum ReviewSiteKind {
     var cellColor: UIColor {
         switch self {
         case .youtube:
-            return UIColor(red: 253/255, green: 94/255, blue: 83/255, alpha: 1)
+            return UIColor(red: 255/255, green: 128/255, blue: 128/255, alpha: 1)
         case .naver:
-            return UIColor(red: 33/255, green: 191/255, blue: 115/255, alpha: 1)
+            return UIColor(red: 224/255, green: 245/255, blue: 185/255, alpha: 1)
         case .daum:
-            return UIColor(red: 85/255, green: 85/255, blue: 85/255, alpha: 1)
+            return UIColor(red: 255/255, green: 186/255, blue: 146/255, alpha: 1)
         }
     }
 
