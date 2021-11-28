@@ -44,25 +44,26 @@ final class ProductDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = ColorSet.backgroundColor
+        view.backgroundColor = .white
         setProductImageView()
         setReviewContentView()
         setReviewCollectionView()
     }
 
     private func setNaverShoppingThumnail() {
-        NaverSearchAPIClient.shared
-            .fetchNaverShoppingResults(query: product.name) { (response: DataResponse<NaverShoppingResult, AFError>) in
-                do {
-                    if let data = response.data {
-                        let shoppingItem = try JSONDecoder().decode(NaverShoppingResult.self, from: data)
-                        let imageURL = try shoppingItem.items[0].image.asURL()
-                        self.productImageView.kf.setImage(with: imageURL, options: [.loadDiskFileSynchronously])
-                    }
-                } catch {
-                    // TODO: 에러처리
-                }
-            }
+        productImageView.image = UIImage(named: "phoneCategoryImage")
+//        NaverSearchAPIClient.shared
+//            .fetchNaverShoppingResults(query: product.name) { (response: DataResponse<NaverShoppingResult, AFError>) in
+//                do {
+//                    if let data = response.data {
+//                        let shoppingItem = try JSONDecoder().decode(NaverShoppingResult.self, from: data)
+//                        let imageURL = try shoppingItem.items[0].image.asURL()
+//                        self.productImageView.kf.setImage(with: imageURL, options: [.loadDiskFileSynchronously])
+//                    }
+//                } catch {
+//                    // TODO: 에러처리
+//                }
+//            }
     }
 
     private func fetchYoutubeReviews() {
@@ -118,7 +119,7 @@ final class ProductDetailViewController: UIViewController {
 
                     items.forEach { item in
                         let thumbnailURL = URL(string: item.thumbnail)
-                        self.tistoryBlogReviews.append(ReviewContent(siteKind: .daum, title: item.title,
+                        self.tistoryBlogReviews.append(ReviewContent(siteKind: .tistory, title: item.title,
                                                                      producerName: item.blogName,
                                                                      thumbnail: thumbnailURL))
                     }
@@ -133,7 +134,9 @@ final class ProductDetailViewController: UIViewController {
 
     private func setProductImageView() {
         productImageView.contentMode = .scaleAspectFit
-        productImageView.backgroundColor = ColorSet.backgroundColor
+        productImageView.layer.cornerRadius = 10
+        productImageView.clipsToBounds = true
+        productImageView.backgroundColor = .white
         let height = ViewSize.viewHeight * 0.4 // makeConstraint 내부에서 계산시 오류 발생해서 밖으로 빼낸 것
         view.addSubview(productImageView)
         productImageView.snp.makeConstraints { imageView in
@@ -143,13 +146,13 @@ final class ProductDetailViewController: UIViewController {
     }
 
     private func setReviewContentView() {
-        reviewContentView.backgroundColor = .white
+        reviewContentView.backgroundColor = ColorSet.backgroundColor
         reviewContentView.alpha = 0.7
         reviewContentView.layer.cornerRadius = 5
         reviewContentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         view.addSubview(reviewContentView)
         reviewContentView.snp.makeConstraints { contentView in
-            contentView.top.equalTo(productImageView.snp.bottom).inset(100)
+            contentView.top.equalTo(productImageView.snp.bottom).inset(80)
             contentView.leading.trailing.equalTo(view).inset(10)
             contentView.bottom.equalTo(productImageView.snp.bottom)
         }
@@ -171,7 +174,7 @@ final class ProductDetailViewController: UIViewController {
     private func setProductNameLabel() {
         productNameLabel.text = product.name
         productNameLabel.textColor = .black
-        productNameLabel.font = UIFont.boldSystemFont(ofSize: 30)
+        productNameLabel.font = UIFont.boldSystemFont(ofSize: 20)
         reviewContentView.addSubview(productNameLabel)
 
         productNameLabel.snp.makeConstraints { label in
@@ -187,13 +190,13 @@ final class ProductDetailViewController: UIViewController {
         reviewCollectionView.delegate = self
         reviewCollectionView.layer.cornerRadius = 5
         reviewCollectionView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        reviewCollectionView.backgroundColor = .white
+        reviewCollectionView.backgroundColor = ColorSet.backgroundColor
 
         view.addSubview(reviewCollectionView)
         reviewCollectionView.snp.makeConstraints { collectionView in
             collectionView.top.equalTo(productImageView.snp.bottom)
-            collectionView.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(10)
-            collectionView.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
+            collectionView.leading.trailing.equalTo(view)
+            collectionView.bottom.equalTo(view)
         }
     }
 }

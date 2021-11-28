@@ -11,16 +11,16 @@ import UIKit
 enum ReviewSiteKind {
     case youtube
     case naver
-    case daum
+    case tistory
 
     var cellColor: UIColor {
         switch self {
         case .youtube:
-            return UIColor(red: 255/255, green: 128/255, blue: 128/255, alpha: 1)
+            return UIColor(red: 129/255, green: 0/255, blue: 0/255, alpha: 1)
         case .naver:
-            return UIColor(red: 224/255, green: 245/255, blue: 185/255, alpha: 1)
-        case .daum:
-            return UIColor(red: 255/255, green: 186/255, blue: 146/255, alpha: 1)
+            return UIColor(red: 6/255, green: 68/255, blue: 32/255, alpha: 1)
+        case .tistory:
+            return UIColor(red: 59/255, green: 40/255, blue: 23/255, alpha: 1)
         }
     }
 
@@ -30,7 +30,7 @@ enum ReviewSiteKind {
             return "youtubeLogo"
         case .naver:
             return "naverLogo"
-        case .daum:
+        case .tistory:
             return "tistoryLogo"
         }
     }
