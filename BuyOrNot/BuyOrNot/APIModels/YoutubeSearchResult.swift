@@ -29,7 +29,7 @@ struct YoutubeThumbnails: Decodable {
 }
 
 struct YoutubeThumnail: Decodable {
-    let url: URL
+    let url: String
     let width: Int
     let height: Int
 }

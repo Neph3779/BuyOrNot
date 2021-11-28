@@ -8,14 +8,39 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import Alamofire
 
 final class ProductDetailViewController: UIViewController {
+    private var product: Product
+    private var youtubeReviews = [ReviewContent]()
+    private var naverBlogReviews = [ReviewContent]()
+    private var tistoryBlogReviews = [ReviewContent]()
+
+    private var didFetchingDone: Bool {
+        return !youtubeReviews.isEmpty && !naverBlogReviews.isEmpty && !youtubeReviews.isEmpty
+    }
     private let productImageView = UIImageView()
     private let reviewContentView = UIView()
     private let productNameLabel = UILabel()
     private let productBrandLabel = UILabel()
     private let reviewCollectionView = UICollectionView(frame: .zero,
                                                         collectionViewLayout: UICollectionViewFlowLayout())
+
+    init(product: Product) {
+        self.product = product
+        super.init(nibName: nil, bundle: nil)
+        productNameLabel.text = product.name
+        productBrandLabel.text = product.brand
+        setNaverShoppingThumnail()
+        fetchYoutubeReviews()
+        fetchNaverBlogReviews()
+        fetchTistoryBlogReviews()
+    }
+
+    required init?(coder: NSCoder) {
+        product = Product(category: .phone, brand: "", name: "", rank: nil, image: nil)
+        super.init(coder: coder)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,16 +50,90 @@ final class ProductDetailViewController: UIViewController {
         setReviewCollectionView()
     }
 
-    func setProduct(product: Product) {
-        productImageView.kf.setImage(with: product.image, options: [.loadDiskFileSynchronously])
-        productNameLabel.text = product.name
-        productBrandLabel.text = product.brand
+    private func setNaverShoppingThumnail() {
+        NaverSearchAPIClient.shared
+            .fetchNaverShoppingResults(query: product.name) { (response: DataResponse<NaverShoppingResult, AFError>) in
+                do {
+                    if let data = response.data {
+                        let shoppingItem = try JSONDecoder().decode(NaverShoppingResult.self, from: data)
+                        let imageURL = try shoppingItem.items[0].image.asURL()
+                        self.productImageView.kf.setImage(with: imageURL, options: [.loadDiskFileSynchronously])
+                    }
+                } catch {
+                    // TODO: 에러처리
+                }
+            }
+    }
+
+    private func fetchYoutubeReviews() {
+        YoutubeAPIClient.shared
+            .fetchYoutubeVideos(query: product.name + "리뷰", count: 20) { (response: DataResponse<YoutubeSearchResult, AFError>) in
+            do {
+                if let data = response.data {
+                    let youtubeResult = try JSONDecoder().decode(YoutubeSearchResult.self, from: data)
+                    let items = youtubeResult.items
+
+                    items.forEach { item in
+                        let thumbnailURL = URL(string: item.snippet.thumbnails.default.url)
+                        self.youtubeReviews.append(ReviewContent(siteKind: .youtube, title: item.snippet.title,
+                                                                 producerName: item.snippet.channelTitle,
+                                                                 thumbnail: thumbnailURL))
+                    }
+                    if self.didFetchingDone { self.reviewCollectionView.reloadData() }
+                }
+            } catch {
+                // TODO: 에러처리
+            }
+        }
+    }
+
+    private func fetchNaverBlogReviews() {
+        NaverSearchAPIClient.shared
+            .fetchNaverBlogResults(query: product.name, count: 20) { (response: DataResponse<NaverBlogResult, AFError>) in
+            do {
+                if let data = response.data {
+                    let naverResult = try JSONDecoder().decode(NaverBlogResult.self, from: data)
+                    let items = naverResult.items
+
+                    items.forEach { item in
+                        self.naverBlogReviews.append(ReviewContent(siteKind: .naver, title: item.title,
+                                                                   producerName: item.bloggerName,
+                                                                   thumbnail: nil))
+                    }
+                    if self.didFetchingDone { self.reviewCollectionView.reloadData() }
+                }
+            } catch {
+                // TODO: 에러처리
+            }
+        }
+    }
+
+    private func fetchTistoryBlogReviews() {
+        KakaoAPIClient.shared
+            .fetchKakaoBlogPosts(query: product.name, count: 20) { (response: DataResponse<KakaoBlogResult, AFError>) in
+            do {
+                if let data = response.data {
+                    let kakaoResult = try JSONDecoder().decode(KakaoBlogResult.self, from: data)
+                    let items = kakaoResult.documents
+
+                    items.forEach { item in
+                        let thumbnailURL = URL(string: item.thumbnail)
+                        self.tistoryBlogReviews.append(ReviewContent(siteKind: .daum, title: item.title,
+                                                                     producerName: item.blogName,
+                                                                     thumbnail: thumbnailURL))
+                    }
+                    if self.didFetchingDone { self.reviewCollectionView.reloadData() }
+                }
+                self.reviewCollectionView.reloadData()
+            } catch {
+                // TODO: 에러처리
+            }
+        }
     }
 
     private func setProductImageView() {
         productImageView.contentMode = .scaleAspectFit
         productImageView.backgroundColor = ColorSet.backgroundColor
-        productImageView.image = UIImage(named: "phoneCategoryImage")
         let height = ViewSize.viewHeight * 0.4 // makeConstraint 내부에서 계산시 오류 발생해서 밖으로 빼낸 것
         view.addSubview(productImageView)
         productImageView.snp.makeConstraints { imageView in
@@ -60,7 +159,7 @@ final class ProductDetailViewController: UIViewController {
     }
 
     private func setProductBrandLabel() {
-        productBrandLabel.text = "Apple"
+        productBrandLabel.text = product.brand
         productBrandLabel.textColor = .black
         reviewContentView.addSubview(productBrandLabel)
 
@@ -70,7 +169,7 @@ final class ProductDetailViewController: UIViewController {
     }
 
     private func setProductNameLabel() {
-        productNameLabel.text = "iPhone 13 Pro Max"
+        productNameLabel.text = product.name
         productNameLabel.textColor = .black
         productNameLabel.font = UIFont.boldSystemFont(ofSize: 30)
         reviewContentView.addSubview(productNameLabel)
@@ -100,25 +199,35 @@ final class ProductDetailViewController: UIViewController {
 }
 
 extension ProductDetailViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { 10 }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return youtubeReviews.count + naverBlogReviews.count + tistoryBlogReviews.count
+    }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: ReviewCollectionViewCell.reuseIdentifier,
                                      for: indexPath) as? ReviewCollectionViewCell else { return UICollectionViewCell() }
-        if indexPath.row == 0 {
-            cell.setSiteKind(siteKind: .youtube)
-        } else if indexPath.row == 1 {
-            cell.setSiteKind(siteKind: .naver)
-        } else if indexPath.row == 2 {
-            cell.setSiteKind(siteKind: .daum)
+        if !didFetchingDone { return cell }
+
+        var content = ReviewContent(siteKind: .youtube, title: "", producerName: "", thumbnail: nil)
+
+        if indexPath.row % 3 == 0 {
+            content = youtubeReviews[indexPath.row / 3]
+        } else if indexPath.row % 3 == 1 {
+            content = naverBlogReviews[indexPath.row / 3]
+        } else if indexPath.row % 3 == 2 {
+            content = tistoryBlogReviews[indexPath.row / 3]
         }
+
+        cell.setContents(content: content)
         return cell
     }
 }
 
 extension ProductDetailViewController: UICollectionViewDelegate {
-
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? ReviewCollectionViewCell else { return }
+    }
 }
 
 extension ProductDetailViewController: UICollectionViewDelegateFlowLayout {

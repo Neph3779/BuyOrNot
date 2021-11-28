@@ -88,7 +88,10 @@ extension RankViewController: UICollectionViewDataSource {
 
 extension RankViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        navigationController?.pushViewController(ProductDetailViewController(), animated: true)
+        guard let cell = collectionView.cellForItem(at: indexPath) as? RankCollectionViewCell,
+              let product = cell.product else { return }
+
+        navigationController?.pushViewController(ProductDetailViewController(product: product), animated: true)
     }
 }
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct NaverBlogPost: Decodable {
+struct NaverBlogResult: Decodable {
     let items: [NaverBlogItem]
 }
 
@@ -16,11 +16,9 @@ struct NaverBlogItem: Decodable {
     let link: String
     let description: String
     let bloggerName: String
-    let bloggerLink: String
 
     enum CodingKeys: String, CodingKey {
         case title, link, description
         case bloggerName = "bloggername"
-        case bloggerLink = "bloggerlink"
     }
 }

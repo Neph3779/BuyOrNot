@@ -10,7 +10,7 @@ import Kingfisher
 
 final class RankCollectionViewCell: UICollectionViewCell {
     static let reuseidentifier = "rankTableViewCell"
-
+    var product: Product?
     private let productImageView = UIImageView()
     private let titleLabel = UILabel()
     private let brandLabel = UILabel()
@@ -30,6 +30,7 @@ final class RankCollectionViewCell: UICollectionViewCell {
     }
 
     func setContents(product: Product) {
+        self.product = product
         productImageView.kf.setImage(with: product.image, options: [.loadDiskFileSynchronously])
         titleLabel.text = product.name
         brandLabel.text = product.brand

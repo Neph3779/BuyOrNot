@@ -7,11 +7,14 @@
 
 import Foundation
 
+struct NaverShoppingResult: Decodable {
+    let items: [NaverShoppingItem]
+}
 struct NaverShoppingItem: Decodable {
     let name: String
-    let link: URL
-    let image: URL
-    let lowestPrice: Int
+    let link: String
+    let image: String
+    let lowestPrice: String
     let brand: String
 
     enum CodingKeys: String, CodingKey {

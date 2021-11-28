@@ -33,7 +33,7 @@ final class NaverSearchAPIClient {
     private init() {}
     static let shared = NaverSearchAPIClient()
 
-    func fetchNaverBlogPosts(query: String, count: Int = 10, completion: @escaping (DataResponse<NaverBlogPost, AFError>) -> Void) {
+    func fetchNaverBlogResults(query: String, count: Int = 10, completion: @escaping (DataResponse<NaverBlogResult, AFError>) -> Void) {
         var headers: HTTPHeaders = []
         var parameters: [String: String] = [:]
         headers.update(name: "X-Naver-Client-Id", value: clientId)
@@ -46,7 +46,7 @@ final class NaverSearchAPIClient {
             .responseDecodable(completionHandler: completion)
     }
 
-    func fetchNaverShoppingItem(query: String, count: Int = 10, completion: @escaping (DataResponse<NaverShoppingItem, AFError>) -> Void) {
+    func fetchNaverShoppingResults(query: String, count: Int = 10, completion: @escaping (DataResponse<NaverShoppingResult, AFError>) -> Void) {
         var headers: HTTPHeaders = []
         var parameters: [String: String] = [:]
         headers.update(name: "X-Naver-Client-Id", value: clientId)

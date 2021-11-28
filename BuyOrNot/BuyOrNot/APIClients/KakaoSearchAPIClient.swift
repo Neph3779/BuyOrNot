@@ -23,7 +23,7 @@ final class KakaoAPIClient {
     private init() {}
     static let shared = KakaoAPIClient()
 
-    func fetchKakaoBlogPosts(query: String, count: Int = 10, completion: @escaping (DataResponse<KakaoBlogPost, AFError>) -> Void) {
+    func fetchKakaoBlogPosts(query: String, count: Int = 10, completion: @escaping (DataResponse<KakaoBlogResult, AFError>) -> Void) {
         var headers: HTTPHeaders = []
         var parameters: [String: String] = [:]
         headers.update(name: "Authorization", value: apiKey)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct KakaoBlogPost: Decodable {
+struct KakaoBlogResult: Decodable {
     let documents: [KakaoDocument]
 }
 
@@ -16,8 +16,10 @@ struct KakaoDocument: Decodable {
     let contents: String
     let blogName: String
     let thumbnail: String
+    let link: String
     enum CodingKeys: String, CodingKey {
         case title, contents, thumbnail
         case blogName = "blogname"
+        case link = "url"
     }
 }

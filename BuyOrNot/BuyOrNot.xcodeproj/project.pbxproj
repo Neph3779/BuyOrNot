@@ -17,12 +17,12 @@
 		32657E55274A6A170020C4A8 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E54274A6A170020C4A8 /* HomeViewController.swift */; };
 		32657E58274A6D210020C4A8 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 32657E57274A6D210020C4A8 /* SnapKit */; };
 		32657E5A274A70AD0020C4A8 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E59274A70AD0020C4A8 /* SearchViewController.swift */; };
-		32657E5C274A82DC0020C4A8 /* NaverShoppingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E5B274A82DC0020C4A8 /* NaverShoppingItem.swift */; };
-		32657E5E274A83DA0020C4A8 /* YoutubeVideoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E5D274A83DA0020C4A8 /* YoutubeVideoItem.swift */; };
+		32657E5C274A82DC0020C4A8 /* NaverShoppingResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E5B274A82DC0020C4A8 /* NaverShoppingResult.swift */; };
+		32657E5E274A83DA0020C4A8 /* YoutubeSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E5D274A83DA0020C4A8 /* YoutubeSearchResult.swift */; };
 		32657E60274AA47C0020C4A8 /* APIKeyList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32657E5F274AA47C0020C4A8 /* APIKeyList.plist */; };
 		32657E64274AA6EF0020C4A8 /* YoutubeAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E63274AA6EF0020C4A8 /* YoutubeAPIClient.swift */; };
 		32657E66274AAE960020C4A8 /* NaverSearchAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E65274AAE960020C4A8 /* NaverSearchAPIClient.swift */; };
-		32657E69274ABA220020C4A8 /* NaverBlogPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E68274ABA220020C4A8 /* NaverBlogPost.swift */; };
+		32657E69274ABA220020C4A8 /* NaverBlogResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E68274ABA220020C4A8 /* NaverBlogResult.swift */; };
 		32657E6B274ABD560020C4A8 /* DanawaAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6A274ABD560020C4A8 /* DanawaAPIClient.swift */; };
 		32657E6D274ACDEB0020C4A8 /* BuyOrNotError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6C274ACDEB0020C4A8 /* BuyOrNotError.swift */; };
 		32657E6F274AD3D30020C4A8 /* ProductCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6E274AD3D30020C4A8 /* ProductCategory.swift */; };
@@ -35,7 +35,8 @@
 		3284062627512453008032E7 /* ReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284062527512453008032E7 /* ReviewCollectionViewCell.swift */; };
 		32B4564A2752929700EADAEF /* ReviewSiteKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B456492752929700EADAEF /* ReviewSiteKind.swift */; };
 		32B4564C27529DE500EADAEF /* KakaoSearchAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B4564B27529DE500EADAEF /* KakaoSearchAPIClient.swift */; };
-		32B4564E27529EF300EADAEF /* KakaoBlogPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B4564D27529EF300EADAEF /* KakaoBlogPost.swift */; };
+		32B4564E27529EF300EADAEF /* KakaoBlogResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B4564D27529EF300EADAEF /* KakaoBlogResult.swift */; };
+		32B456502752B88500EADAEF /* ReviewContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B4564F2752B88500EADAEF /* ReviewContent.swift */; };
 		32B55379274E928800CFA954 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B55378274E928800CFA954 /* ColorSet.swift */; };
 		32B5537B274F269A00CFA954 /* RecommendProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B5537A274F269A00CFA954 /* RecommendProductCell.swift */; };
 		32B5537D274F4FA600CFA954 /* CategoryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B5537C274F4FA600CFA954 /* CategoryCollectionView.swift */; };
@@ -43,6 +44,7 @@
 		32B55381274F577400CFA954 /* RecommendCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B55380274F577400CFA954 /* RecommendCollectionView.swift */; };
 		32B55385274F87E500CFA954 /* ViewSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B55384274F87E500CFA954 /* ViewSize.swift */; };
 		32CEBEEA274D72CB00D62074 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CEBEE9274D72CB00D62074 /* CategoryCell.swift */; };
+		32D289602753452300B4BE43 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D2895F2753452300B4BE43 /* StringExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,12 +56,12 @@
 		32657E43274A67760020C4A8 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		32657E54274A6A170020C4A8 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		32657E59274A70AD0020C4A8 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		32657E5B274A82DC0020C4A8 /* NaverShoppingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverShoppingItem.swift; sourceTree = "<group>"; };
-		32657E5D274A83DA0020C4A8 /* YoutubeVideoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeVideoItem.swift; sourceTree = "<group>"; };
+		32657E5B274A82DC0020C4A8 /* NaverShoppingResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverShoppingResult.swift; sourceTree = "<group>"; };
+		32657E5D274A83DA0020C4A8 /* YoutubeSearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeSearchResult.swift; sourceTree = "<group>"; };
 		32657E5F274AA47C0020C4A8 /* APIKeyList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKeyList.plist; sourceTree = "<group>"; };
 		32657E63274AA6EF0020C4A8 /* YoutubeAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeAPIClient.swift; sourceTree = "<group>"; };
 		32657E65274AAE960020C4A8 /* NaverSearchAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverSearchAPIClient.swift; sourceTree = "<group>"; };
-		32657E68274ABA220020C4A8 /* NaverBlogPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverBlogPost.swift; sourceTree = "<group>"; };
+		32657E68274ABA220020C4A8 /* NaverBlogResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverBlogResult.swift; sourceTree = "<group>"; };
 		32657E6A274ABD560020C4A8 /* DanawaAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DanawaAPIClient.swift; sourceTree = "<group>"; };
 		32657E6C274ACDEB0020C4A8 /* BuyOrNotError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyOrNotError.swift; sourceTree = "<group>"; };
 		32657E6E274AD3D30020C4A8 /* ProductCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCategory.swift; sourceTree = "<group>"; };
@@ -72,7 +74,8 @@
 		3284062527512453008032E7 /* ReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCollectionViewCell.swift; sourceTree = "<group>"; };
 		32B456492752929700EADAEF /* ReviewSiteKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewSiteKind.swift; sourceTree = "<group>"; };
 		32B4564B27529DE500EADAEF /* KakaoSearchAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoSearchAPIClient.swift; sourceTree = "<group>"; };
-		32B4564D27529EF300EADAEF /* KakaoBlogPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoBlogPost.swift; sourceTree = "<group>"; };
+		32B4564D27529EF300EADAEF /* KakaoBlogResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoBlogResult.swift; sourceTree = "<group>"; };
+		32B4564F2752B88500EADAEF /* ReviewContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewContent.swift; sourceTree = "<group>"; };
 		32B55378274E928800CFA954 /* ColorSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
 		32B5537A274F269A00CFA954 /* RecommendProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendProductCell.swift; sourceTree = "<group>"; };
 		32B5537C274F4FA600CFA954 /* CategoryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionView.swift; sourceTree = "<group>"; };
@@ -80,6 +83,7 @@
 		32B55380274F577400CFA954 /* RecommendCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCollectionView.swift; sourceTree = "<group>"; };
 		32B55384274F87E500CFA954 /* ViewSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSize.swift; sourceTree = "<group>"; };
 		32CEBEE9274D72CB00D62074 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
+		32D2895F2753452300B4BE43 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,10 +159,10 @@
 		32657E62274AA6680020C4A8 /* APIModels */ = {
 			isa = PBXGroup;
 			children = (
-				32657E5B274A82DC0020C4A8 /* NaverShoppingItem.swift */,
-				32657E68274ABA220020C4A8 /* NaverBlogPost.swift */,
-				32657E5D274A83DA0020C4A8 /* YoutubeVideoItem.swift */,
-				32B4564D27529EF300EADAEF /* KakaoBlogPost.swift */,
+				32657E5B274A82DC0020C4A8 /* NaverShoppingResult.swift */,
+				32657E68274ABA220020C4A8 /* NaverBlogResult.swift */,
+				32657E5D274A83DA0020C4A8 /* YoutubeSearchResult.swift */,
+				32B4564D27529EF300EADAEF /* KakaoBlogResult.swift */,
 			);
 			path = APIModels;
 			sourceTree = "<group>";
@@ -183,6 +187,7 @@
 				32B55378274E928800CFA954 /* ColorSet.swift */,
 				32B55384274F87E500CFA954 /* ViewSize.swift */,
 				32B456492752929700EADAEF /* ReviewSiteKind.swift */,
+				32B4564F2752B88500EADAEF /* ReviewContent.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -192,6 +197,7 @@
 			children = (
 				32B5537E274F56B200CFA954 /* UITableViewExtension.swift */,
 				3284061F27500483008032E7 /* UIApplicationExtension.swift */,
+				32D2895F2753452300B4BE43 /* StringExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -316,6 +322,7 @@
 			files = (
 				32B5537D274F4FA600CFA954 /* CategoryCollectionView.swift in Sources */,
 				32B5537B274F269A00CFA954 /* RecommendProductCell.swift in Sources */,
+				32D289602753452300B4BE43 /* StringExtension.swift in Sources */,
 				3284062027500483008032E7 /* UIApplicationExtension.swift in Sources */,
 				3284061C274FFD97008032E7 /* RankViewController.swift in Sources */,
 				32657E6D274ACDEB0020C4A8 /* BuyOrNotError.swift in Sources */,
@@ -331,16 +338,17 @@
 				32657E66274AAE960020C4A8 /* NaverSearchAPIClient.swift in Sources */,
 				32B55381274F577400CFA954 /* RecommendCollectionView.swift in Sources */,
 				328406222751176A008032E7 /* ProductDetailViewController.swift in Sources */,
-				32657E5C274A82DC0020C4A8 /* NaverShoppingItem.swift in Sources */,
+				32657E5C274A82DC0020C4A8 /* NaverShoppingResult.swift in Sources */,
 				328406242751219C008032E7 /* Product.swift in Sources */,
 				32B4564C27529DE500EADAEF /* KakaoSearchAPIClient.swift in Sources */,
-				32657E5E274A83DA0020C4A8 /* YoutubeVideoItem.swift in Sources */,
+				32657E5E274A83DA0020C4A8 /* YoutubeSearchResult.swift in Sources */,
 				32B4564A2752929700EADAEF /* ReviewSiteKind.swift in Sources */,
 				32B55385274F87E500CFA954 /* ViewSize.swift in Sources */,
-				32B4564E27529EF300EADAEF /* KakaoBlogPost.swift in Sources */,
+				32B4564E27529EF300EADAEF /* KakaoBlogResult.swift in Sources */,
 				32657E55274A6A170020C4A8 /* HomeViewController.swift in Sources */,
 				32B5537F274F56B200CFA954 /* UITableViewExtension.swift in Sources */,
-				32657E69274ABA220020C4A8 /* NaverBlogPost.swift in Sources */,
+				32B456502752B88500EADAEF /* ReviewContent.swift in Sources */,
+				32657E69274ABA220020C4A8 /* NaverBlogResult.swift in Sources */,
 				32657E6B274ABD560020C4A8 /* DanawaAPIClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
