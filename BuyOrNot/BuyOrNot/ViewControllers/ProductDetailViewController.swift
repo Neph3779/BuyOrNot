@@ -51,19 +51,18 @@ final class ProductDetailViewController: UIViewController {
     }
 
     private func setNaverShoppingThumnail() {
-        productImageView.image = UIImage(named: "phoneCategoryImage")
-//        NaverSearchAPIClient.shared
-//            .fetchNaverShoppingResults(query: product.name) { (response: DataResponse<NaverShoppingResult, AFError>) in
-//                do {
-//                    if let data = response.data {
-//                        let shoppingItem = try JSONDecoder().decode(NaverShoppingResult.self, from: data)
-//                        let imageURL = try shoppingItem.items[0].image.asURL()
-//                        self.productImageView.kf.setImage(with: imageURL, options: [.loadDiskFileSynchronously])
-//                    }
-//                } catch {
-//                    // TODO: 에러처리
-//                }
-//            }
+        NaverSearchAPIClient.shared
+            .fetchNaverShoppingResults(query: product.name) { (response: DataResponse<NaverShoppingResult, AFError>) in
+                do {
+                    if let data = response.data {
+                        let shoppingItem = try JSONDecoder().decode(NaverShoppingResult.self, from: data)
+                        let imageURL = try shoppingItem.items[0].image.asURL()
+                        self.productImageView.kf.setImage(with: imageURL, options: [.loadDiskFileSynchronously])
+                    }
+                } catch {
+                    // TODO: 에러처리
+                }
+            }
     }
 
     private func fetchYoutubeReviews() {
