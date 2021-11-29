@@ -15,6 +15,7 @@ final class ReviewCollectionViewCell: UICollectionViewCell {
     private let siteKind: ReviewSiteKind = .youtube
     let thumnailImageView = UIImageView()
     private let logoImageView = UIImageView()
+    private let labelStackView = UIStackView()
     private let nameLabel =  UILabel()
     private let titleLabel = UILabel()
 
@@ -23,6 +24,7 @@ final class ReviewCollectionViewCell: UICollectionViewCell {
         setCellAppearance()
         setThumbnailImageView()
         setLogoImageView()
+        setLabelStackView()
         setNameLabel()
         setTitleLabel()
     }
@@ -76,18 +78,23 @@ final class ReviewCollectionViewCell: UICollectionViewCell {
         }
     }
 
+    private func setLabelStackView() {
+        labelStackView.axis = .vertical
+        labelStackView.distribution = .equalSpacing
+        labelStackView.spacing = 5
+        contentView.addSubview(labelStackView)
+        labelStackView.snp.makeConstraints { stackView in
+            stackView.centerY.equalTo(contentView)
+            stackView.leading.equalTo(thumnailImageView.snp.trailing).offset(10)
+            stackView.trailing.equalTo(logoImageView.snp.leading).offset(-10)
+        }
+    }
+
     private func setNameLabel() {
-        nameLabel.font = UIFont.boldSystemFont(ofSize: 12)
+        nameLabel.font = UIFont.systemFont(ofSize: 12)
         nameLabel.textColor = .white
         nameLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        contentView.addSubview(nameLabel)
-
-        nameLabel.snp.makeConstraints { label in
-            label.leading.equalTo(contentView).inset(10).priority(.low)
-            label.leading.equalTo(thumnailImageView.snp.trailing).offset(5).priority(.required)
-            label.top.equalTo(contentView).inset(20)
-            label.trailing.equalTo(logoImageView.snp.leading).offset(-10)
-        }
+        labelStackView.addArrangedSubview(nameLabel)
     }
 
     private func setTitleLabel() {
@@ -96,13 +103,7 @@ final class ReviewCollectionViewCell: UICollectionViewCell {
         titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         titleLabel.numberOfLines = 2
         contentView.addSubview(titleLabel)
-
-        titleLabel.snp.makeConstraints { label in
-            label.top.equalTo(nameLabel.snp.bottom).offset(5)
-            label.leading.equalTo(contentView).inset(10).priority(.low)
-            label.leading.equalTo(thumnailImageView.snp.trailing).offset(5).priority(.required)
-            label.trailing.equalTo(logoImageView.snp.leading).offset(-10)
-        }
+        labelStackView.addArrangedSubview(titleLabel)
     }
 
     private func setCellAppearance() {
@@ -110,7 +111,7 @@ final class ReviewCollectionViewCell: UICollectionViewCell {
         contentView.backgroundColor = .white
         contentView.layer.borderWidth = 1.0
         contentView.layer.borderColor = UIColor.clear.cgColor
-        contentView.layer.cornerRadius = 5
+        contentView.layer.cornerRadius = 10
         layer.masksToBounds = true
 
 //        layer.shadowColor = UIColor.darkGray.cgColor

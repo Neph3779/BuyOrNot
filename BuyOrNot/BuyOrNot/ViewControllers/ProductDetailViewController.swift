@@ -21,10 +21,18 @@ final class ProductDetailViewController: UIViewController {
     }
     private let productImageView = UIImageView()
     private let reviewContentView = UIView()
+    private let productLabelStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 0
+        return stackView
+    }()
     private let productNameLabel = UILabel()
     private let productBrandLabel = UILabel()
     private let reviewCollectionView = UICollectionView(frame: .zero,
                                                         collectionViewLayout: UICollectionViewFlowLayout())
+    private let backButtonImageView = UIImageView()
 
     init(product: Product) {
         self.product = product
@@ -48,6 +56,7 @@ final class ProductDetailViewController: UIViewController {
         setProductImageView()
         setReviewContentView()
         setReviewCollectionView()
+        setbackButtonImageView()
     }
 
     private func setNaverShoppingThumnail() {
@@ -74,7 +83,7 @@ final class ProductDetailViewController: UIViewController {
                     let items = youtubeResult.items
 
                     items.forEach { item in
-                        let thumbnailURL = URL(string: item.snippet.thumbnails.default.url)
+                        let thumbnailURL = URL(string: item.snippet.thumbnails.high.url)
                         self.youtubeReviews.append(ReviewContent(siteKind: .youtube, title: item.snippet.title,
                                                                  producerName: item.snippet.channelTitle,
                                                                  thumbnail: thumbnailURL))
@@ -152,28 +161,36 @@ final class ProductDetailViewController: UIViewController {
 
     private func setReviewContentView() {
         reviewContentView.backgroundColor = ColorSet.backgroundColor
-        reviewContentView.alpha = 0.7
-        reviewContentView.layer.cornerRadius = 15
-        reviewContentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        reviewContentView.alpha = 0.85
         view.addSubview(reviewContentView)
         reviewContentView.snp.makeConstraints { contentView in
             contentView.top.equalTo(productImageView.snp.bottom).inset(80)
             contentView.leading.trailing.equalTo(view)
             contentView.bottom.equalTo(productImageView.snp.bottom)
         }
-
+        setProductLabelStackView()
         setProductBrandLabel()
         setProductNameLabel()
+    }
+
+    private func setProductLabelStackView() {
+        productLabelStackView.axis = .vertical
+        productLabelStackView.distribution = .equalSpacing
+        productLabelStackView.spacing = 0
+        reviewContentView.addSubview(productLabelStackView)
+        productLabelStackView.snp.makeConstraints { stackView in
+            stackView.centerY.equalTo(reviewContentView)
+            stackView.leading.trailing.equalTo(reviewContentView).inset(10)
+        }
     }
 
     private func setProductBrandLabel() {
         productBrandLabel.text = product.brand
         productBrandLabel.textColor = .black
+        productBrandLabel.font = UIFont.systemFont(ofSize: 16)
         reviewContentView.addSubview(productBrandLabel)
 
-        productBrandLabel.snp.makeConstraints { label in
-            label.leading.top.equalTo(reviewContentView).inset(10)
-        }
+        productLabelStackView.addArrangedSubview(productBrandLabel)
     }
 
     private func setProductNameLabel() {
@@ -182,10 +199,7 @@ final class ProductDetailViewController: UIViewController {
         productNameLabel.font = UIFont.boldSystemFont(ofSize: 20)
         reviewContentView.addSubview(productNameLabel)
 
-        productNameLabel.snp.makeConstraints { label in
-            label.top.equalTo(productBrandLabel.snp.bottom).offset(5)
-            label.leading.equalTo(reviewContentView).inset(10)
-        }
+        productLabelStackView.addArrangedSubview(productNameLabel)
     }
 
     private func setReviewCollectionView() {
@@ -205,12 +219,30 @@ final class ProductDetailViewController: UIViewController {
         }
     }
 
+    private func setbackButtonImageView() {
+        backButtonImageView.image = UIImage(named: "arrow.backward")
+        backButtonImageView.tintColor = .darkGray
+        backButtonImageView.isUserInteractionEnabled = true
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(popView(_:)))
+        backButtonImageView.addGestureRecognizer(gesture)
+        view.addSubview(backButtonImageView)
+        backButtonImageView.snp.makeConstraints { imageView in
+            imageView.top.equalTo(view.safeAreaLayoutGuide).inset(10)
+            imageView.leading.equalTo(view.safeAreaLayoutGuide).inset(10)
+            imageView.width.height.equalTo(30)
+        }
+    }
+
     private func presentErrorAlert() {
         let alert = UIAlertController(title: "Error", message: "에러가 발생했어요 😫", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default) { _ in
             self.dismiss(animated: true, completion: nil)
         }
         alert.addAction(okAction)
+    }
+
+    @objc private func popView(_ sender: UITapGestureRecognizer) {
+        navigationController?.popViewController(animated: true)
     }
 }
 

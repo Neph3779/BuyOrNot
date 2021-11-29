@@ -13,6 +13,7 @@ final class RankViewController: UIViewController {
 
     private let categoryView = UIImageView()
     private let rankCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private let backButtonImageView = UIImageView()
     private let loadingIndicator = UIActivityIndicatorView()
 
     init(category: ProductCategory) {
@@ -31,6 +32,7 @@ final class RankViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
         setCategoryView()
         setRankColletionView()
+        setbackButtonImageView()
         setLoadingIndicator()
         addNotificationObserver()
     }
@@ -71,8 +73,22 @@ final class RankViewController: UIViewController {
         }
     }
 
+    private func setbackButtonImageView() {
+        backButtonImageView.image = UIImage(named: "arrow.backward")
+        backButtonImageView.tintColor = .white
+        backButtonImageView.isUserInteractionEnabled = true
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(popView(_:)))
+        backButtonImageView.addGestureRecognizer(gesture)
+        view.addSubview(backButtonImageView)
+        backButtonImageView.snp.makeConstraints { imageView in
+            imageView.top.equalTo(view.safeAreaLayoutGuide).inset(10)
+            imageView.leading.equalTo(view.safeAreaLayoutGuide).inset(10)
+            imageView.width.height.equalTo(30)
+        }
+    }
+
     private func setLoadingIndicator() {
-        if RankManager.shared.didLoadingEnd == false && RankManager.shared.rankedProducts[category]?.count == 0{
+        if RankManager.shared.didLoadingEnd == false && RankManager.shared.rankedProducts[category]?.count == nil {
             loadingIndicator.transform = CGAffineTransform.init(scaleX: 1.5, y: 1.5)
             view.addSubview(loadingIndicator)
             loadingIndicator.snp.makeConstraints { indicator in
@@ -88,7 +104,11 @@ final class RankViewController: UIViewController {
                          name: NSNotification.Name("rankedProductsLoadingEnd"), object: nil)
     }
 
-    @objc func didLoadingEnd(_ notification: Notification) {
+    @objc private func popView(_ sender: UITapGestureRecognizer) {
+        navigationController?.popViewController(animated: true)
+    }
+
+    @objc private func didLoadingEnd(_ notification: Notification) {
         loadingIndicator.stopAnimating()
         rankCollectionView.reloadData()
     }

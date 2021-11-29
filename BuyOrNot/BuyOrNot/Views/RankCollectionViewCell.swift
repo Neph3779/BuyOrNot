@@ -12,6 +12,7 @@ final class RankCollectionViewCell: UICollectionViewCell {
     static let reuseidentifier = "rankTableViewCell"
     var product: Product?
     private let productImageView = UIImageView()
+    private let labelStackView = UIStackView()
     private let titleLabel = UILabel()
     private let brandLabel = UILabel()
     private let rankBadge: UIView? = nil
@@ -20,6 +21,7 @@ final class RankCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
 
         setProductImageView()
+        setLabelStackView()
         setTitleLabel()
         setBrandLabel()
         setCellAppearance()
@@ -46,27 +48,31 @@ final class RankCollectionViewCell: UICollectionViewCell {
         }
     }
 
+    private func setLabelStackView() {
+        labelStackView.axis = .vertical
+        labelStackView.distribution = .fillEqually
+        labelStackView.spacing = 5
+        contentView.addSubview(labelStackView)
+        labelStackView.snp.makeConstraints { stackView in
+            stackView.leading.equalTo(productImageView.snp.trailing).offset(10)
+            stackView.top.bottom.equalTo(contentView).inset(20)
+            stackView.trailing.equalTo(contentView).inset(10)
+        }
+    }
+
     private func setTitleLabel() {
         titleLabel.textColor = .black
         titleLabel.numberOfLines = 2
-        titleLabel.font = UIFont.systemFont(ofSize: 16)
-        contentView.addSubview(titleLabel)
-        titleLabel.snp.makeConstraints { label in
-            label.leading.equalTo(productImageView.snp.trailing).offset(10)
-            label.top.trailing.equalTo(contentView).inset(20)
-        }
+        titleLabel.font = UIFont.systemFont(ofSize: 18)
+
+        labelStackView.addArrangedSubview(titleLabel)
     }
 
     private func setBrandLabel() {
         brandLabel.textColor = .lightGray
         brandLabel.numberOfLines = 1
         brandLabel.font = UIFont.systemFont(ofSize: 14)
-        contentView.addSubview(brandLabel)
-        brandLabel.snp.makeConstraints { label in
-            label.leading.equalTo(productImageView.snp.trailing).offset(10)
-            label.top.equalTo(titleLabel.snp.bottom).offset(5)
-            label.trailing.equalTo(contentView.snp.trailing)
-        }
+        labelStackView.addArrangedSubview(brandLabel)
     }
 
     private func setCellAppearance() {
@@ -74,13 +80,13 @@ final class RankCollectionViewCell: UICollectionViewCell {
         contentView.backgroundColor = .white
         contentView.layer.borderWidth = 1.0
         contentView.layer.borderColor = UIColor.clear.cgColor
-        contentView.layer.cornerRadius = 5
+        contentView.layer.cornerRadius = 10
         layer.masksToBounds = true
 
-        layer.shadowColor = UIColor.darkGray.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 2.0)
-        layer.shadowRadius = 2.0
-        layer.shadowOpacity = 1.0
+//        layer.shadowColor = UIColor.darkGray.cgColor
+//        layer.shadowOffset = CGSize(width: 0, height: 2.0)
+//        layer.shadowRadius = 2.0
+//        layer.shadowOpacity = 1.0
         layer.masksToBounds = false
         layer.shadowPath = UIBezierPath(roundedRect: bounds,
                                         cornerRadius: contentView.layer.cornerRadius).cgPath
