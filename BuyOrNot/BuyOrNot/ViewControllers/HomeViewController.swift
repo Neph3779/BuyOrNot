@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import RealmSwift
 
 final class HomeViewController: UIViewController {
     private let searchIcon = UIImageView()
@@ -62,7 +63,7 @@ final class HomeViewController: UIViewController {
     }
 
     private func setLoadingIndicator(cell: UITableViewCell) {
-        if RankManager.shared.didLoadingEnd == false {
+        if RankManager.shared.didLoadingEnd == false && Array(try! Realm().objects(Product.self)).count == 0 {
             loadingIndicator.hidesWhenStopped = true
             loadingIndicator.transform = CGAffineTransform.init(scaleX: 1.5, y: 1.5)
             cell.addSubview(loadingIndicator)

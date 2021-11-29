@@ -6,11 +6,24 @@
 //
 
 import Foundation
+import RealmSwift
 
-struct Product {
-    let category: String?
-    let brand: String
-    let name: String
-    var rank: Int?
-    let image: String?
+final class Product: Object {
+    @Persisted var category: String? = ""
+    @Persisted var brand: String = ""
+    @Persisted var name: String = ""
+    @Persisted var rank: Int? = 0
+    @Persisted var image: String? = ""
+
+    override init() {
+
+    }
+
+    init(category: String?, brand: String, name: String, rank: Int?, image: String?) {
+        self.category = category
+        self.brand = brand
+        self.name = name
+        self.rank = rank
+        self.image = image
+    }
 }

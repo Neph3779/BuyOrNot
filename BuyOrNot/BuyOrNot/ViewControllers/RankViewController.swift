@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import RealmSwift
 
 final class RankViewController: UIViewController {
     private var category: ProductCategory
@@ -88,7 +89,9 @@ final class RankViewController: UIViewController {
     }
 
     private func setLoadingIndicator() {
-        if RankManager.shared.didLoadingEnd == false && RankManager.shared.rankedProducts[category]?.count == nil {
+        if RankManager.shared.didLoadingEnd == false
+            && Array(try! Realm().objects(Product.self)
+                        .filter { $0.category == self.category.rawValue }).count == 0 {
             loadingIndicator.transform = CGAffineTransform.init(scaleX: 1.5, y: 1.5)
             view.addSubview(loadingIndicator)
             loadingIndicator.snp.makeConstraints { indicator in
@@ -116,16 +119,17 @@ final class RankViewController: UIViewController {
 
 extension RankViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let count = RankManager.shared.rankedProducts[category]?.count else { return 0 }
-        return count
+        return Array(try! Realm().objects(Product.self)
+                        .filter { $0.category == self.category.rawValue }).count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let products = RankManager.shared.rankedProducts[category],
-              let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RankCollectionViewCell.reuseidentifier,
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RankCollectionViewCell.reuseidentifier,
                                                             for: indexPath) as? RankCollectionViewCell else {
                   return UICollectionViewCell()
               }
+        let products = Array(try! Realm().objects(Product.self)
+                                    .filter { $0.category == self.category.rawValue })
         cell.setContents(product: products[indexPath.row])
 
         return cell

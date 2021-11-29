@@ -6,15 +6,21 @@
 //
 
 import Foundation
+import RealmSwift
+
+// TODO: 매일 1회 업데이트 로직 구현 (가능하다면 백그라운드에서?)
 
 final class RankManager {
-    var rankedProducts: [ProductCategory: [Product]] = [:]
     var didLoadingEnd = false
 
     func refreshRank(completion: @escaping () -> Void) {
         DispatchQueue.global().async {
-            ProductCategory.allCases.forEach { [weak self] in
-                self?.rankedProducts.updateValue(DanawaAPIClient.shared.fetchRankData(category: $0), forKey: $0)
+            ProductCategory.allCases.forEach {
+                DanawaAPIClient.shared.fetchRankData(category: $0).forEach { product in
+                    try! Realm().write {
+                        try! Realm().add(product)
+                    }
+                }
             }
             DispatchQueue.main.sync {
                 completion()

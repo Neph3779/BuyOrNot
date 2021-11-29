@@ -7,9 +7,11 @@
 
 import UIKit
 import SnapKit
+import RealmSwift
 
 final class RecommendCollectionView: UICollectionView {
-    private var randomCategoryProducts = RankManager.shared.rankedProducts.randomElement()?.value
+    private var randomCategoryProducts = Array(try! Realm().objects(Product.self)
+                                                .filter { $0.category == ProductCategory.allCases.randomElement()!.rawValue})
 
     init() {
         let flowLayout = UICollectionViewFlowLayout()
@@ -34,26 +36,24 @@ final class RecommendCollectionView: UICollectionView {
     }
 
     @objc func didLoadingEnd(_ notification: Notification) {
-        self.randomCategoryProducts = RankManager.shared.rankedProducts.randomElement()?.value
+        self.randomCategoryProducts = Array(try! Realm().objects(Product.self)
+                                                .filter { $0.category == ProductCategory.allCases.randomElement()!.rawValue})
         self.reloadData()
     }
 }
 
 extension RecommendCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let products = randomCategoryProducts else { return 0 }
-
-        return products.count
+        return randomCategoryProducts.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let products = randomCategoryProducts,
-              let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendProductCell.reuseIdentifier,
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendProductCell.reuseIdentifier,
                                                             for: indexPath) as? RecommendProductCell else {
                   return UICollectionViewCell()
               }
 
-        cell.setContents(product: products[indexPath.row])
+        cell.setContents(product: randomCategoryProducts[indexPath.row])
         return cell
     }
 }
