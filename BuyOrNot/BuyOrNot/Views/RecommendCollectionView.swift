@@ -58,12 +58,24 @@ extension RecommendCollectionView: UICollectionViewDataSource {
     }
 }
 
+extension RecommendCollectionView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? RecommendProductCell,
+              let product = cell.product else { return }
+
+        let recommendViewController = UIApplication.topViewController()
+
+        recommendViewController?.navigationController?.pushViewController(ProductDetailViewController(product: product),
+                                                                          animated: true)
+    }
+}
+
 extension RecommendCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return ViewSize.recommendCellSize
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 5)
+        return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     }
 }

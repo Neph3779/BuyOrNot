@@ -11,6 +11,9 @@ import Kingfisher
 
 final class RecommendProductCell: UICollectionViewCell {
     static let reuseIdentifier = "recommendProductCell"
+
+    private(set) var product: Product?
+
     private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -38,6 +41,7 @@ final class RecommendProductCell: UICollectionViewCell {
     }
 
     func setContents(product: Product) {
+        self.product = product
         productImageView.kf.setImage(with: product.image, options: [.loadDiskFileSynchronously])
         brandNameLabel.text = product.brand
         titleLabel.text = product.name
