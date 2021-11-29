@@ -25,7 +25,8 @@ final class SearchViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         fetchRecords()
-//        searchRecordTableView.reloadData()
+        searchRecordTableView.reloadData()
+        searchBar.text = ""
     }
 
     private func fetchRecords() {

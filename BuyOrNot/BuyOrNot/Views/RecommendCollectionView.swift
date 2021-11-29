@@ -10,8 +10,20 @@ import SnapKit
 import RealmSwift
 
 final class RecommendCollectionView: UICollectionView {
-    private var randomCategoryProducts = Array(try! Realm().objects(Product.self)
-                                                .filter { $0.category == ProductCategory.allCases.randomElement()!.rawValue})
+    private var randomProducts: [Product] = {
+        let productArray = Array(try! Realm().objects(Product.self))
+        var randomArray = Array(repeating: 0, count: productArray.count)
+        randomArray = randomArray.map { _ in Int.random(in: 0 ..< productArray.count) }
+        var randomSet: Set<Int> = Set(randomArray)
+        randomArray = Array(randomSet)
+        let count = randomArray.count < 30 ? randomArray.count : 30
+        var randomProductArray = [Product]()
+        for i in 0 ..< count {
+            randomProductArray.append(productArray[randomArray[i]])
+        }
+
+        return randomProductArray
+    }()
 
     init() {
         let flowLayout = UICollectionViewFlowLayout()
@@ -36,7 +48,7 @@ final class RecommendCollectionView: UICollectionView {
     }
 
     @objc func didLoadingEnd(_ notification: Notification) {
-        self.randomCategoryProducts = Array(try! Realm().objects(Product.self)
+        self.randomProducts = Array(try! Realm().objects(Product.self)
                                                 .filter { $0.category == ProductCategory.allCases.randomElement()!.rawValue})
         self.reloadData()
     }
@@ -44,7 +56,7 @@ final class RecommendCollectionView: UICollectionView {
 
 extension RecommendCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return randomCategoryProducts.count
+        return randomProducts.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -53,7 +65,7 @@ extension RecommendCollectionView: UICollectionViewDataSource {
                   return UICollectionViewCell()
               }
 
-        cell.setContents(product: randomCategoryProducts[indexPath.row])
+        cell.setContents(product: randomProducts[indexPath.row])
         return cell
     }
 }
