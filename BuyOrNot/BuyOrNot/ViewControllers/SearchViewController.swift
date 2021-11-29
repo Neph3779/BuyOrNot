@@ -7,9 +7,10 @@
 
 import UIKit
 import Alamofire
+import RealmSwift
 
-// TODO: 검색 기록 저장 구현
 final class SearchViewController: UIViewController {
+    private var records = [SearchRecord]()
     private let backButtonImageView = UIImageView()
     private let searchBar = UISearchBar()
     private let searchRecordTableView = UITableView()
@@ -17,33 +18,65 @@ final class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = ColorSet.backgroundColor
-        setNavigationItems()
+        setbackButtonImageView()
         setSearchBar()
         setSearchRecordTableView()
     }
 
-    private func setNavigationItems() {
-        navigationController?.navigationBar.isHidden = false
-        navigationController?.navigationBar.backIndicatorImage = UIImage(named: "arrow.backward")
-        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "arrow.backward")
-        navigationController?.navigationBar.topItem?.title = ""
-        navigationController?.navigationBar.tintColor = .darkGray
-        navigationItem.titleView = searchBar
+    override func viewWillAppear(_ animated: Bool) {
+        fetchRecords()
+        searchBar.text = ""
+        searchRecordTableView.reloadData()
+    }
+
+    private func fetchRecords() {
+        records = Array(try! Realm().objects(SearchRecord.self)
+                            .sorted(byKeyPath: "date", ascending: false))
+    }
+
+    private func setbackButtonImageView() {
+        backButtonImageView.image = UIImage(named: "arrow.backward")
+        backButtonImageView.tintColor = .darkGray
+        backButtonImageView.isUserInteractionEnabled = true
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(popView(_:)))
+        backButtonImageView.addGestureRecognizer(gesture)
+        view.addSubview(backButtonImageView)
+        backButtonImageView.snp.makeConstraints { imageView in
+            imageView.leading.equalTo(view.safeAreaLayoutGuide).inset(10)
+            imageView.width.height.equalTo(30)
+        }
     }
 
     private func setSearchBar() {
         searchBar.placeholder = "제품명 검색"
         searchBar.delegate = self
+        searchBar.barTintColor = ColorSet.backgroundColor
+        searchBar.setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
+        view.addSubview(searchBar)
+        searchBar.snp.makeConstraints { searchBar in
+            searchBar.leading.equalTo(backButtonImageView.snp.trailing)
+            searchBar.top.trailing.equalTo(view.safeAreaLayoutGuide)
+        }
+
+        backButtonImageView.snp.makeConstraints { imageView in
+            imageView.centerY.equalTo(searchBar.snp.centerY)
+        }
     }
 
     private func setSearchRecordTableView() {
-        searchRecordTableView.register(UITableViewCell.self, forCellReuseIdentifier: "searchRecordTableViewCell")
+        searchRecordTableView.register(SearchRecordTableViewCell.self,
+                                       forCellReuseIdentifier: SearchRecordTableViewCell.reuseIdentifier)
         searchRecordTableView.register(UITableViewHeaderFooterView.self,
                                        forHeaderFooterViewReuseIdentifier: "searchRecordTableHeaderView")
         searchRecordTableView.dataSource = self
         searchRecordTableView.delegate = self
+        searchRecordTableView.backgroundColor = ColorSet.backgroundColor
         view.addSubview(searchRecordTableView)
-        searchRecordTableView.snp.makeConstraints { $0.edges.equalTo(view) }
+        searchRecordTableView.snp.makeConstraints { tableView in
+            tableView.top.equalTo(searchBar.snp.bottom)
+            tableView.leading.trailing.bottom.equalTo(view)
+
+        }
     }
 
     private func presentErrorAlert() {
@@ -53,13 +86,20 @@ final class SearchViewController: UIViewController {
         }
         alert.addAction(okAction)
     }
+
+    @objc private func popView(_ sender: UITapGestureRecognizer) {
+        navigationController?.popViewController(animated: true)
+    }
 }
 
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let seartchText = searchBar.text else { return }
+        try! Realm().write({
+            try! Realm().add(SearchRecord(title: self.searchBar.text))
+        })
+        guard let searchText = searchBar.text else { return }
         NaverSearchAPIClient.shared
-            .fetchNaverShoppingResults(query: seartchText) { (response: DataResponse<NaverShoppingResult, AFError>) in
+            .fetchNaverShoppingResults(query: searchText) { (response: DataResponse<NaverShoppingResult, AFError>) in
                 do {
                     if let data = response.data {
                         let naverShoppingResult = try JSONDecoder().decode(NaverShoppingResult.self, from: data)
@@ -72,31 +112,46 @@ extension SearchViewController: UISearchBarDelegate {
                 } catch {
                     self.presentErrorAlert()
                 }
-        }
+            }
     }
 }
 
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        10
+        try! Realm().objects(SearchRecord.self).count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "searchRecordTableViewCell") else {
-            return UITableViewCell()
-        }
-
-        if #available(iOS 14.0, *) {
-            var content = cell.defaultContentConfiguration()
-            content.text = "아이폰13"
-            cell.contentConfiguration = content
-        } else {
-            cell.textLabel?.text = "아이폰13"
-        }
-        cell.accessoryView = UIImageView(image: UIImage(named: "xmark"))
-        cell.accessoryView?.tintColor = .darkGray
-
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchRecordTableViewCell.reuseIdentifier)
+                as? SearchRecordTableViewCell,
+              let title = records[indexPath.row].title else { return UITableViewCell() }
+        cell.setTitleLabelText(title: title)
+        cell.indexPath = indexPath
+        cell.searchRecordTableViewCellDelegate = self
         return cell
+    }
+}
+
+extension SearchViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = searchRecordTableView.cellForRow(at: indexPath) as? SearchRecordTableViewCell,
+              let searchText = cell.titleLabel.text else { return }
+
+        NaverSearchAPIClient.shared
+            .fetchNaverShoppingResults(query: searchText) { (response: DataResponse<NaverShoppingResult, AFError>) in
+                do {
+                    if let data = response.data {
+                        let naverShoppingResult = try JSONDecoder().decode(NaverShoppingResult.self, from: data)
+                        let item = naverShoppingResult.items[0]
+                        let product = Product(category: nil, brand: item.brand.htmlEscaped,
+                                              name: item.name.htmlEscaped, rank: nil, image: nil)
+                        self.navigationController?
+                            .pushViewController(ProductDetailViewController(product: product), animated: true)
+                    }
+                } catch {
+                    self.presentErrorAlert()
+                }
+            }
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -113,11 +168,18 @@ extension SearchViewController: UITableViewDataSource {
 
         return headerView
     }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
 }
 
-extension SearchViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-//        let product = Product(category: nil, brand: <#T##String#>, name: <#T##String#>, rank: <#T##Int?#>, image: <#T##String?#>)
+extension SearchViewController: SearchRecordTableViewCellDelegate {
+    func removeCell(indexPath: IndexPath) {
+        try! Realm().write {
+            try! Realm().delete(records[indexPath.row])
+        }
+        records.remove(at: indexPath.row)
+        searchRecordTableView.reloadData()
     }
 }

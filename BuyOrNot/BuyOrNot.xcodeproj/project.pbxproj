@@ -10,6 +10,7 @@
 		324F25412754F0E1006EDFA6 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 324F25402754F0E1006EDFA6 /* Realm */; };
 		324F25432754F0E1006EDFA6 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 324F25422754F0E1006EDFA6 /* RealmSwift */; };
 		324F2547275509D9006EDFA6 /* SearchRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324F2546275509D9006EDFA6 /* SearchRecord.swift */; };
+		324F254927552856006EDFA6 /* SearchRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324F254827552856006EDFA6 /* SearchRecordTableViewCell.swift */; };
 		32528AAB274529E4006988D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32528AAA274529E4006988D6 /* AppDelegate.swift */; };
 		32528AB4274529E5006988D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32528AB3274529E5006988D6 /* Assets.xcassets */; };
 		32528AB7274529E5006988D6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32528AB5274529E5006988D6 /* LaunchScreen.storyboard */; };
@@ -52,6 +53,7 @@
 
 /* Begin PBXFileReference section */
 		324F2546275509D9006EDFA6 /* SearchRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecord.swift; sourceTree = "<group>"; };
+		324F254827552856006EDFA6 /* SearchRecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecordTableViewCell.swift; sourceTree = "<group>"; };
 		32528AA7274529E4006988D6 /* BuyOrNot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuyOrNot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32528AAA274529E4006988D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		32528AB3274529E5006988D6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				32B55380274F577400CFA954 /* RecommendCollectionView.swift */,
 				3284061D274FFEF3008032E7 /* RankCollectionViewCell.swift */,
 				3284062527512453008032E7 /* ReviewCollectionViewCell.swift */,
+				324F254827552856006EDFA6 /* SearchRecordTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -348,6 +351,7 @@
 				3284062627512453008032E7 /* ReviewCollectionViewCell.swift in Sources */,
 				32657E66274AAE960020C4A8 /* NaverSearchAPIClient.swift in Sources */,
 				32B55381274F577400CFA954 /* RecommendCollectionView.swift in Sources */,
+				324F254927552856006EDFA6 /* SearchRecordTableViewCell.swift in Sources */,
 				328406222751176A008032E7 /* ProductDetailViewController.swift in Sources */,
 				32657E5C274A82DC0020C4A8 /* NaverShoppingResult.swift in Sources */,
 				328406242751219C008032E7 /* Product.swift in Sources */,
