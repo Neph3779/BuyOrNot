@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		324F25412754F0E1006EDFA6 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 324F25402754F0E1006EDFA6 /* Realm */; };
 		324F25432754F0E1006EDFA6 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 324F25422754F0E1006EDFA6 /* RealmSwift */; };
+		324F2547275509D9006EDFA6 /* SearchRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324F2546275509D9006EDFA6 /* SearchRecord.swift */; };
 		32528AAB274529E4006988D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32528AAA274529E4006988D6 /* AppDelegate.swift */; };
 		32528AB4274529E5006988D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32528AB3274529E5006988D6 /* Assets.xcassets */; };
 		32528AB7274529E5006988D6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32528AB5274529E5006988D6 /* LaunchScreen.storyboard */; };
@@ -50,6 +51,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		324F2546275509D9006EDFA6 /* SearchRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecord.swift; sourceTree = "<group>"; };
 		32528AA7274529E4006988D6 /* BuyOrNot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuyOrNot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32528AAA274529E4006988D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		32528AB3274529E5006988D6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				32B55384274F87E500CFA954 /* ViewSize.swift */,
 				32B456492752929700EADAEF /* ReviewSiteKind.swift */,
 				32B4564F2752B88500EADAEF /* ReviewContent.swift */,
+				324F2546275509D9006EDFA6 /* SearchRecord.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 				32B5537D274F4FA600CFA954 /* CategoryCollectionView.swift in Sources */,
 				32B5537B274F269A00CFA954 /* RecommendProductCell.swift in Sources */,
 				32D289602753452300B4BE43 /* StringExtension.swift in Sources */,
+				324F2547275509D9006EDFA6 /* SearchRecord.swift in Sources */,
 				3284062027500483008032E7 /* UIApplicationExtension.swift in Sources */,
 				3284061C274FFD97008032E7 /* RankViewController.swift in Sources */,
 				32657E6D274ACDEB0020C4A8 /* BuyOrNotError.swift in Sources */,
@@ -504,8 +508,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -534,8 +537,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
