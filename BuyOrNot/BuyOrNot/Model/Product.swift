@@ -8,7 +8,7 @@
 import Foundation
 
 struct Product {
-    let category: ProductCategory
+    let category: ProductCategory?
     let brand: String
     let name: String
     var rank: Int?

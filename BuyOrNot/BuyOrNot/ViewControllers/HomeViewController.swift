@@ -18,10 +18,13 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = ColorSet.backgroundColor
-        navigationController?.navigationBar.isHidden = true
         setSearchIcon()
         setOuterTableView()
         addNotificationObserver()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = true
     }
 
     private func setSearchIcon() {
