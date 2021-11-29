@@ -101,18 +101,15 @@ final class SearchViewController: UIViewController {
         NaverSearchAPIClient.shared
             .fetchNaverShoppingResults(query: searchText) { (response: DataResponse<NaverShoppingResult, AFError>) in
                 do {
-                    if let data = response.data {
-                        let naverShoppingResult = try JSONDecoder().decode(NaverShoppingResult.self, from: data)
-                        if naverShoppingResult.items.isEmpty {
-                            self.presentNoItemAlert()
-                        } else {
-                            let item = naverShoppingResult.items[0]
-                            let product = Product(category: nil, brand: item.brand.htmlEscaped,
-                                                  name: item.name.htmlEscaped, rank: nil, image: nil)
-                            self.navigationController?
-                                .pushViewController(ProductDetailViewController(product: product), animated: true)
-                            print("1")
-                        }
+                    let naverShoppingResult = try JSONDecoder().decode(NaverShoppingResult.self, from: response.data!)
+                    if naverShoppingResult.items.isEmpty {
+                        self.presentNoItemAlert()
+                    } else {
+                        let item = naverShoppingResult.items[0]
+                        let product = Product(category: nil, brand: item.brand.htmlEscaped,
+                                              name: item.name.htmlEscaped, rank: nil, image: nil)
+                        self.navigationController?
+                            .pushViewController(ProductDetailViewController(product: product), animated: true)
                     }
                 } catch {
                     self.presentErrorAlert()

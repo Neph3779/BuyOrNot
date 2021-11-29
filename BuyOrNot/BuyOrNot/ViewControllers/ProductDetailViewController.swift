@@ -69,12 +69,14 @@ final class ProductDetailViewController: UIViewController {
     }
 
     private func setNaverShoppingThumnail() {
-        // TODO: 없을때 에러처리 구현
         NaverSearchAPIClient.shared
             .fetchNaverShoppingResults(query: product.name) { (response: DataResponse<NaverShoppingResult, AFError>) in
                 do {
-                    if let data = response.data {
-                        let shoppingItem = try JSONDecoder().decode(NaverShoppingResult.self, from: data)
+                    let naverShoppingResult = try JSONDecoder().decode(NaverShoppingResult.self, from: response.data!)
+                    if naverShoppingResult.items.isEmpty {
+                        self.productImageView.image = UIImage(named: "errorImage")
+                    } else {
+                        let shoppingItem = naverShoppingResult
                         let imageURL = try shoppingItem.items[0].image.asURL()
                         self.productImageView.kf.setImage(with: imageURL, options: [.loadDiskFileSynchronously])
                     }
@@ -90,7 +92,7 @@ final class ProductDetailViewController: UIViewController {
             do {
                 self.youtubeResults = try JSONDecoder().decode(YoutubeSearchResult.self, from: response.data!)
             } catch {
-                // TODO: 가능하면 여기서 에러 처리
+                self.presentErrorAlert(title: "유튜브 데이터 전송 실패", message: "유튜브 데이터를 받아오는데 실패했어요 😫")
             }
                 self.didYoutubeFetchingDone = true
                 if self.didFetchingDone {
@@ -106,7 +108,7 @@ final class ProductDetailViewController: UIViewController {
                 do {
                     self.naverResults = try JSONDecoder().decode(NaverBlogResult.self, from: response.data!)
                 } catch {
-
+                    self.presentErrorAlert(title: "네이버 블로그 데이터 전송 실패", message: "네이버 블로그 데이터를 받아오는데 실패했어요 😫")
                 }
                 self.didNaverFetchingDone = true
                 if self.didFetchingDone {
@@ -122,7 +124,7 @@ final class ProductDetailViewController: UIViewController {
                 do {
                     self.tistoryResults = try JSONDecoder().decode(KakaoBlogResult.self, from: response.data!)
                 } catch {
-
+                    self.presentErrorAlert(title: "티스토리 블로그 데이터 전송 실패", message: "티스토리 데이터를 받아오는데 실패했어요 😫")
                 }
                 self.didTistoryFetchingDone = true
                 if self.didFetchingDone {
@@ -262,8 +264,8 @@ final class ProductDetailViewController: UIViewController {
         }
     }
 
-    private func presentErrorAlert() {
-        let alert = UIAlertController(title: "Error", message: "에러가 발생했어요 😫", preferredStyle: .alert)
+    private func presentErrorAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default) { _ in
             self.dismiss(animated: true, completion: nil)
         }
@@ -305,7 +307,7 @@ extension ProductDetailViewController: UICollectionViewDelegate {
         } else if let link = content.link {
             UIApplication.shared.open(link)
         } else {
-            presentErrorAlert()
+            presentErrorAlert(title: "Error", message: "링크를 여는데 실패했어요 😫")
         }
     }
 }
