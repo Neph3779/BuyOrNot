@@ -10,20 +10,7 @@ import SnapKit
 import RealmSwift
 
 final class RecommendCollectionView: UICollectionView {
-    private var randomProducts: [Product] = {
-        let productArray = Array(try! Realm().objects(Product.self))
-        var randomArray = Array(repeating: 0, count: productArray.count)
-        randomArray = randomArray.map { _ in Int.random(in: 0 ..< productArray.count) }
-        var randomSet: Set<Int> = Set(randomArray)
-        randomArray = Array(randomSet)
-        let count = randomArray.count < 30 ? randomArray.count : 30
-        var randomProductArray = [Product]()
-        for i in 0 ..< count {
-            randomProductArray.append(productArray[randomArray[i]])
-        }
-
-        return randomProductArray
-    }()
+    private var products = [Product]()
 
     init() {
         let flowLayout = UICollectionViewFlowLayout()
@@ -35,10 +22,28 @@ final class RecommendCollectionView: UICollectionView {
         backgroundColor = .clear
         showsHorizontalScrollIndicator = false
         addNotificationObserver()
+        products = randomProducts()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+
+    private func randomProducts() -> [Product] {
+        let productArray = Array(try! Realm().objects(Product.self))
+        var randomArray = Array(repeating: 0, count: productArray.count).map { _ in
+            Int.random(in: 0 ..< productArray.count)
+        }
+        randomArray = Array(Set(randomArray))
+
+        let count = randomArray.count < 30 ? randomArray.count : 30
+        var randomProductArray = [Product]()
+
+        for i in 0 ..< count {
+            randomProductArray.append(productArray[randomArray[i]])
+        }
+
+        return randomProductArray
     }
 
     private func addNotificationObserver() {
@@ -48,15 +53,14 @@ final class RecommendCollectionView: UICollectionView {
     }
 
     @objc func didLoadingEnd(_ notification: Notification) {
-        self.randomProducts = Array(try! Realm().objects(Product.self)
-                                                .filter { $0.category == ProductCategory.allCases.randomElement()!.rawValue})
+        products = randomProducts()
         self.reloadData()
     }
 }
 
 extension RecommendCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return randomProducts.count
+        return products.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -65,7 +69,7 @@ extension RecommendCollectionView: UICollectionViewDataSource {
                   return UICollectionViewCell()
               }
 
-        cell.setContents(product: randomProducts[indexPath.row])
+        cell.setContents(product: products[indexPath.row])
         return cell
     }
 }
