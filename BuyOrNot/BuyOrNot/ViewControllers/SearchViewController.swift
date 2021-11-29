@@ -25,8 +25,7 @@ final class SearchViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         fetchRecords()
-        searchBar.text = ""
-        searchRecordTableView.reloadData()
+//        searchRecordTableView.reloadData()
     }
 
     private func fetchRecords() {
@@ -85,6 +84,39 @@ final class SearchViewController: UIViewController {
             self.dismiss(animated: true, completion: nil)
         }
         alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
+    }
+
+    private func presentNoItemAlert() {
+        let alert = UIAlertController(title: "Error", message: "상품을 찾을 수 없네요..\n 😫 상품명을 다시 확인해주세요!", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+            self.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
+    }
+
+    private func moveToProductView(with searchText: String) {
+        NaverSearchAPIClient.shared
+            .fetchNaverShoppingResults(query: searchText) { (response: DataResponse<NaverShoppingResult, AFError>) in
+                do {
+                    if let data = response.data {
+                        let naverShoppingResult = try JSONDecoder().decode(NaverShoppingResult.self, from: data)
+                        if naverShoppingResult.items.isEmpty {
+                            self.presentNoItemAlert()
+                        } else {
+                            let item = naverShoppingResult.items[0]
+                            let product = Product(category: nil, brand: item.brand.htmlEscaped,
+                                                  name: item.name.htmlEscaped, rank: nil, image: nil)
+                            self.navigationController?
+                                .pushViewController(ProductDetailViewController(product: product), animated: true)
+                            print("1")
+                        }
+                    }
+                } catch {
+                    self.presentErrorAlert()
+                }
+            }
     }
 
     @objc private func popView(_ sender: UITapGestureRecognizer) {
@@ -98,21 +130,7 @@ extension SearchViewController: UISearchBarDelegate {
             try! Realm().add(SearchRecord(title: self.searchBar.text))
         })
         guard let searchText = searchBar.text else { return }
-        NaverSearchAPIClient.shared
-            .fetchNaverShoppingResults(query: searchText) { (response: DataResponse<NaverShoppingResult, AFError>) in
-                do {
-                    if let data = response.data {
-                        let naverShoppingResult = try JSONDecoder().decode(NaverShoppingResult.self, from: data)
-                        let item = naverShoppingResult.items[0]
-                        let product = Product(category: nil, brand: item.brand.htmlEscaped,
-                                              name: item.name.htmlEscaped, rank: nil, image: nil)
-                        self.navigationController?
-                            .pushViewController(ProductDetailViewController(product: product), animated: true)
-                    }
-                } catch {
-                    self.presentErrorAlert()
-                }
-            }
+        moveToProductView(with: searchText)
     }
 }
 
@@ -136,28 +154,15 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = searchRecordTableView.cellForRow(at: indexPath) as? SearchRecordTableViewCell,
               let searchText = cell.titleLabel.text else { return }
-
-        NaverSearchAPIClient.shared
-            .fetchNaverShoppingResults(query: searchText) { (response: DataResponse<NaverShoppingResult, AFError>) in
-                do {
-                    if let data = response.data {
-                        let naverShoppingResult = try JSONDecoder().decode(NaverShoppingResult.self, from: data)
-                        let item = naverShoppingResult.items[0]
-                        let product = Product(category: nil, brand: item.brand.htmlEscaped,
-                                              name: item.name.htmlEscaped, rank: nil, image: nil)
-                        self.navigationController?
-                            .pushViewController(ProductDetailViewController(product: product), animated: true)
-                    }
-                } catch {
-                    self.presentErrorAlert()
-                }
-            }
+        moveToProductView(with: searchText)
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerView = tableView
                 .dequeueReusableHeaderFooterView(withIdentifier: "searchRecordTableHeaderView") else { return UIView() }
 
+        // FIXME: 실제 디바이스에서 색상 적용 안되는 문제 있음
+        headerView.backgroundColor = ColorSet.backgroundColor
         if #available(iOS 14.0, *) {
             var content = headerView.defaultContentConfiguration()
             content.text = "최근 검색어"
