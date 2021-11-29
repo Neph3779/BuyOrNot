@@ -16,9 +16,6 @@ final class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if #available(iOS 13.0, *) {
-            overrideUserInterfaceStyle = .light
-        }
         view.backgroundColor = ColorSet.backgroundColor
         navigationController?.navigationBar.isHidden = true
         setSearchIcon()
