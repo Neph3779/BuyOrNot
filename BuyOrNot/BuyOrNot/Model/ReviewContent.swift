@@ -12,4 +12,6 @@ struct ReviewContent {
     let title: String
     let producerName: String
     let thumbnail: URL?
+    let link: URL?
+    let youtubeId: String?
 }

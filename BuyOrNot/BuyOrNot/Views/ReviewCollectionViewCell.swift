@@ -12,7 +12,7 @@ import Kingfisher
 final class ReviewCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "reviewCollectionViewCell"
 
-    private let siteKind: ReviewSiteKind = .youtube
+    private(set) var reviewContent: ReviewContent?
     let thumnailImageView = UIImageView()
     private let logoImageView = UIImageView()
     private let labelStackView = UIStackView()
@@ -38,6 +38,7 @@ final class ReviewCollectionViewCell: UICollectionViewCell {
         logoImageView.image = UIImage(named: content.siteKind.imageName)
         titleLabel.text = content.title.htmlEscaped
         nameLabel.text = content.producerName.htmlEscaped
+        reviewContent = content
 
         if content.thumbnail == nil {
             thumnailImageView.snp.remakeConstraints { imageView in

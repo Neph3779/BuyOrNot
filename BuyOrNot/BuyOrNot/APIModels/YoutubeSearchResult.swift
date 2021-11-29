@@ -12,7 +12,12 @@ struct YoutubeSearchResult: Decodable {
 }
 
 struct YoutubeVideoItem: Decodable {
+    let id: YoutubeId
     let snippet: Snippet
+}
+
+struct YoutubeId: Decodable {
+    let videoId: String
 }
 
 struct Snippet: Decodable {

@@ -89,9 +89,10 @@ final class ProductDetailViewController: UIViewController {
 
                     items.forEach { item in
                         let thumbnailURL = URL(string: item.snippet.thumbnails.high.url)
+                        let link = URL(string: "https://www.youtube.com/watch?v=" + item.id.videoId)
                         self.youtubeReviews.append(ReviewContent(siteKind: .youtube, title: item.snippet.title,
                                                                  producerName: item.snippet.channelTitle,
-                                                                 thumbnail: thumbnailURL))
+                                                                 thumbnail: thumbnailURL, link: link, youtubeId: item.id.videoId))
                     }
                     if self.didFetchingDone {
                         self.joinReviews()
@@ -115,9 +116,10 @@ final class ProductDetailViewController: UIViewController {
                     let items = naverResult.items
 
                     items.forEach { item in
+                        let link = URL(string: item.link)
                         self.naverBlogReviews.append(ReviewContent(siteKind: .naver, title: item.title,
                                                                    producerName: item.bloggerName,
-                                                                   thumbnail: nil))
+                                                                   thumbnail: nil, link: link, youtubeId: nil))
                     }
                     if self.didFetchingDone {
                         self.joinReviews()
@@ -142,9 +144,10 @@ final class ProductDetailViewController: UIViewController {
 
                     items.forEach { item in
                         let thumbnailURL = URL(string: item.thumbnail)
+                        let link = URL(string: item.link)
                         self.tistoryBlogReviews.append(ReviewContent(siteKind: .tistory, title: item.title,
                                                                      producerName: item.blogName,
-                                                                     thumbnail: thumbnailURL))
+                                                                     thumbnail: thumbnailURL, link: link, youtubeId: nil))
                     }
                     if self.didFetchingDone {
                         self.joinReviews()
@@ -298,9 +301,19 @@ extension ProductDetailViewController: UICollectionViewDataSource {
 }
 
 extension ProductDetailViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = cell as? ReviewCollectionViewCell else { return }
-        // TODO: 링크로 이동
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ReviewCollectionViewCell,
+              let content = cell.reviewContent else { return }
+
+        if let youtubeId = content.youtubeId,
+           let youtubeURL = URL(string: "youtube://" + youtubeId),
+           UIApplication.shared.canOpenURL(youtubeURL) {
+            UIApplication.shared.open(youtubeURL, options: [:], completionHandler: nil)
+        } else if let link = content.link {
+            UIApplication.shared.open(link)
+        } else {
+            presentErrorAlert()
+        }
     }
 }
 
