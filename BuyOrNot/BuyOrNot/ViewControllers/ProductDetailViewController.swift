@@ -15,6 +15,7 @@ final class ProductDetailViewController: UIViewController {
     private var youtubeReviews = [ReviewContent]()
     private var naverBlogReviews = [ReviewContent]()
     private var tistoryBlogReviews = [ReviewContent]()
+    private var joinedReview = [ReviewContent]()
 
     private var didFetchingDone: Bool {
         return !youtubeReviews.isEmpty && !naverBlogReviews.isEmpty && !youtubeReviews.isEmpty
@@ -59,6 +60,10 @@ final class ProductDetailViewController: UIViewController {
         setbackButtonImageView()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = true
+    }
+
     private func setNaverShoppingThumnail() {
         NaverSearchAPIClient.shared
             .fetchNaverShoppingResults(query: product.name) { (response: DataResponse<NaverShoppingResult, AFError>) in
@@ -88,7 +93,10 @@ final class ProductDetailViewController: UIViewController {
                                                                  producerName: item.snippet.channelTitle,
                                                                  thumbnail: thumbnailURL))
                     }
-                    if self.didFetchingDone { self.reviewCollectionView.reloadData() }
+                    if self.didFetchingDone {
+                        self.joinReviews()
+                        self.reviewCollectionView.reloadData()
+                    }
                 }
             } catch {
                 if self.didFetchingDone {
@@ -111,7 +119,10 @@ final class ProductDetailViewController: UIViewController {
                                                                    producerName: item.bloggerName,
                                                                    thumbnail: nil))
                     }
-                    if self.didFetchingDone { self.reviewCollectionView.reloadData() }
+                    if self.didFetchingDone {
+                        self.joinReviews()
+                        self.reviewCollectionView.reloadData()
+                    }
                 }
             } catch {
                 if self.didFetchingDone {
@@ -135,7 +146,10 @@ final class ProductDetailViewController: UIViewController {
                                                                      producerName: item.blogName,
                                                                      thumbnail: thumbnailURL))
                     }
-                    if self.didFetchingDone { self.reviewCollectionView.reloadData() }
+                    if self.didFetchingDone {
+                        self.joinReviews()
+                        self.reviewCollectionView.reloadData()
+                    }
                 }
                 self.reviewCollectionView.reloadData()
             } catch {
@@ -241,6 +255,27 @@ final class ProductDetailViewController: UIViewController {
         alert.addAction(okAction)
     }
 
+    private func joinReviews() {
+        var count = 0
+        while count < youtubeReviews.count ||
+                count < naverBlogReviews.count ||
+                count < tistoryBlogReviews.count {
+            if count < youtubeReviews.count {
+                joinedReview.append(youtubeReviews[count])
+            }
+
+            if count < naverBlogReviews.count {
+                joinedReview.append(naverBlogReviews[count])
+            }
+
+            if count < tistoryBlogReviews.count {
+                joinedReview.append(tistoryBlogReviews[count])
+            }
+
+            count += 1
+        }
+    }
+
     @objc private func popView(_ sender: UITapGestureRecognizer) {
         navigationController?.popViewController(animated: true)
     }
@@ -257,17 +292,7 @@ extension ProductDetailViewController: UICollectionViewDataSource {
                                      for: indexPath) as? ReviewCollectionViewCell else { return UICollectionViewCell() }
         if !didFetchingDone { return cell }
 
-        var content = ReviewContent(siteKind: .youtube, title: "", producerName: "", thumbnail: nil)
-
-        if indexPath.row % 3 == 0 {
-            content = youtubeReviews[indexPath.row / 3]
-        } else if indexPath.row % 3 == 1 {
-            content = naverBlogReviews[indexPath.row / 3]
-        } else if indexPath.row % 3 == 2 {
-            content = tistoryBlogReviews[indexPath.row / 3]
-        }
-
-        cell.setContents(content: content)
+        cell.setContents(content: joinedReview[indexPath.row])
         return cell
     }
 }
