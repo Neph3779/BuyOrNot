@@ -13,6 +13,7 @@ final class HomeViewController: UIViewController {
     private let outerTableView = UITableView(frame: .zero, style: .grouped)
     private let categoryCollectionView = CategoryCollectionView()
     private let recommendCollectionView = RecommendCollectionView()
+    private let loadingIndicator = UIActivityIndicatorView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +21,7 @@ final class HomeViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
         setSearchIcon()
         setOuterTableView()
+        addNotificationObserver()
     }
 
     private func setSearchIcon() {
@@ -55,6 +57,29 @@ final class HomeViewController: UIViewController {
             tableView.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
+
+    private func setLoadingIndicator(cell: UITableViewCell) {
+        if RankManager.shared.didLoadingEnd == false {
+            loadingIndicator.hidesWhenStopped = true
+            loadingIndicator.transform = CGAffineTransform.init(scaleX: 1.5, y: 1.5)
+            cell.addSubview(loadingIndicator)
+            loadingIndicator.snp.makeConstraints { indicator in
+                indicator.center.equalTo(cell.snp.center)
+                indicator.width.height.equalTo(200)
+            }
+            loadingIndicator.startAnimating()
+        }
+    }
+
+    private func addNotificationObserver() {
+        NotificationCenter.default
+            .addObserver(self, selector: #selector(didLoadingEnd(_:)),
+                         name: NSNotification.Name("rankedProductsLoadingEnd"), object: nil)
+    }
+
+    @objc func didLoadingEnd(_ notification: Notification) {
+        loadingIndicator.stopAnimating()
+    }
 }
 
 extension HomeViewController: UITableViewDataSource {
@@ -69,8 +94,11 @@ extension HomeViewController: UITableViewDataSource {
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
 
-        let contentView = indexPath.section == 0 ? categoryCollectionView : recommendCollectionView
-        cell.setContentView(view: contentView)
+        if indexPath.section == 0 {
+            cell.setContentView(view: categoryCollectionView)
+        } else if indexPath.section == 1 {
+            cell.setContentView(view: recommendCollectionView)
+        }
 
         return cell
     }
@@ -109,5 +137,11 @@ extension HomeViewController: UITableViewDelegate {
         }
 
         return headerView
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath == IndexPath(row: 0, section: 1) {
+            setLoadingIndicator(cell: cell)
+        }
     }
 }

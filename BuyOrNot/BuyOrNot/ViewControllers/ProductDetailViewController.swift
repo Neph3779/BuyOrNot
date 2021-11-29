@@ -60,7 +60,7 @@ final class ProductDetailViewController: UIViewController {
                         self.productImageView.kf.setImage(with: imageURL, options: [.loadDiskFileSynchronously])
                     }
                 } catch {
-                    // TODO: 에러처리
+                    self.productImageView.image = UIImage(named: "errorImage")
                 }
             }
     }
@@ -82,7 +82,9 @@ final class ProductDetailViewController: UIViewController {
                     if self.didFetchingDone { self.reviewCollectionView.reloadData() }
                 }
             } catch {
-                // TODO: 에러처리
+                if self.didFetchingDone {
+                    self.presentErrorAlert()
+                }
             }
         }
     }
@@ -103,7 +105,9 @@ final class ProductDetailViewController: UIViewController {
                     if self.didFetchingDone { self.reviewCollectionView.reloadData() }
                 }
             } catch {
-                // TODO: 에러처리
+                if self.didFetchingDone {
+                    self.presentErrorAlert()
+                }
             }
         }
     }
@@ -126,7 +130,9 @@ final class ProductDetailViewController: UIViewController {
                 }
                 self.reviewCollectionView.reloadData()
             } catch {
-                // TODO: 에러처리
+                if self.didFetchingDone {
+                    self.presentErrorAlert()
+                }
             }
         }
     }
@@ -147,12 +153,12 @@ final class ProductDetailViewController: UIViewController {
     private func setReviewContentView() {
         reviewContentView.backgroundColor = ColorSet.backgroundColor
         reviewContentView.alpha = 0.7
-        reviewContentView.layer.cornerRadius = 5
+        reviewContentView.layer.cornerRadius = 15
         reviewContentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         view.addSubview(reviewContentView)
         reviewContentView.snp.makeConstraints { contentView in
             contentView.top.equalTo(productImageView.snp.bottom).inset(80)
-            contentView.leading.trailing.equalTo(view).inset(10)
+            contentView.leading.trailing.equalTo(view)
             contentView.bottom.equalTo(productImageView.snp.bottom)
         }
 
@@ -198,6 +204,14 @@ final class ProductDetailViewController: UIViewController {
             collectionView.bottom.equalTo(view)
         }
     }
+
+    private func presentErrorAlert() {
+        let alert = UIAlertController(title: "Error", message: "에러가 발생했어요 😫", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+            self.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(okAction)
+    }
 }
 
 extension ProductDetailViewController: UICollectionViewDataSource {
@@ -229,6 +243,7 @@ extension ProductDetailViewController: UICollectionViewDataSource {
 extension ProductDetailViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? ReviewCollectionViewCell else { return }
+        // TODO: 링크로 이동
     }
 }
 

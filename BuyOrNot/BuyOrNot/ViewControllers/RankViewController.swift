@@ -9,9 +9,11 @@ import UIKit
 import SnapKit
 
 final class RankViewController: UIViewController {
+    private var category: ProductCategory
+
     private let categoryView = UIImageView()
     private let rankCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    private var category: ProductCategory
+    private let loadingIndicator = UIActivityIndicatorView()
 
     init(category: ProductCategory) {
         self.category = category
@@ -29,6 +31,8 @@ final class RankViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
         setCategoryView()
         setRankColletionView()
+        setLoadingIndicator()
+        addNotificationObserver()
     }
 
     private func setCategoryView() {
@@ -65,6 +69,28 @@ final class RankViewController: UIViewController {
             tableView.leading.trailing.bottom.equalTo(view)
             tableView.top.equalTo(categoryView.snp.bottom)
         }
+    }
+
+    private func setLoadingIndicator() {
+        if RankManager.shared.didLoadingEnd == false && RankManager.shared.rankedProducts[category]?.count == 0{
+            loadingIndicator.transform = CGAffineTransform.init(scaleX: 1.5, y: 1.5)
+            view.addSubview(loadingIndicator)
+            loadingIndicator.snp.makeConstraints { indicator in
+                indicator.center.equalTo(rankCollectionView.snp.center)
+            }
+            loadingIndicator.startAnimating()
+        }
+    }
+
+    private func addNotificationObserver() {
+        NotificationCenter.default
+            .addObserver(self, selector: #selector(didLoadingEnd(_:)),
+                         name: NSNotification.Name("rankedProductsLoadingEnd"), object: nil)
+    }
+
+    @objc func didLoadingEnd(_ notification: Notification) {
+        loadingIndicator.stopAnimating()
+        rankCollectionView.reloadData()
     }
 }
 

@@ -9,6 +9,7 @@ import Foundation
 
 final class RankManager {
     var rankedProducts: [ProductCategory: [Product]] = [:]
+    var didLoadingEnd = false
 
     func refreshRank(completion: @escaping () -> Void) {
         DispatchQueue.global().async {
@@ -17,6 +18,9 @@ final class RankManager {
             }
             DispatchQueue.main.sync {
                 completion()
+                self.didLoadingEnd = true
+                NotificationCenter.default
+                    .post(name: NSNotification.Name("rankedProductsLoadingEnd"), object: nil, userInfo: nil)
             }
         }
     }

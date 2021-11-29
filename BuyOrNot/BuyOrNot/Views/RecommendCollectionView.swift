@@ -15,20 +15,27 @@ final class RecommendCollectionView: UICollectionView {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
         super.init(frame: .zero, collectionViewLayout: flowLayout)
-        RankManager.shared.refreshRank {
-            self.randomCategoryProducts = RankManager.shared.rankedProducts.randomElement()?.value
-            self.reloadData()
-        }
-
         register(RecommendProductCell.self, forCellWithReuseIdentifier: RecommendProductCell.reuseIdentifier)
         dataSource = self
         delegate = self
         backgroundColor = .clear
         showsHorizontalScrollIndicator = false
+        addNotificationObserver()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+
+    private func addNotificationObserver() {
+        NotificationCenter.default
+            .addObserver(self, selector: #selector(didLoadingEnd(_:)),
+                         name: NSNotification.Name("rankedProductsLoadingEnd"), object: nil)
+    }
+
+    @objc func didLoadingEnd(_ notification: Notification) {
+        self.randomCategoryProducts = RankManager.shared.rankedProducts.randomElement()?.value
+        self.reloadData()
     }
 }
 

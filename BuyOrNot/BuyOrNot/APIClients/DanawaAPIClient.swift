@@ -47,7 +47,6 @@ final class DanawaAPIClient {
                                                     name: name, rank: rank, image: thumbnailURL))
             }
         } catch {
-            print(error) // TODO: Error 처리 로직 구현 필수
         }
 
         return rankedProducts
