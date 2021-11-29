@@ -46,7 +46,7 @@ final class ProductDetailViewController: UIViewController {
     }
 
     required init?(coder: NSCoder) {
-        product = Product(category: .phone, brand: "", name: "", rank: nil, image: nil)
+        product = Product(category: "", brand: "", name: "", rank: nil, image: nil)
         super.init(coder: coder)
     }
 

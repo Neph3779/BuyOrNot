@@ -7,13 +7,13 @@
 
 import UIKit
 
-enum ProductCategory: CaseIterable {
-    case phone
-    case keyboard
-    case monitor
-    case spaeker
-    case tablet
-    case smartWatch
+enum ProductCategory: String, CaseIterable {
+    case phone = "phone"
+    case keyboard = "keyboard"
+    case monitor = "monitor"
+    case spaeker = "speaker"
+    case tablet = "tablet"
+    case smartWatch = "smartWatch"
 
     var name: String {
         switch self {

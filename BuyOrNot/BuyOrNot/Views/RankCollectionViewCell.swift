@@ -33,7 +33,13 @@ final class RankCollectionViewCell: UICollectionViewCell {
 
     func setContents(product: Product) {
         self.product = product
-        productImageView.kf.setImage(with: product.image, options: [.loadDiskFileSynchronously])
+        if let url = product.image,
+           let image = URL(string: url) {
+            productImageView.kf.setImage(with: image, options: [.loadDiskFileSynchronously])
+        } else {
+            productImageView.image = UIImage(named: "errorImage")
+        }
+
         titleLabel.text = product.name
         brandLabel.text = product.brand
     }

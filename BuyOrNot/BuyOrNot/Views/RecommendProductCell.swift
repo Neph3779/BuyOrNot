@@ -42,7 +42,12 @@ final class RecommendProductCell: UICollectionViewCell {
 
     func setContents(product: Product) {
         self.product = product
-        productImageView.kf.setImage(with: product.image, options: [.loadDiskFileSynchronously])
+        if let url = product.image,
+           let image = URL(string: url) {
+            productImageView.kf.setImage(with: image, options: [.loadDiskFileSynchronously])
+        } else {
+            productImageView.image = UIImage(named: "errorImage")
+        }
         brandNameLabel.text = product.brand
         titleLabel.text = product.name
     }

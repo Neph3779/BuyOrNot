@@ -38,12 +38,12 @@ final class DanawaAPIClient {
                 if thumbnailURLString == "" {
                     thumbnailURLString = try thumnailElements[indexCount].attr("data-original")
                 }
-                let thumbnailURL = try ("https:" + thumbnailURLString).asURL()
+                let thumbnailURL = ("https:" + thumbnailURLString)
                 let fullNameToList = fullName.split(separator: " ").map { String($0) }
                 let brand = fullNameToList.first!
                 let name = fullNameToList.dropFirst().joined(separator: " ")
                 let rank = indexCount
-                rankedProducts.append(Product(category: category, brand: brand,
+                rankedProducts.append(Product(category: category.rawValue, brand: brand,
                                                     name: name, rank: rank, image: thumbnailURL))
             }
         } catch {
