@@ -9,6 +9,7 @@ import UIKit
 import Alamofire
 import RealmSwift
 
+// TODO: 키보드 올리는 화면 구현
 final class SearchViewController: UIViewController {
     private var records = [SearchRecord]()
     private let backButtonImageView = UIImageView()
