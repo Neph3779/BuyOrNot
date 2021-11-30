@@ -56,7 +56,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func handleAppRefresh(task: BGAppRefreshTask) {
         scheduleAppRefresh()
         task.expirationHandler = {
-            // Data fetching 취소, 알라모파이어 학습 필요
         }
         RankManager.shared.refreshRank {
             task.setTaskCompleted(success: true)

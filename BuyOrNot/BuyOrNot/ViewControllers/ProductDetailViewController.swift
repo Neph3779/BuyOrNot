@@ -62,7 +62,6 @@ final class ProductDetailViewController: UIViewController {
         setReviewContentView()
         setReviewCollectionView()
         setbackButtonImageView()
-        presentErrorAlert(title: "Error", message: "api 한도가 초과됐어요 ㅠㅠ")
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -71,7 +70,7 @@ final class ProductDetailViewController: UIViewController {
 
     private func setNaverShoppingThumnail() {
         NaverSearchAPIClient.shared
-            .fetchNaverShoppingResults(query: product.name) { [weak self]
+            .fetchNaverShoppingResults(query: "\(product.brand) \(product.name)") { [weak self]
                 (response: DataResponse<NaverShoppingResult, AFError>) in
                 guard let self = self else { return }
                 do {
@@ -91,13 +90,14 @@ final class ProductDetailViewController: UIViewController {
 
     private func fetchYoutubeReviews() {
         YoutubeAPIClient.shared
-            .fetchYoutubeVideos(query: product.brand + product.name + "리뷰", count: 20) { [weak self]
+            .fetchYoutubeVideos(query: "\(product.brand) \(product.name) 리뷰", count: 20) { [weak self]
                 (response: DataResponse<YoutubeSearchResult, AFError>) in
                 guard let self = self else { return }
                 do {
                     self.youtubeResults = try JSONDecoder().decode(YoutubeSearchResult.self, from: response.data!)
                 } catch {
-                    self.presentErrorAlert(title: "유튜브 데이터 전송 실패", message: "유튜브 데이터를 받아오는데 실패했어요 😫")
+                    self.presentErrorAlert(title: "유튜브 데이터 전송 실패",
+                                           message: "유튜브 데이터를 받아오는데 실패했어요 😫\n 잠시 뒤에 다시 시도해주세요")
                 }
                 self.didYoutubeFetchingDone = true
                 if self.didFetchingDone {
@@ -109,13 +109,14 @@ final class ProductDetailViewController: UIViewController {
 
     private func fetchNaverBlogReviews() {
         NaverSearchAPIClient.shared
-            .fetchNaverBlogResults(query: product.brand + product.name, count: 20) { [weak self]
+            .fetchNaverBlogResults(query: "\(product.brand) \(product.name) 리뷰", count: 20) { [weak self]
                 (response: DataResponse<NaverBlogResult, AFError>) in
                 guard let self = self else { return }
                 do {
                     self.naverResults = try JSONDecoder().decode(NaverBlogResult.self, from: response.data!)
                 } catch {
-                    self.presentErrorAlert(title: "네이버 블로그 데이터 전송 실패", message: "네이버 블로그 데이터를 받아오는데 실패했어요 😫")
+                    self.presentErrorAlert(title: "네이버 블로그 데이터 전송 실패",
+                                           message: "네이버 블로그 데이터를 받아오는데 실패했어요 😫\n 잠시 뒤에 다시 시도해주세요")
                 }
                 self.didNaverFetchingDone = true
                 if self.didFetchingDone {
@@ -127,13 +128,14 @@ final class ProductDetailViewController: UIViewController {
 
     private func fetchTistoryBlogReviews() {
         KakaoAPIClient.shared
-            .fetchKakaoBlogPosts(query: product.brand + product.name, count: 20) { [weak self]
+            .fetchKakaoBlogPosts(query: "\(product.brand) \(product.name) 리뷰", count: 20) { [weak self]
                 (response: DataResponse<KakaoBlogResult, AFError>) in
                 guard let self = self else { return }
                 do {
                     self.tistoryResults = try JSONDecoder().decode(KakaoBlogResult.self, from: response.data!)
                 } catch {
-                    self.presentErrorAlert(title: "티스토리 블로그 데이터 전송 실패", message: "티스토리 데이터를 받아오는데 실패했어요 😫")
+                    self.presentErrorAlert(title: "티스토리 블로그 데이터 전송 실패",
+                                           message: "티스토리 데이터를 받아오는데 실패했어요 😫\n 잠시 뒤에 다시 시도해주세요")
                 }
                 self.didTistoryFetchingDone = true
                 if self.didFetchingDone {

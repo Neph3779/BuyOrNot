@@ -17,7 +17,7 @@ final class DanawaAPIClient {
         var rankedProducts = [Product]()
         do {
             let html = try String(contentsOf: danawaUrl(category: category), encoding: .utf8)
-            let productLists = try SwiftSoup.parse(html).select(".product_list")
+            let productLists = try SwiftSoup.parse(html).select(".main_prodlist").select(".product_list")
             let productNames = try productLists.select(".prod_name").select("[name=productName]").array()
             let thumbnails = try productLists.select(".thumb_image").select(".thumb_link")
             let earlyThumnails = try thumbnails.select("img[src]").array()
