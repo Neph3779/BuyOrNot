@@ -44,8 +44,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func setFetchInterval() {
         if #available(iOS 13.0, *) {
             BGTaskScheduler.shared
-                .register(forTaskWithIdentifier: "com.Neph.BuyOrNot.RankedProduct.fetch", using: nil) { task in
-                    self.handleAppRefresh(task: task as! BGAppRefreshTask)
+                .register(forTaskWithIdentifier: "com.Neph.BuyOrNot.RankedProduct.fetch", using: nil) { [weak self] task in
+                    self?.handleAppRefresh(task: task as! BGAppRefreshTask)
                 }
         } else {
             UIApplication.shared.setMinimumBackgroundFetchInterval(TimeInterval(86400))

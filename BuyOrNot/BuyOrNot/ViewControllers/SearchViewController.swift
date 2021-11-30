@@ -100,7 +100,8 @@ final class SearchViewController: UIViewController {
 
     private func moveToProductView(with searchText: String) {
         NaverSearchAPIClient.shared
-            .fetchNaverShoppingResults(query: searchText) { (response: DataResponse<NaverShoppingResult, AFError>) in
+            .fetchNaverShoppingResults(query: searchText) { [weak self] (response: DataResponse<NaverShoppingResult, AFError>) in
+                guard let self = self else { return }
                 do {
                     let naverShoppingResult = try JSONDecoder().decode(NaverShoppingResult.self, from: response.data!)
                     if naverShoppingResult.items.isEmpty {

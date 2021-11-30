@@ -70,7 +70,9 @@ final class ProductDetailViewController: UIViewController {
 
     private func setNaverShoppingThumnail() {
         NaverSearchAPIClient.shared
-            .fetchNaverShoppingResults(query: product.name) { (response: DataResponse<NaverShoppingResult, AFError>) in
+            .fetchNaverShoppingResults(query: product.name) { [weak self] (response: DataResponse<NaverShoppingResult,
+                                                                           AFError>) in
+                guard let self = self else { return }
                 do {
                     let naverShoppingResult = try JSONDecoder().decode(NaverShoppingResult.self, from: response.data!)
                     if naverShoppingResult.items.isEmpty {
@@ -88,7 +90,9 @@ final class ProductDetailViewController: UIViewController {
 
     private func fetchYoutubeReviews() {
         YoutubeAPIClient.shared
-            .fetchYoutubeVideos(query: product.name + "리뷰", count: 20) { (response: DataResponse<YoutubeSearchResult, AFError>) in
+            .fetchYoutubeVideos(query: product.name + "리뷰", count: 20) { [weak self] (response: DataResponse<YoutubeSearchResult,
+                                                                                      AFError>) in
+                guard let self = self else { return }
             do {
                 self.youtubeResults = try JSONDecoder().decode(YoutubeSearchResult.self, from: response.data!)
             } catch {
@@ -104,7 +108,9 @@ final class ProductDetailViewController: UIViewController {
 
     private func fetchNaverBlogReviews() {
         NaverSearchAPIClient.shared
-            .fetchNaverBlogResults(query: product.name, count: 20) { (response: DataResponse<NaverBlogResult, AFError>) in
+            .fetchNaverBlogResults(query: product.name, count: 20) { [weak self] (response: DataResponse<NaverBlogResult,
+                                                                                  AFError>) in
+                guard let self = self else { return }
                 do {
                     self.naverResults = try JSONDecoder().decode(NaverBlogResult.self, from: response.data!)
                 } catch {
@@ -120,7 +126,9 @@ final class ProductDetailViewController: UIViewController {
 
     private func fetchTistoryBlogReviews() {
         KakaoAPIClient.shared
-            .fetchKakaoBlogPosts(query: product.name, count: 20) { (response: DataResponse<KakaoBlogResult, AFError>) in
+            .fetchKakaoBlogPosts(query: product.name, count: 20) { [weak self] (response: DataResponse<KakaoBlogResult,
+                                                                                AFError>) in
+                guard let self = self else { return }
                 do {
                     self.tistoryResults = try JSONDecoder().decode(KakaoBlogResult.self, from: response.data!)
                 } catch {
