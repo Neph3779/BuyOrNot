@@ -62,6 +62,7 @@ final class ProductDetailViewController: UIViewController {
         setReviewContentView()
         setReviewCollectionView()
         setbackButtonImageView()
+        presentErrorAlert(title: "Error", message: "api 한도가 초과됐어요 ㅠㅠ")
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -70,8 +71,8 @@ final class ProductDetailViewController: UIViewController {
 
     private func setNaverShoppingThumnail() {
         NaverSearchAPIClient.shared
-            .fetchNaverShoppingResults(query: product.name) { [weak self] (response: DataResponse<NaverShoppingResult,
-                                                                           AFError>) in
+            .fetchNaverShoppingResults(query: product.name) { [weak self]
+                (response: DataResponse<NaverShoppingResult, AFError>) in
                 guard let self = self else { return }
                 do {
                     let naverShoppingResult = try JSONDecoder().decode(NaverShoppingResult.self, from: response.data!)
@@ -90,14 +91,14 @@ final class ProductDetailViewController: UIViewController {
 
     private func fetchYoutubeReviews() {
         YoutubeAPIClient.shared
-            .fetchYoutubeVideos(query: product.name + "리뷰", count: 20) { [weak self] (response: DataResponse<YoutubeSearchResult,
-                                                                                      AFError>) in
+            .fetchYoutubeVideos(query: product.brand + product.name + "리뷰", count: 20) { [weak self]
+                (response: DataResponse<YoutubeSearchResult, AFError>) in
                 guard let self = self else { return }
-            do {
-                self.youtubeResults = try JSONDecoder().decode(YoutubeSearchResult.self, from: response.data!)
-            } catch {
-                self.presentErrorAlert(title: "유튜브 데이터 전송 실패", message: "유튜브 데이터를 받아오는데 실패했어요 😫")
-            }
+                do {
+                    self.youtubeResults = try JSONDecoder().decode(YoutubeSearchResult.self, from: response.data!)
+                } catch {
+                    self.presentErrorAlert(title: "유튜브 데이터 전송 실패", message: "유튜브 데이터를 받아오는데 실패했어요 😫")
+                }
                 self.didYoutubeFetchingDone = true
                 if self.didFetchingDone {
                     self.joinReviews()
@@ -108,8 +109,8 @@ final class ProductDetailViewController: UIViewController {
 
     private func fetchNaverBlogReviews() {
         NaverSearchAPIClient.shared
-            .fetchNaverBlogResults(query: product.name, count: 20) { [weak self] (response: DataResponse<NaverBlogResult,
-                                                                                  AFError>) in
+            .fetchNaverBlogResults(query: product.brand + product.name, count: 20) { [weak self]
+                (response: DataResponse<NaverBlogResult, AFError>) in
                 guard let self = self else { return }
                 do {
                     self.naverResults = try JSONDecoder().decode(NaverBlogResult.self, from: response.data!)
@@ -126,8 +127,8 @@ final class ProductDetailViewController: UIViewController {
 
     private func fetchTistoryBlogReviews() {
         KakaoAPIClient.shared
-            .fetchKakaoBlogPosts(query: product.name, count: 20) { [weak self] (response: DataResponse<KakaoBlogResult,
-                                                                                AFError>) in
+            .fetchKakaoBlogPosts(query: product.brand + product.name, count: 20) { [weak self]
+                (response: DataResponse<KakaoBlogResult, AFError>) in
                 guard let self = self else { return }
                 do {
                     self.tistoryResults = try JSONDecoder().decode(KakaoBlogResult.self, from: response.data!)
@@ -270,16 +271,6 @@ final class ProductDetailViewController: UIViewController {
             imageView.leading.equalTo(view.safeAreaLayoutGuide).inset(10)
             imageView.width.height.equalTo(30)
         }
-    }
-
-    private func presentErrorAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
-            self.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(okAction)
-
-        present(alert, animated: true, completion: nil)
     }
 
     @objc private func popView(_ sender: UITapGestureRecognizer) {

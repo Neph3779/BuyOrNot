@@ -70,7 +70,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             do {
                 try BGTaskScheduler.shared.submit(request)
             } catch {
-                // TODO: Error 처리
             }
         }
     }

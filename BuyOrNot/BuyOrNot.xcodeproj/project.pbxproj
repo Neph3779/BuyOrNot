@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3222C27F2756A9C300921B04 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3222C27E2756A9C300921B04 /* UIViewControllerExtension.swift */; };
 		324F25412754F0E1006EDFA6 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 324F25402754F0E1006EDFA6 /* Realm */; };
 		324F25432754F0E1006EDFA6 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 324F25422754F0E1006EDFA6 /* RealmSwift */; };
 		324F2547275509D9006EDFA6 /* SearchRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324F2546275509D9006EDFA6 /* SearchRecord.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3222C27E2756A9C300921B04 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		324F2546275509D9006EDFA6 /* SearchRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecord.swift; sourceTree = "<group>"; };
 		324F254827552856006EDFA6 /* SearchRecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecordTableViewCell.swift; sourceTree = "<group>"; };
 		32528AA7274529E4006988D6 /* BuyOrNot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuyOrNot.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -207,6 +209,7 @@
 				32B5537E274F56B200CFA954 /* UITableViewExtension.swift */,
 				3284061F27500483008032E7 /* UIApplicationExtension.swift */,
 				32D2895F2753452300B4BE43 /* StringExtension.swift */,
+				3222C27E2756A9C300921B04 /* UIViewControllerExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 				32B55381274F577400CFA954 /* RecommendCollectionView.swift in Sources */,
 				324F254927552856006EDFA6 /* SearchRecordTableViewCell.swift in Sources */,
 				328406222751176A008032E7 /* ProductDetailViewController.swift in Sources */,
+				3222C27F2756A9C300921B04 /* UIViewControllerExtension.swift in Sources */,
 				32657E5C274A82DC0020C4A8 /* NaverShoppingResult.swift in Sources */,
 				328406242751219C008032E7 /* Product.swift in Sources */,
 				32B4564C27529DE500EADAEF /* KakaoSearchAPIClient.swift in Sources */,

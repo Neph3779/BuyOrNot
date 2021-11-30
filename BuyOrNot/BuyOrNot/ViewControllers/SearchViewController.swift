@@ -9,7 +9,6 @@ import UIKit
 import Alamofire
 import RealmSwift
 
-// TODO: 키보드 올리는 화면 구현
 final class SearchViewController: UIViewController {
     private var records = [SearchRecord]()
     private let backButtonImageView = UIImageView()
@@ -80,32 +79,15 @@ final class SearchViewController: UIViewController {
         }
     }
 
-    private func presentErrorAlert() {
-        let alert = UIAlertController(title: "Error", message: "에러가 발생했어요 😫", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
-            self.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
-    }
-
-    private func presentNoItemAlert() {
-        let alert = UIAlertController(title: "Error", message: "상품을 찾을 수 없네요..\n 😫 상품명을 다시 확인해주세요!", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
-            self.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
-    }
-
     private func moveToProductView(with searchText: String) {
         NaverSearchAPIClient.shared
-            .fetchNaverShoppingResults(query: searchText) { [weak self] (response: DataResponse<NaverShoppingResult, AFError>) in
+            .fetchNaverShoppingResults(query: searchText) { [weak self]
+                (response: DataResponse<NaverShoppingResult, AFError>) in
                 guard let self = self else { return }
                 do {
                     let naverShoppingResult = try JSONDecoder().decode(NaverShoppingResult.self, from: response.data!)
                     if naverShoppingResult.items.isEmpty {
-                        self.presentNoItemAlert()
+                        self.presentErrorAlert(title: "상품없음", message: "검색하신 상품을 찾을 수 없어요😫\n상품명을 다시 확인해주세요!")
                     } else {
                         let item = naverShoppingResult.items[0]
                         let product = Product(category: nil, brand: item.brand.htmlEscaped,
@@ -114,7 +96,7 @@ final class SearchViewController: UIViewController {
                             .pushViewController(ProductDetailViewController(product: product), animated: true)
                     }
                 } catch {
-                    self.presentErrorAlert()
+                    self.presentErrorAlert(title: "상품 데이터 변환 실패", message: "상품 데이터를 변환하는데 실패했어요 😫")
                 }
             }
     }
@@ -161,7 +143,6 @@ extension SearchViewController: UITableViewDelegate {
         guard let headerView = tableView
                 .dequeueReusableHeaderFooterView(withIdentifier: "searchRecordTableHeaderView") else { return UIView() }
 
-        // FIXME: 실제 디바이스에서 색상 적용 안되는 문제 있음
         headerView.backgroundColor = ColorSet.backgroundColor
         if #available(iOS 14.0, *) {
             var content = headerView.defaultContentConfiguration()
