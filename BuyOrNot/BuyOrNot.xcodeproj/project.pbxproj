@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3222C27F2756A9C300921B04 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3222C27E2756A9C300921B04 /* UIViewControllerExtension.swift */; };
+		3245B3222757801800DF2F2F /* YoutubeCrawler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245B3212757801800DF2F2F /* YoutubeCrawler.swift */; };
+		3245B3382757C01300DF2F2F /* YoutubeCrawlingResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245B3372757C01300DF2F2F /* YoutubeCrawlingResult.swift */; };
 		324F25412754F0E1006EDFA6 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 324F25402754F0E1006EDFA6 /* Realm */; };
 		324F25432754F0E1006EDFA6 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 324F25422754F0E1006EDFA6 /* RealmSwift */; };
 		324F2547275509D9006EDFA6 /* SearchRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324F2546275509D9006EDFA6 /* SearchRecord.swift */; };
@@ -28,7 +30,7 @@
 		32657E64274AA6EF0020C4A8 /* YoutubeAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E63274AA6EF0020C4A8 /* YoutubeAPIClient.swift */; };
 		32657E66274AAE960020C4A8 /* NaverSearchAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E65274AAE960020C4A8 /* NaverSearchAPIClient.swift */; };
 		32657E69274ABA220020C4A8 /* NaverBlogResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E68274ABA220020C4A8 /* NaverBlogResult.swift */; };
-		32657E6B274ABD560020C4A8 /* DanawaAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6A274ABD560020C4A8 /* DanawaAPIClient.swift */; };
+		32657E6B274ABD560020C4A8 /* DanawaCrawler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6A274ABD560020C4A8 /* DanawaCrawler.swift */; };
 		32657E6D274ACDEB0020C4A8 /* BuyOrNotError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6C274ACDEB0020C4A8 /* BuyOrNotError.swift */; };
 		32657E6F274AD3D30020C4A8 /* ProductCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6E274AD3D30020C4A8 /* ProductCategory.swift */; };
 		32657E77274CB84E0020C4A8 /* RankManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E76274CB84E0020C4A8 /* RankManager.swift */; };
@@ -54,6 +56,8 @@
 
 /* Begin PBXFileReference section */
 		3222C27E2756A9C300921B04 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		3245B3212757801800DF2F2F /* YoutubeCrawler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeCrawler.swift; sourceTree = "<group>"; };
+		3245B3372757C01300DF2F2F /* YoutubeCrawlingResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeCrawlingResult.swift; sourceTree = "<group>"; };
 		324F2546275509D9006EDFA6 /* SearchRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecord.swift; sourceTree = "<group>"; };
 		324F254827552856006EDFA6 /* SearchRecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecordTableViewCell.swift; sourceTree = "<group>"; };
 		32528AA7274529E4006988D6 /* BuyOrNot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuyOrNot.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,7 +74,7 @@
 		32657E63274AA6EF0020C4A8 /* YoutubeAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeAPIClient.swift; sourceTree = "<group>"; };
 		32657E65274AAE960020C4A8 /* NaverSearchAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverSearchAPIClient.swift; sourceTree = "<group>"; };
 		32657E68274ABA220020C4A8 /* NaverBlogResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverBlogResult.swift; sourceTree = "<group>"; };
-		32657E6A274ABD560020C4A8 /* DanawaAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DanawaAPIClient.swift; sourceTree = "<group>"; };
+		32657E6A274ABD560020C4A8 /* DanawaCrawler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DanawaCrawler.swift; sourceTree = "<group>"; };
 		32657E6C274ACDEB0020C4A8 /* BuyOrNotError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyOrNotError.swift; sourceTree = "<group>"; };
 		32657E6E274AD3D30020C4A8 /* ProductCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCategory.swift; sourceTree = "<group>"; };
 		32657E76274CB84E0020C4A8 /* RankManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankManager.swift; sourceTree = "<group>"; };
@@ -173,6 +177,7 @@
 				32657E68274ABA220020C4A8 /* NaverBlogResult.swift */,
 				32657E5D274A83DA0020C4A8 /* YoutubeSearchResult.swift */,
 				32B4564D27529EF300EADAEF /* KakaoBlogResult.swift */,
+				3245B3372757C01300DF2F2F /* YoutubeCrawlingResult.swift */,
 			);
 			path = APIModels;
 			sourceTree = "<group>";
@@ -181,7 +186,8 @@
 			isa = PBXGroup;
 			children = (
 				32657E63274AA6EF0020C4A8 /* YoutubeAPIClient.swift */,
-				32657E6A274ABD560020C4A8 /* DanawaAPIClient.swift */,
+				32657E6A274ABD560020C4A8 /* DanawaCrawler.swift */,
+				3245B3212757801800DF2F2F /* YoutubeCrawler.swift */,
 				32657E65274AAE960020C4A8 /* NaverSearchAPIClient.swift */,
 				32B4564B27529DE500EADAEF /* KakaoSearchAPIClient.swift */,
 			);
@@ -336,6 +342,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3245B3222757801800DF2F2F /* YoutubeCrawler.swift in Sources */,
 				32B5537D274F4FA600CFA954 /* CategoryCollectionView.swift in Sources */,
 				32B5537B274F269A00CFA954 /* RecommendProductCell.swift in Sources */,
 				32D289602753452300B4BE43 /* StringExtension.swift in Sources */,
@@ -355,6 +362,7 @@
 				32657E66274AAE960020C4A8 /* NaverSearchAPIClient.swift in Sources */,
 				32B55381274F577400CFA954 /* RecommendCollectionView.swift in Sources */,
 				324F254927552856006EDFA6 /* SearchRecordTableViewCell.swift in Sources */,
+				3245B3382757C01300DF2F2F /* YoutubeCrawlingResult.swift in Sources */,
 				328406222751176A008032E7 /* ProductDetailViewController.swift in Sources */,
 				3222C27F2756A9C300921B04 /* UIViewControllerExtension.swift in Sources */,
 				32657E5C274A82DC0020C4A8 /* NaverShoppingResult.swift in Sources */,
@@ -368,7 +376,7 @@
 				32B5537F274F56B200CFA954 /* UITableViewExtension.swift in Sources */,
 				32B456502752B88500EADAEF /* ReviewContent.swift in Sources */,
 				32657E69274ABA220020C4A8 /* NaverBlogResult.swift in Sources */,
-				32657E6B274ABD560020C4A8 /* DanawaAPIClient.swift in Sources */,
+				32657E6B274ABD560020C4A8 /* DanawaCrawler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,7 +516,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 267JUTDVY2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BuyOrNot/Info.plist;
@@ -537,7 +545,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 267JUTDVY2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BuyOrNot/Info.plist;
