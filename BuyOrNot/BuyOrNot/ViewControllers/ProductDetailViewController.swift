@@ -12,18 +12,8 @@ import Alamofire
 
 final class ProductDetailViewController: UIViewController {
     private var product: Product
-    private var youtubeResults = [YoutubeVideosResult]()
-    private var naverResults: NaverBlogResult?
-    private var tistoryResults: KakaoBlogResult?
-    private var joinedReview = [ReviewContent]() // TODO: review 가져오는 로직 객체로 분리할 수 있을듯
-
-    private var didYoutubeFetchingDone = false
-    private var didNaverFetchingDone = false
-    private var didTistoryFetchingDone = false
-
-    private var didFetchingDone: Bool {
-        return didYoutubeFetchingDone && didNaverFetchingDone && didTistoryFetchingDone
-    }
+    private var joinedReview = [ReviewContent]()
+    private var reviewFetcher: ReviewFetcher?
     private let productImageView = UIImageView()
     private let reviewContentView = UIView()
     private let productLabelStackView: UIStackView = {
@@ -38,16 +28,15 @@ final class ProductDetailViewController: UIViewController {
     private let reviewCollectionView = UICollectionView(frame: .zero,
                                                         collectionViewLayout: UICollectionViewFlowLayout())
     private let backButtonImageView = UIImageView()
+    private let loadingIndicator = UIActivityIndicatorView()
 
     init(product: Product) {
         self.product = product
         super.init(nibName: nil, bundle: nil)
+        reviewFetcher = ReviewFetcher(product: product, delegate: self)
         productNameLabel.text = product.name
         productBrandLabel.text = product.brand
         setNaverShoppingThumnail()
-        fetchYoutubeVideoIds()
-        fetchNaverBlogReviews()
-        fetchTistoryBlogReviews()
     }
 
     required init?(coder: NSCoder) {
@@ -62,6 +51,8 @@ final class ProductDetailViewController: UIViewController {
         setReviewContentView()
         setReviewCollectionView()
         setbackButtonImageView()
+        setLoadingIndicator()
+        reviewFetcher?.fetchReviews()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -86,128 +77,6 @@ final class ProductDetailViewController: UIViewController {
                     self.productImageView.image = UIImage(named: "errorImage")
                 }
             }
-    }
-
-    private func fetchYoutubeVideoIds() {
-        YoutubeCrawler.shared.fetchYoutubeReviews(query: "\(product.brand) \(product.name) 리뷰",
-                                                  completion: youtubeVideoIdFetchCompletion(contents:))
-
-    }
-
-    private func youtubeVideoIdFetchCompletion(contents: [YoutubeCrawlingResult.VideoContent]?) {
-        var videoIds = [String?]()
-        guard let contents = contents else { return }
-        contents.forEach { videoIds.append($0.videoRenderer?.videoId) }
-        let videoIdsWithoutNil = videoIds.compactMap { $0 }
-
-        for index in 0 ..< videoIdsWithoutNil.count {
-            YoutubeAPIClient.shared.fetchYoutubeVideoById(videoId: videoIdsWithoutNil[index]) { [weak self]
-                (response: DataResponse<YoutubeVideosResult, AFError>) in
-                guard let self = self else { return }
-                do {
-                    let result = try JSONDecoder().decode(YoutubeVideosResult.self, from: response.data!)
-                    self.youtubeResults.append(result)
-                } catch {
-
-                }
-                if index == videoIdsWithoutNil.count - 1 {
-                    self.didYoutubeFetchingDone = true
-                    if self.didFetchingDone {
-                        self.joinReviews()
-                        self.reviewCollectionView.reloadData()
-                    }
-                }
-            }
-        }
-    }
-
-    private func fetchNaverBlogReviews() {
-        NaverSearchAPIClient.shared
-            .fetchNaverBlogResults(query: "\(product.brand) \(product.name) 리뷰", count: 20) { [weak self]
-                (response: DataResponse<NaverBlogResult, AFError>) in
-                guard let self = self else { return }
-                do {
-                    self.naverResults = try JSONDecoder().decode(NaverBlogResult.self, from: response.data!)
-                } catch {
-                    self.presentErrorAlert(title: "네이버 블로그 데이터 전송 실패",
-                                           message: "네이버 블로그 데이터를 받아오는데 실패했어요 😫\n 잠시 뒤에 다시 시도해주세요")
-                }
-                self.didNaverFetchingDone = true
-                if self.didFetchingDone {
-                    self.joinReviews()
-                    self.reviewCollectionView.reloadData()
-                }
-            }
-    }
-
-    private func fetchTistoryBlogReviews() {
-        KakaoAPIClient.shared
-            .fetchKakaoBlogPosts(query: "\(product.brand) \(product.name) 리뷰", count: 20) { [weak self]
-                (response: DataResponse<KakaoBlogResult, AFError>) in
-                guard let self = self else { return }
-                do {
-                    self.tistoryResults = try JSONDecoder().decode(KakaoBlogResult.self, from: response.data!)
-                } catch {
-                    self.presentErrorAlert(title: "티스토리 블로그 데이터 전송 실패",
-                                           message: "티스토리 데이터를 받아오는데 실패했어요 😫\n 잠시 뒤에 다시 시도해주세요")
-                }
-                self.didTistoryFetchingDone = true
-                if self.didFetchingDone {
-                    self.joinReviews()
-                    self.reviewCollectionView.reloadData()
-                }
-            }
-    }
-
-    private func joinReviews() {
-        let youtubeReviews: [ReviewContent]? = youtubeResults.map { result in
-            let item = result.items[0]
-            let thumbnailURL = URL(string: item.snippet.thumbnails.high.url)
-            let link = URL(string: "https://www.youtube.com/watch?v=" + item.id)
-
-            return ReviewContent(siteKind: .youtube, title: item.snippet.title,
-                                 producerName: item.snippet.channelTitle,
-                                 thumbnail: thumbnailURL, link: link, youtubeId: item.id)
-        }
-
-        let tistoryReviews: [ReviewContent]? = tistoryResults?.documents.map { item -> ReviewContent in
-            let siteKind: ReviewSiteKind = item.link.contains("naver") ? .naver : .tistory
-            let thumbnailURL = URL(string: item.thumbnail)
-            let link = URL(string: item.link)
-            return ReviewContent(siteKind: siteKind, title: item.title,
-                                 producerName: item.blogName,
-                                 thumbnail: thumbnailURL, link: link, youtubeId: nil)
-        }
-
-        let naverReviews: [ReviewContent]? = naverResults?.items.map { item -> ReviewContent? in
-            let link = URL(string: item.link)
-            if let tistoryReviews = tistoryReviews {
-                if tistoryReviews.filter({ $0.producerName == item.bloggerName }).isEmpty {
-                    return ReviewContent(siteKind: .naver, title: item.title,
-                                         producerName: item.bloggerName,
-                                         thumbnail: nil, link: link, youtubeId: nil)
-                }
-            }
-            return nil
-        }.compactMap { $0 }
-
-        var count = 0
-
-        while count < youtubeReviews?.count ?? 0 || count < naverReviews?.count ?? 0 || count < tistoryReviews?.count ?? 0 {
-            if count < youtubeReviews?.count ?? 0 {
-                joinedReview.append(youtubeReviews![count])
-            }
-
-            if count < tistoryReviews?.count ?? 0 {
-                joinedReview.append(tistoryReviews![count])
-            }
-
-            if count < naverReviews?.count ?? 0 {
-                joinedReview.append(naverReviews![count])
-            }
-
-            count += 1
-        }
     }
 
     private func setProductImageView() {
@@ -297,6 +166,15 @@ final class ProductDetailViewController: UIViewController {
         }
     }
 
+    private func setLoadingIndicator() {
+        loadingIndicator.transform = CGAffineTransform.init(scaleX: 1.5, y: 1.5)
+        reviewCollectionView.addSubview(loadingIndicator)
+        loadingIndicator.snp.makeConstraints { indicator in
+            indicator.center.equalTo(reviewCollectionView.snp.center)
+        }
+        loadingIndicator.startAnimating()
+    }
+
     @objc private func popView(_ sender: UITapGestureRecognizer) {
         navigationController?.popViewController(animated: true)
     }
@@ -311,7 +189,7 @@ extension ProductDetailViewController: UICollectionViewDataSource {
         guard let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: ReviewCollectionViewCell.reuseIdentifier,
                                      for: indexPath) as? ReviewCollectionViewCell else { return UICollectionViewCell() }
-        if !didFetchingDone { return cell }
+        if joinedReview.isEmpty { return cell }
 
         cell.setContents(content: joinedReview[indexPath.row])
         return cell
@@ -344,5 +222,16 @@ extension ProductDetailViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
+    }
+}
+
+extension ProductDetailViewController: ReviewFetcherDelegate {
+    func setJoinedReview(reviewContents: [ReviewContent]) {
+        self.joinedReview = reviewContents
+    }
+
+    func reloadData() {
+        reviewCollectionView.reloadData()
+        loadingIndicator.stopAnimating()
     }
 }

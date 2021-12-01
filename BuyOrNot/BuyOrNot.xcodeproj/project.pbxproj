@@ -11,6 +11,7 @@
 		3245B3222757801800DF2F2F /* YoutubeCrawler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245B3212757801800DF2F2F /* YoutubeCrawler.swift */; };
 		3245B3382757C01300DF2F2F /* YoutubeCrawlingResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245B3372757C01300DF2F2F /* YoutubeCrawlingResult.swift */; };
 		3245B33C2757F73700DF2F2F /* YoutubeVideosResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245B33B2757F73700DF2F2F /* YoutubeVideosResult.swift */; };
+		3245B33E27580AD200DF2F2F /* ReviewFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245B33D27580AD200DF2F2F /* ReviewFetcher.swift */; };
 		324F25412754F0E1006EDFA6 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 324F25402754F0E1006EDFA6 /* Realm */; };
 		324F25432754F0E1006EDFA6 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 324F25422754F0E1006EDFA6 /* RealmSwift */; };
 		324F2547275509D9006EDFA6 /* SearchRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324F2546275509D9006EDFA6 /* SearchRecord.swift */; };
@@ -60,6 +61,7 @@
 		3245B3212757801800DF2F2F /* YoutubeCrawler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeCrawler.swift; sourceTree = "<group>"; };
 		3245B3372757C01300DF2F2F /* YoutubeCrawlingResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeCrawlingResult.swift; sourceTree = "<group>"; };
 		3245B33B2757F73700DF2F2F /* YoutubeVideosResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeVideosResult.swift; sourceTree = "<group>"; };
+		3245B33D27580AD200DF2F2F /* ReviewFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewFetcher.swift; sourceTree = "<group>"; };
 		324F2546275509D9006EDFA6 /* SearchRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecord.swift; sourceTree = "<group>"; };
 		324F254827552856006EDFA6 /* SearchRecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecordTableViewCell.swift; sourceTree = "<group>"; };
 		32528AA7274529E4006988D6 /* BuyOrNot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuyOrNot.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -138,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				32657E76274CB84E0020C4A8 /* RankManager.swift */,
+				3245B33D27580AD200DF2F2F /* ReviewFetcher.swift */,
 				32B55382274F6F4B00CFA954 /* Model */,
 				32B55383274F6F5700CFA954 /* Extensions */,
 				32657E45274A68160020C4A8 /* EntryPoint */,
@@ -380,6 +383,7 @@
 				32B5537F274F56B200CFA954 /* UITableViewExtension.swift in Sources */,
 				32B456502752B88500EADAEF /* ReviewContent.swift in Sources */,
 				32657E69274ABA220020C4A8 /* NaverBlogResult.swift in Sources */,
+				3245B33E27580AD200DF2F2F /* ReviewFetcher.swift in Sources */,
 				32657E6B274ABD560020C4A8 /* DanawaCrawler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
