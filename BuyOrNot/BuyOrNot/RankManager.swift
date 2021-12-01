@@ -15,7 +15,7 @@ final class RankManager {
         deleteAll()
         DispatchQueue.global().async {
             ProductCategory.allCases.forEach {
-                DanawaAPIClient.shared.fetchRankData(category: $0).forEach { product in
+                DanawaCrawler.shared.fetchRankData(category: $0).forEach { product in
                     try! Realm().write { try! Realm().add(product) }
                 }
             }

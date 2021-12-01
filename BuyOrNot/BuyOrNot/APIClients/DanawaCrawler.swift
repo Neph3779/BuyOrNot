@@ -9,9 +9,9 @@ import Foundation
 import SwiftSoup
 import Alamofire
 
-final class DanawaAPIClient {
+final class DanawaCrawler {
     private init() {}
-    static let shared = DanawaAPIClient()
+    static let shared = DanawaCrawler()
 
     func fetchRankData(category: ProductCategory) -> [Product] {
         var rankedProducts = [Product]()
@@ -53,7 +53,7 @@ final class DanawaAPIClient {
     }
 }
 
-extension DanawaAPIClient {
+extension DanawaCrawler {
     private var stringToRemove: [String] { return [", 공기계", "NEW", "(정품)"] }
     private func danawaUrl(category: ProductCategory) -> URL {
         switch category {
