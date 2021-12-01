@@ -9,36 +9,36 @@ import Foundation
 
 struct YoutubeCrawlingResult: Decodable {
     let contents: YoutubeCrawlingContent?
-}
 
-struct YoutubeCrawlingContent: Decodable {
-    let twoColumnSearchResultsRenderer: TwoColumnSearchResultsRenderer?
-}
+    struct YoutubeCrawlingContent: Decodable {
+        let twoColumnSearchResultsRenderer: TwoColumnSearchResultsRenderer?
+    }
 
-struct TwoColumnSearchResultsRenderer: Decodable {
-    let primaryContents: PrimaryContent?
-}
+    struct TwoColumnSearchResultsRenderer: Decodable {
+        let primaryContents: PrimaryContent?
+    }
 
-struct PrimaryContent: Decodable {
-    let sectionListRenderer: SectionListRenderer?
-}
+    struct PrimaryContent: Decodable {
+        let sectionListRenderer: SectionListRenderer?
+    }
 
-struct SectionListRenderer: Decodable {
-    let contents: [SectionListRendererContent]?
-}
+    struct SectionListRenderer: Decodable {
+        let contents: [SectionListRendererContent]?
+    }
 
-struct SectionListRendererContent: Decodable {
-    let itemSectionRenderer: ItemSectionRenderer?
-}
+    struct SectionListRendererContent: Decodable {
+        let itemSectionRenderer: ItemSectionRenderer?
+    }
 
-struct ItemSectionRenderer: Decodable {
-    let contents: [VideoContent]?
-}
+    struct ItemSectionRenderer: Decodable {
+        let contents: [VideoContent]?
+    }
 
-struct VideoContent: Decodable {
-    let videoRenderer: VideoRenderer?
-}
+    struct VideoContent: Decodable {
+        let videoRenderer: VideoRenderer?
+    }
 
-struct VideoRenderer: Decodable {
-    let videoId: String?
+    struct VideoRenderer: Decodable {
+        let videoId: String?
+    }
 }

@@ -10,6 +10,7 @@
 		3222C27F2756A9C300921B04 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3222C27E2756A9C300921B04 /* UIViewControllerExtension.swift */; };
 		3245B3222757801800DF2F2F /* YoutubeCrawler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245B3212757801800DF2F2F /* YoutubeCrawler.swift */; };
 		3245B3382757C01300DF2F2F /* YoutubeCrawlingResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245B3372757C01300DF2F2F /* YoutubeCrawlingResult.swift */; };
+		3245B33C2757F73700DF2F2F /* YoutubeVideosResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245B33B2757F73700DF2F2F /* YoutubeVideosResult.swift */; };
 		324F25412754F0E1006EDFA6 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 324F25402754F0E1006EDFA6 /* Realm */; };
 		324F25432754F0E1006EDFA6 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 324F25422754F0E1006EDFA6 /* RealmSwift */; };
 		324F2547275509D9006EDFA6 /* SearchRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324F2546275509D9006EDFA6 /* SearchRecord.swift */; };
@@ -58,6 +59,7 @@
 		3222C27E2756A9C300921B04 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		3245B3212757801800DF2F2F /* YoutubeCrawler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeCrawler.swift; sourceTree = "<group>"; };
 		3245B3372757C01300DF2F2F /* YoutubeCrawlingResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeCrawlingResult.swift; sourceTree = "<group>"; };
+		3245B33B2757F73700DF2F2F /* YoutubeVideosResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeVideosResult.swift; sourceTree = "<group>"; };
 		324F2546275509D9006EDFA6 /* SearchRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecord.swift; sourceTree = "<group>"; };
 		324F254827552856006EDFA6 /* SearchRecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecordTableViewCell.swift; sourceTree = "<group>"; };
 		32528AA7274529E4006988D6 /* BuyOrNot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuyOrNot.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,6 +178,7 @@
 				32657E5B274A82DC0020C4A8 /* NaverShoppingResult.swift */,
 				32657E68274ABA220020C4A8 /* NaverBlogResult.swift */,
 				32657E5D274A83DA0020C4A8 /* YoutubeSearchResult.swift */,
+				3245B33B2757F73700DF2F2F /* YoutubeVideosResult.swift */,
 				32B4564D27529EF300EADAEF /* KakaoBlogResult.swift */,
 				3245B3372757C01300DF2F2F /* YoutubeCrawlingResult.swift */,
 			);
@@ -372,6 +375,7 @@
 				32B4564A2752929700EADAEF /* ReviewSiteKind.swift in Sources */,
 				32B55385274F87E500CFA954 /* ViewSize.swift in Sources */,
 				32B4564E27529EF300EADAEF /* KakaoBlogResult.swift in Sources */,
+				3245B33C2757F73700DF2F2F /* YoutubeVideosResult.swift in Sources */,
 				32657E55274A6A170020C4A8 /* HomeViewController.swift in Sources */,
 				32B5537F274F56B200CFA954 /* UITableViewExtension.swift in Sources */,
 				32B456502752B88500EADAEF /* ReviewContent.swift in Sources */,

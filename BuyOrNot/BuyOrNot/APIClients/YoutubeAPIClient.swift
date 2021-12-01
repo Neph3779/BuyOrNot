@@ -9,7 +9,8 @@ import Foundation
 import Alamofire
 
 final class YoutubeAPIClient {
-    private var url = URL(string: "https://www.googleapis.com/youtube/v3/search")!
+    private var searchURL = URL(string: "https://www.googleapis.com/youtube/v3/search")!
+    private var videosURL = URL(string: "https://www.googleapis.com/youtube/v3/videos")!
 
     private var apiKey: String {
         guard let filePath = Bundle.main.path(forResource: "APIKeyList", ofType: "plist"),
@@ -31,7 +32,19 @@ final class YoutubeAPIClient {
         parameters.updateValue(query, forKey: "q")
         parameters.updateValue(String(count), forKey: "maxResults")
 
-        AF.request(url, method: .get, parameters: parameters)
+        AF.request(searchURL, method: .get, parameters: parameters)
+            .responseDecodable(completionHandler: completion)
+    }
+
+    func fetchYoutubeVideoById(videoId: String, completion: @escaping (DataResponse<YoutubeVideosResult, AFError>) -> Void) {
+        var parameters: [String: String] = [:]
+
+        parameters.updateValue(apiKey, forKey: "key")
+        parameters.updateValue("snippet", forKey: "part")
+        parameters.updateValue(videoId, forKey: "id")
+        parameters.updateValue("1", forKey: "maxResults")
+
+        AF.request(videosURL, method: .get, parameters: parameters)
             .responseDecodable(completionHandler: completion)
     }
 }

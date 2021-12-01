@@ -8,33 +8,33 @@
 import Foundation
 
 struct YoutubeSearchResult: Decodable {
-    let items: [YoutubeVideoItem]
-}
+    let items: [YoutubeSearchResult.VideoItem]
 
-struct YoutubeVideoItem: Decodable {
-    let id: YoutubeId
-    let snippet: Snippet
-}
+    struct VideoItem: Decodable {
+        let id: Id
+        let snippet: YoutubeSearchResult.Snippet
+    }
 
-struct YoutubeId: Decodable {
-    let videoId: String
-}
+    struct Id: Decodable {
+        let videoId: String
+    }
 
-struct Snippet: Decodable {
-    let title: String
-    let description: String
-    let channelTitle: String
-    let thumbnails: YoutubeThumbnails
-}
+    struct Snippet: Decodable {
+        let title: String
+        let description: String
+        let channelTitle: String
+        let thumbnails: YoutubeSearchResult.Thumbnails
+    }
 
-struct YoutubeThumbnails: Decodable {
-    let `default`: YoutubeThumnail
-    let medium: YoutubeThumnail
-    let high: YoutubeThumnail
-}
+    struct Thumbnails: Decodable {
+        let `default`: YoutubeSearchResult.Thumbnail
+        let medium: YoutubeSearchResult.Thumbnail
+        let high: YoutubeSearchResult.Thumbnail
+    }
 
-struct YoutubeThumnail: Decodable {
-    let url: String
-    let width: Int
-    let height: Int
+    struct Thumbnail: Decodable {
+        let url: String
+        let width: Int
+        let height: Int
+    }
 }

@@ -12,10 +12,10 @@ import Alamofire
 
 final class ProductDetailViewController: UIViewController {
     private var product: Product
-    private var youtubeResults: YoutubeSearchResult?
+    private var youtubeResults = [YoutubeVideosResult]()
     private var naverResults: NaverBlogResult?
     private var tistoryResults: KakaoBlogResult?
-    private var joinedReview = [ReviewContent]()
+    private var joinedReview = [ReviewContent]() // TODO: review 가져오는 로직 객체로 분리할 수 있을듯
 
     private var didYoutubeFetchingDone = false
     private var didNaverFetchingDone = false
@@ -45,7 +45,7 @@ final class ProductDetailViewController: UIViewController {
         productNameLabel.text = product.name
         productBrandLabel.text = product.brand
         setNaverShoppingThumnail()
-        fetchYoutubeReviews()
+        fetchYoutubeVideoIds()
         fetchNaverBlogReviews()
         fetchTistoryBlogReviews()
     }
@@ -88,23 +88,37 @@ final class ProductDetailViewController: UIViewController {
             }
     }
 
-    private func fetchYoutubeReviews() {
-        YoutubeAPIClient.shared
-            .fetchYoutubeVideos(query: "\(product.brand) \(product.name) 리뷰", count: 20) { [weak self]
-                (response: DataResponse<YoutubeSearchResult, AFError>) in
+    private func fetchYoutubeVideoIds() {
+        YoutubeCrawler.shared.fetchYoutubeReviews(query: "\(product.brand) \(product.name) 리뷰",
+                                                  completion: youtubeVideoIdFetchCompletion(contents:))
+
+    }
+
+    private func youtubeVideoIdFetchCompletion(contents: [YoutubeCrawlingResult.VideoContent]?) {
+        var videoIds = [String?]()
+        guard let contents = contents else { return }
+        contents.forEach { videoIds.append($0.videoRenderer?.videoId) }
+        let videoIdsWithoutNil = videoIds.compactMap { $0 }
+
+        for index in 0 ..< videoIdsWithoutNil.count {
+            YoutubeAPIClient.shared.fetchYoutubeVideoById(videoId: videoIdsWithoutNil[index]) { [weak self]
+                (response: DataResponse<YoutubeVideosResult, AFError>) in
                 guard let self = self else { return }
                 do {
-                    self.youtubeResults = try JSONDecoder().decode(YoutubeSearchResult.self, from: response.data!)
+                    let result = try JSONDecoder().decode(YoutubeVideosResult.self, from: response.data!)
+                    self.youtubeResults.append(result)
                 } catch {
-                    self.presentErrorAlert(title: "유튜브 데이터 전송 실패",
-                                           message: "유튜브 데이터를 받아오는데 실패했어요 😫\n 잠시 뒤에 다시 시도해주세요")
+
                 }
-                self.didYoutubeFetchingDone = true
-                if self.didFetchingDone {
-                    self.joinReviews()
-                    self.reviewCollectionView.reloadData()
+                if index == videoIdsWithoutNil.count - 1 {
+                    self.didYoutubeFetchingDone = true
+                    if self.didFetchingDone {
+                        self.joinReviews()
+                        self.reviewCollectionView.reloadData()
+                    }
                 }
             }
+        }
     }
 
     private func fetchNaverBlogReviews() {
@@ -146,29 +160,36 @@ final class ProductDetailViewController: UIViewController {
     }
 
     private func joinReviews() {
-        let youtubeReviews: [ReviewContent]? = youtubeResults?.items.map { item -> ReviewContent in
+        let youtubeReviews: [ReviewContent]? = youtubeResults.map { result in
+            let item = result.items[0]
             let thumbnailURL = URL(string: item.snippet.thumbnails.high.url)
-            let link = URL(string: "https://www.youtube.com/watch?v=" + item.id.videoId)
+            let link = URL(string: "https://www.youtube.com/watch?v=" + item.id)
 
             return ReviewContent(siteKind: .youtube, title: item.snippet.title,
                                  producerName: item.snippet.channelTitle,
-                                 thumbnail: thumbnailURL, link: link, youtubeId: item.id.videoId)
-        }
-
-        let naverReviews: [ReviewContent]? = naverResults?.items.map { item -> ReviewContent in
-            let link = URL(string: item.link)
-            return ReviewContent(siteKind: .naver, title: item.title,
-                                 producerName: item.bloggerName,
-                                 thumbnail: nil, link: link, youtubeId: nil)
+                                 thumbnail: thumbnailURL, link: link, youtubeId: item.id)
         }
 
         let tistoryReviews: [ReviewContent]? = tistoryResults?.documents.map { item -> ReviewContent in
+            let siteKind: ReviewSiteKind = item.link.contains("naver") ? .naver : .tistory
             let thumbnailURL = URL(string: item.thumbnail)
             let link = URL(string: item.link)
-            return ReviewContent(siteKind: .tistory, title: item.title,
+            return ReviewContent(siteKind: siteKind, title: item.title,
                                  producerName: item.blogName,
                                  thumbnail: thumbnailURL, link: link, youtubeId: nil)
         }
+
+        let naverReviews: [ReviewContent]? = naverResults?.items.map { item -> ReviewContent? in
+            let link = URL(string: item.link)
+            if let tistoryReviews = tistoryReviews {
+                if tistoryReviews.filter({ $0.producerName == item.bloggerName }).isEmpty {
+                    return ReviewContent(siteKind: .naver, title: item.title,
+                                         producerName: item.bloggerName,
+                                         thumbnail: nil, link: link, youtubeId: nil)
+                }
+            }
+            return nil
+        }.compactMap { $0 }
 
         var count = 0
 
@@ -177,13 +198,14 @@ final class ProductDetailViewController: UIViewController {
                 joinedReview.append(youtubeReviews![count])
             }
 
+            if count < tistoryReviews?.count ?? 0 {
+                joinedReview.append(tistoryReviews![count])
+            }
+
             if count < naverReviews?.count ?? 0 {
                 joinedReview.append(naverReviews![count])
             }
 
-            if count < tistoryReviews?.count ?? 0 {
-                joinedReview.append(tistoryReviews![count])
-            }
             count += 1
         }
     }
