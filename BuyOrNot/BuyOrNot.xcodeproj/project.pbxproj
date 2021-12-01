@@ -119,6 +119,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3245B33F2758145400DF2F2F /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				32657E76274CB84E0020C4A8 /* RankManager.swift */,
+				3245B33D27580AD200DF2F2F /* ReviewFetcher.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		32528A9E274529E4006988D6 = {
 			isa = PBXGroup;
 			children = (
@@ -139,8 +148,7 @@
 		32528AA9274529E4006988D6 /* BuyOrNot */ = {
 			isa = PBXGroup;
 			children = (
-				32657E76274CB84E0020C4A8 /* RankManager.swift */,
-				3245B33D27580AD200DF2F2F /* ReviewFetcher.swift */,
+				3245B33F2758145400DF2F2F /* Controller */,
 				32B55382274F6F4B00CFA954 /* Model */,
 				32B55383274F6F5700CFA954 /* Extensions */,
 				32657E45274A68160020C4A8 /* EntryPoint */,
