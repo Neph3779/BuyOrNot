@@ -142,8 +142,9 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerView = tableView
                 .dequeueReusableHeaderFooterView(withIdentifier: "searchRecordTableHeaderView") else { return UIView() }
+        headerView.backgroundView = UIView(frame: headerView.bounds)
+        headerView.backgroundView?.backgroundColor = ColorSet.backgroundColor
 
-        headerView.backgroundColor = ColorSet.backgroundColor
         if #available(iOS 14.0, *) {
             var content = headerView.defaultContentConfiguration()
             content.text = "최근 검색어"
