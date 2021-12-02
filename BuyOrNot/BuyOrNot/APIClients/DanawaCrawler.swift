@@ -81,11 +81,3 @@ extension DanawaCrawler {
         static let smartWatch = "http://prod.danawa.com/list/?cate=18211863&logger_kw=ca_list_more"
     }
 }
-
-/*
- 크롤링 결과 formatting하는 로직 필요
- Rank Manager 제작해서 랭킹 알고리즘 구현 (Realm도 add해야할듯)
- 특정시간에 Rank 업데이트 되도록 하는 로직 구현
- 연령대별 쇼핑 트렌드 검색어 받아오는 API 구현
- 링크로 이동하는 방법 학습
- */

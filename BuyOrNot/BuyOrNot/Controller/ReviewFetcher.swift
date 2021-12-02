@@ -64,10 +64,7 @@ final class ReviewFetcher {
                 }
                 if index == videoIdsWithoutNil.count - 1 {
                     self.didYoutubeFetchingDone = true
-                    if self.didFetchingDone {
-                        self.joinReviews()
-                        self.reviewFetcherDelegate?.reloadData()
-                    }
+                    self.checkAllFetchDone()
                 }
             }
         }
@@ -79,15 +76,16 @@ final class ReviewFetcher {
                 (response: DataResponse<NaverBlogResult, AFError>) in
                 guard let self = self else { return }
                 do {
-                    self.naverResults = try JSONDecoder().decode(NaverBlogResult.self, from: response.data!)
+                    guard let data = response.data else {
+                        self.didNaverFetchingDone = true
+                        return
+                    }
+                    self.naverResults = try JSONDecoder().decode(NaverBlogResult.self, from: data)
                 } catch {
 
                 }
                 self.didNaverFetchingDone = true
-                if self.didFetchingDone {
-                    self.joinReviews()
-                    self.reviewFetcherDelegate?.reloadData()
-                }
+                self.checkAllFetchDone()
             }
     }
 
@@ -95,19 +93,18 @@ final class ReviewFetcher {
         KakaoAPIClient.shared
             .fetchKakaoBlogPosts(query: "\(product.brand) \(product.name) 리뷰", count: 20) { [weak self]
                 (response: DataResponse<KakaoBlogResult, AFError>) in
-                guard let self = self else {
-                    return
-                }
+                guard let self = self else { return }
                 do {
-                    self.tistoryResults = try JSONDecoder().decode(KakaoBlogResult.self, from: response.data!)
+                    guard let data = response.data else {
+                        self.didTistoryFetchingDone = true
+                        return
+                    }
+                    self.tistoryResults = try JSONDecoder().decode(KakaoBlogResult.self, from: data)
                 } catch {
 
                 }
                 self.didTistoryFetchingDone = true
-                if self.didFetchingDone {
-                    self.joinReviews()
-                    self.reviewFetcherDelegate?.reloadData()
-                }
+                self.checkAllFetchDone()
             }
     }
 
@@ -146,21 +143,31 @@ final class ReviewFetcher {
         var count = 0
 
         while count < youtubeReviews?.count ?? 0 || count < naverReviews?.count ?? 0 || count < tistoryReviews?.count ?? 0 {
-            if count < youtubeReviews?.count ?? 0 {
-                joinedReview.append(youtubeReviews![count])
+            if let youtubeReviews = youtubeReviews,
+               count < youtubeReviews.count {
+                joinedReview.append(youtubeReviews[count])
             }
 
-            if count < tistoryReviews?.count ?? 0 {
-                joinedReview.append(tistoryReviews![count])
+            if let tistoryReviews = tistoryReviews,
+               count < tistoryReviews.count {
+                joinedReview.append(tistoryReviews[count])
             }
 
-            if count < naverReviews?.count ?? 0 {
-                joinedReview.append(naverReviews![count])
+            if let naverReviews = naverReviews,
+               count < naverReviews.count {
+                joinedReview.append(naverReviews[count])
             }
 
             count += 1
         }
 
         reviewFetcherDelegate?.setJoinedReview(reviewContents: joinedReview)
+    }
+
+    private func checkAllFetchDone() {
+        if self.didFetchingDone {
+            self.joinReviews()
+            self.reviewFetcherDelegate?.reloadData()
+        }
     }
 }

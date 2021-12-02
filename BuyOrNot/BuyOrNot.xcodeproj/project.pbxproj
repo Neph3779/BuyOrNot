@@ -33,7 +33,6 @@
 		32657E66274AAE960020C4A8 /* NaverSearchAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E65274AAE960020C4A8 /* NaverSearchAPIClient.swift */; };
 		32657E69274ABA220020C4A8 /* NaverBlogResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E68274ABA220020C4A8 /* NaverBlogResult.swift */; };
 		32657E6B274ABD560020C4A8 /* DanawaCrawler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6A274ABD560020C4A8 /* DanawaCrawler.swift */; };
-		32657E6D274ACDEB0020C4A8 /* BuyOrNotError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6C274ACDEB0020C4A8 /* BuyOrNotError.swift */; };
 		32657E6F274AD3D30020C4A8 /* ProductCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6E274AD3D30020C4A8 /* ProductCategory.swift */; };
 		32657E77274CB84E0020C4A8 /* RankManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E76274CB84E0020C4A8 /* RankManager.swift */; };
 		3284061C274FFD97008032E7 /* RankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284061B274FFD97008032E7 /* RankViewController.swift */; };
@@ -79,7 +78,6 @@
 		32657E65274AAE960020C4A8 /* NaverSearchAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverSearchAPIClient.swift; sourceTree = "<group>"; };
 		32657E68274ABA220020C4A8 /* NaverBlogResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverBlogResult.swift; sourceTree = "<group>"; };
 		32657E6A274ABD560020C4A8 /* DanawaCrawler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DanawaCrawler.swift; sourceTree = "<group>"; };
-		32657E6C274ACDEB0020C4A8 /* BuyOrNotError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyOrNotError.swift; sourceTree = "<group>"; };
 		32657E6E274AD3D30020C4A8 /* ProductCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCategory.swift; sourceTree = "<group>"; };
 		32657E76274CB84E0020C4A8 /* RankManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankManager.swift; sourceTree = "<group>"; };
 		3284061B274FFD97008032E7 /* RankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankViewController.swift; sourceTree = "<group>"; };
@@ -213,7 +211,6 @@
 			children = (
 				32657E6E274AD3D30020C4A8 /* ProductCategory.swift */,
 				328406232751219C008032E7 /* Product.swift */,
-				32657E6C274ACDEB0020C4A8 /* BuyOrNotError.swift */,
 				32B55378274E928800CFA954 /* ColorSet.swift */,
 				32B55384274F87E500CFA954 /* ViewSize.swift */,
 				32B456492752929700EADAEF /* ReviewSiteKind.swift */,
@@ -363,7 +360,6 @@
 				324F2547275509D9006EDFA6 /* SearchRecord.swift in Sources */,
 				3284062027500483008032E7 /* UIApplicationExtension.swift in Sources */,
 				3284061C274FFD97008032E7 /* RankViewController.swift in Sources */,
-				32657E6D274ACDEB0020C4A8 /* BuyOrNotError.swift in Sources */,
 				32657E77274CB84E0020C4A8 /* RankManager.swift in Sources */,
 				3284061E274FFEF3008032E7 /* RankCollectionViewCell.swift in Sources */,
 				32CEBEEA274D72CB00D62074 /* CategoryCell.swift in Sources */,

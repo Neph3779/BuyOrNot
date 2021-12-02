@@ -59,18 +59,29 @@ final class ProductDetailViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        Alamofire.Session.default.session.getTasksWithCompletionHandler({ dataTasks, _, downloadTasks in
+            dataTasks.forEach { $0.cancel() }
+            downloadTasks.forEach { $0.cancel() }
+        })
+    }
+
     private func setNaverShoppingThumnail() {
         NaverSearchAPIClient.shared
             .fetchNaverShoppingResults(query: "\(product.brand) \(product.name)") { [weak self]
                 (response: DataResponse<NaverShoppingResult, AFError>) in
                 guard let self = self else { return }
                 do {
-                    let naverShoppingResult = try JSONDecoder().decode(NaverShoppingResult.self, from: response.data!)
+                    guard let data = response.data else {
+                        self.productImageView.image = UIImage(named: "errorImage")
+                        return
+                    }
+                    let naverShoppingResult = try JSONDecoder().decode(NaverShoppingResult.self, from: data)
                     if naverShoppingResult.items.isEmpty {
                         self.productImageView.image = UIImage(named: "errorImage")
                     } else {
                         let shoppingItem = naverShoppingResult
-                        let imageURL = try shoppingItem.items[0].image.asURL()
+                        let imageURL = try shoppingItem.items.first?.image.asURL()
                         self.productImageView.kf.setImage(with: imageURL, options: [.loadDiskFileSynchronously])
                     }
                 } catch {
@@ -130,6 +141,7 @@ final class ProductDetailViewController: UIViewController {
         productNameLabel.text = product.name
         productNameLabel.textColor = .black
         productNameLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        productNameLabel.numberOfLines = 2
         reviewContentView.addSubview(productNameLabel)
 
         productLabelStackView.addArrangedSubview(productNameLabel)

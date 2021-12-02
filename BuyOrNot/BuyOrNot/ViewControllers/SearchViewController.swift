@@ -85,15 +85,19 @@ final class SearchViewController: UIViewController {
                 (response: DataResponse<NaverShoppingResult, AFError>) in
                 guard let self = self else { return }
                 do {
-                    let naverShoppingResult = try JSONDecoder().decode(NaverShoppingResult.self, from: response.data!)
-                    if naverShoppingResult.items.isEmpty {
-                        self.presentErrorAlert(title: "상품없음", message: "검색하신 상품을 찾을 수 없어요😫\n상품명을 다시 확인해주세요!")
-                    } else {
-                        let item = naverShoppingResult.items[0]
-                        let product = Product(category: nil, brand: item.brand.htmlEscaped,
-                                              name: item.name.htmlEscaped, rank: nil, image: nil)
+                    guard let data = response.data else {
+                        self.presentErrorAlert(title: "검색 실패", message: "검색에 실패했어요😫\n통신 상태를 확인해주세요")
+                        return
+                    }
+                    let naverShoppingResult = try JSONDecoder().decode(NaverShoppingResult.self, from: data)
+
+                    if let firstItem = naverShoppingResult.items.first {
+                        let product = Product(category: nil, brand: firstItem.brand.htmlEscaped,
+                                              name: firstItem.name.htmlEscaped, rank: nil, image: nil)
                         self.navigationController?
                             .pushViewController(ProductDetailViewController(product: product), animated: true)
+                    } else {
+                        self.presentErrorAlert(title: "상품없음", message: "검색하신 상품을 찾을 수 없어요😫\n상품명을 다시 확인해주세요!")
                     }
                 } catch {
                     self.presentErrorAlert(title: "상품 데이터 변환 실패", message: "상품 데이터를 변환하는데 실패했어요 😫")

@@ -42,7 +42,7 @@ final class YoutubeCrawler {
                             .videoRenderer == nil {
                         contentIndex += 1
                     }
-                    
+
                     let contents = result.contents?.twoColumnSearchResultsRenderer?
                         .primaryContents?.sectionListRenderer?
                         .contents?[contentIndex].itemSectionRenderer?.contents
