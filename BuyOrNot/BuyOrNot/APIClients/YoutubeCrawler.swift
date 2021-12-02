@@ -35,9 +35,17 @@ final class YoutubeCrawler {
                                                 .dropLast()) // var 선언 부분과 마지막 문자 ;를 제거하여 JSON 파일 형태로 만들어줌
                     let data = Data(dataString.utf8)
                     let result = try JSONDecoder().decode(YoutubeCrawlingResult.self, from: data)
+                    var contentIndex = 0
+
+                    while result.contents?.twoColumnSearchResultsRenderer?
+                            .primaryContents?.sectionListRenderer?.contents?[contentIndex].itemSectionRenderer?.contents?[0]
+                            .videoRenderer == nil {
+                        contentIndex += 1
+                    }
+                    
                     let contents = result.contents?.twoColumnSearchResultsRenderer?
                         .primaryContents?.sectionListRenderer?
-                        .contents?[0].itemSectionRenderer?.contents
+                        .contents?[contentIndex].itemSectionRenderer?.contents
 
                     completion(contents)
                 }
