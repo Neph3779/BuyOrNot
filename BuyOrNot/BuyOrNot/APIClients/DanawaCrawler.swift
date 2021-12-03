@@ -24,8 +24,8 @@ final class DanawaCrawler {
             let lazyThumbnails = try thumbnails.select(".image_lazy").array()
             let thumnailElements = earlyThumnails + lazyThumbnails
 
-            for indexCount in 0..<productNames.count {
-                var fullName = try productNames[indexCount].text()
+            try productNames.enumerated().forEach { index, productName in
+                var fullName = try productName.text()
                     .replacingOccurrences(of: ", 공기계", with: "")
                     .replacingOccurrences(of: "NEW", with: "")
                     .replacingOccurrences(of: "(정품)", with: "")
@@ -34,15 +34,15 @@ final class DanawaCrawler {
                     fullName = fullName.replacingOccurrences(of: $0, with: "")
                 }
 
-                var thumbnailURLString = try thumnailElements[indexCount].attr("src")
+                var thumbnailURLString = try thumnailElements[index].attr("src")
                 if thumbnailURLString == "" {
-                    thumbnailURLString = try thumnailElements[indexCount].attr("data-original")
+                    thumbnailURLString = try thumnailElements[index].attr("data-original")
                 }
                 let thumbnailURL = ("https:" + thumbnailURLString)
                 let fullNameToList = fullName.split(separator: " ").map { String($0) }
                 let brand = fullNameToList.first!
                 let name = fullNameToList.dropFirst().joined(separator: " ")
-                let rank = indexCount
+                let rank = index
                 rankedProducts.append(Product(category: category.rawValue, brand: brand,
                                                     name: name, rank: rank, image: thumbnailURL))
             }
