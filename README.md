@@ -5,17 +5,20 @@
 **카테고리별 랭킹 제공**
 
 - IT 기기 카테고리별 랭킹 제공
-  <img src="https://raw.githubusercontent.com/Neph3779/Blog-Image/forUpload/img/20211203181754.png" alt="Simulator Screen Shot - iPhone 11 Pro Max - 2021-12-01 at 04.42.59" style="zoom:25%;" />
+  
+  <img src="https://raw.githubusercontent.com/Neph3779/Blog-Image/forUpload/img/20211203181754.png" alt="Simulator Screen Shot - iPhone 11 Pro Max - 2021-12-01 at 04.42.59" width= "50%" height= "50%">
 
 **제품 별 리뷰 모아보기 기능**
 
 - 특정 IT 기기의 제품 정보 + 상품 리뷰 (유튜브, 네이버 블로그, 다음 블로그)를 한 번에 볼 수 있는 기능 제공
-  <img src="https://raw.githubusercontent.com/Neph3779/Blog-Image/forUpload/img/20211203181613.png" alt="Simulator Screen Shot - iPhone 8 Plus - 2021-12-01 at 04.47.04" style="zoom: 25%;" />
+- 
+  <img src="https://raw.githubusercontent.com/Neph3779/Blog-Image/forUpload/img/20211203181613.png" alt="Simulator Screen Shot - iPhone 8 Plus - 2021-12-01 at 04.47.04" width= "50%" height= "50%">
 
 **검색 기능**
 
 - 검색 창을 통해 제품을 검색할 수 있고, 최근에 검색한 검색어들을 저장해둘 수 있음
-  <img src="https://raw.githubusercontent.com/Neph3779/Blog-Image/forUpload/img/20211203181736.png" alt="Simulator Screen Shot - iPhone 8 Plus - 2021-12-01 at 04.48.21" style="zoom:25%;" />
+- 
+  <img src="https://raw.githubusercontent.com/Neph3779/Blog-Image/forUpload/img/20211203181736.png" alt="Simulator Screen Shot - iPhone 8 Plus - 2021-12-01 at 04.48.21" width= "50%" height= "50%">
 
 
 
