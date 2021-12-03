@@ -14,7 +14,7 @@ final class YoutubeCrawler {
     private init() {}
     static let shared = YoutubeCrawler()
 
-    func fetchYoutubeReviews(query: String, completion: @escaping ([YoutubeCrawlingResult.VideoContent]?) -> Void) {
+    func fetchYoutubeReviews(query: String, completion: @escaping ([String?]) -> Void) {
         let searchQuery = query.split(separator: " ").joined(separator: "+")
 
         guard let encodedString = (baseURL + searchQuery)
@@ -37,17 +37,17 @@ final class YoutubeCrawler {
                     let result = try JSONDecoder().decode(YoutubeCrawlingResult.self, from: data)
                     var contentIndex = 0
 
-                    while result.contents?.twoColumnSearchResultsRenderer?
-                            .primaryContents?.sectionListRenderer?.contents?[contentIndex].itemSectionRenderer?.contents?[0]
-                            .videoRenderer == nil {
-                        contentIndex += 1
+                    let itemSectionRenderers = result.contents?.twoColumnSearchResultsRenderer?
+                        .primaryContents?.sectionListRenderer?.contents
+                    var videoIds = [String?]()
+
+                    itemSectionRenderers?.forEach { sectionContent in
+                        sectionContent.itemSectionRenderer?.contents?.forEach { videoContent in
+                            videoIds.append(videoContent.videoRenderer?.videoId)
+                        }
                     }
 
-                    let contents = result.contents?.twoColumnSearchResultsRenderer?
-                        .primaryContents?.sectionListRenderer?
-                        .contents?[contentIndex].itemSectionRenderer?.contents
-
-                    completion(contents)
+                    completion(videoIds)
                 }
             } catch {
 

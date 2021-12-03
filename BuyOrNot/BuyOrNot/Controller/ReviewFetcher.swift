@@ -17,8 +17,8 @@ final class ReviewFetcher {
     weak var reviewFetcherDelegate: ReviewFetcherDelegate?
     private var product: Product
     private var youtubeResults = [YoutubeVideosResult]()
-    private var naverResults: NaverBlogResult?
-    private var tistoryResults: KakaoBlogResult?
+    private var naverResult: NaverBlogResult?
+    private var tistoryResult: KakaoBlogResult?
     private var joinedReview = [ReviewContent]()
 
     private var didYoutubeFetchingDone = false
@@ -42,18 +42,15 @@ final class ReviewFetcher {
 
     private func fetchYoutubeVideoIds() {
         YoutubeCrawler.shared.fetchYoutubeReviews(query: "\(product.brand) \(product.name) 리뷰",
-                                                  completion: youtubeVideoIdFetchCompletion(contents:))
+                                                  completion: youtubeVideoIdFetchCompletion(videoIds:))
 
     }
 
-    private func youtubeVideoIdFetchCompletion(contents: [YoutubeCrawlingResult.VideoContent]?) {
-        var videoIds = [String?]()
-        guard let contents = contents else { return }
-        contents.forEach { videoIds.append($0.videoRenderer?.videoId) }
+    private func youtubeVideoIdFetchCompletion(videoIds: [String?]) {
         let videoIdsWithoutNil = videoIds.compactMap { $0 }
 
-        for index in 0 ..< videoIdsWithoutNil.count {
-            YoutubeAPIClient.shared.fetchYoutubeVideoById(videoId: videoIdsWithoutNil[index]) { [weak self]
+        videoIdsWithoutNil.enumerated().forEach { index, videoId in
+            YoutubeAPIClient.shared.fetchYoutubeVideoById(videoId: videoId) { [weak self]
                 (response: DataResponse<YoutubeVideosResult, AFError>) in
                 guard let self = self else { return }
                 do {
@@ -80,7 +77,7 @@ final class ReviewFetcher {
                         self.didNaverFetchingDone = true
                         return
                     }
-                    self.naverResults = try JSONDecoder().decode(NaverBlogResult.self, from: data)
+                    self.naverResult = try JSONDecoder().decode(NaverBlogResult.self, from: data)
                 } catch {
 
                 }
@@ -99,7 +96,7 @@ final class ReviewFetcher {
                         self.didTistoryFetchingDone = true
                         return
                     }
-                    self.tistoryResults = try JSONDecoder().decode(KakaoBlogResult.self, from: data)
+                    self.tistoryResult = try JSONDecoder().decode(KakaoBlogResult.self, from: data)
                 } catch {
 
                 }
@@ -109,17 +106,20 @@ final class ReviewFetcher {
     }
 
     private func joinReviews() {
-        let youtubeReviews: [ReviewContent]? = youtubeResults.map { result in
-            let item = result.items[0]
-            let thumbnailURL = URL(string: item.snippet.thumbnails.high.url)
-            let link = URL(string: "https://www.youtube.com/watch?v=" + item.id)
+        let youtubeReviews: [ReviewContent] = youtubeResults.map { result -> ReviewContent? in
+            if let item = result.items.first {
+                let thumbnailURL = URL(string: item.snippet.thumbnails.high.url)
+                let link = URL(string: "https://www.youtube.com/watch?v=" + item.id)
 
-            return ReviewContent(siteKind: .youtube, title: item.snippet.title,
-                                 producerName: item.snippet.channelTitle,
-                                 thumbnail: thumbnailURL, link: link, youtubeId: item.id)
-        }
+                return ReviewContent(siteKind: .youtube, title: item.snippet.title,
+                                     producerName: item.snippet.channelTitle,
+                                     thumbnail: thumbnailURL, link: link, youtubeId: item.id)
+            } else {
+                return nil
+            }
+        }.compactMap { $0 }
 
-        let tistoryReviews: [ReviewContent]? = tistoryResults?.documents.map { item -> ReviewContent in
+        let tistoryReviews: [ReviewContent]? = tistoryResult?.documents.map { item -> ReviewContent in
             let siteKind: ReviewSiteKind = item.link.contains("naver") ? .naver : .tistory
             let thumbnailURL = URL(string: item.thumbnail)
             let link = URL(string: item.link)
@@ -128,7 +128,7 @@ final class ReviewFetcher {
                                  thumbnail: thumbnailURL, link: link, youtubeId: nil)
         }
 
-        let naverReviews: [ReviewContent]? = naverResults?.items.map { item -> ReviewContent? in
+        let naverReviews: [ReviewContent]? = naverResult?.items.map { item -> ReviewContent? in
             let link = URL(string: item.link)
             if let tistoryReviews = tistoryReviews {
                 if tistoryReviews.filter({ $0.producerName == item.bloggerName }).isEmpty {
@@ -142,9 +142,8 @@ final class ReviewFetcher {
 
         var count = 0
 
-        while count < youtubeReviews?.count ?? 0 || count < naverReviews?.count ?? 0 || count < tistoryReviews?.count ?? 0 {
-            if let youtubeReviews = youtubeReviews,
-               count < youtubeReviews.count {
+        while count < youtubeReviews.count || count < naverReviews?.count ?? 0 || count < tistoryReviews?.count ?? 0 {
+            if count < youtubeReviews.count {
                 joinedReview.append(youtubeReviews[count])
             }
 
