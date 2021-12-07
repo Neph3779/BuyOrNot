@@ -35,6 +35,7 @@
 		32657E6B274ABD560020C4A8 /* DanawaCrawler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6A274ABD560020C4A8 /* DanawaCrawler.swift */; };
 		32657E6F274AD3D30020C4A8 /* ProductCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6E274AD3D30020C4A8 /* ProductCategory.swift */; };
 		32657E77274CB84E0020C4A8 /* RankManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E76274CB84E0020C4A8 /* RankManager.swift */; };
+		327E1483275F0C9500E59DF9 /* DateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327E1482275F0C9500E59DF9 /* DateController.swift */; };
 		3284061C274FFD97008032E7 /* RankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284061B274FFD97008032E7 /* RankViewController.swift */; };
 		3284061E274FFEF3008032E7 /* RankCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284061D274FFEF3008032E7 /* RankCollectionViewCell.swift */; };
 		3284062027500483008032E7 /* UIApplicationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284061F27500483008032E7 /* UIApplicationExtension.swift */; };
@@ -80,6 +81,7 @@
 		32657E6A274ABD560020C4A8 /* DanawaCrawler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DanawaCrawler.swift; sourceTree = "<group>"; };
 		32657E6E274AD3D30020C4A8 /* ProductCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCategory.swift; sourceTree = "<group>"; };
 		32657E76274CB84E0020C4A8 /* RankManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankManager.swift; sourceTree = "<group>"; };
+		327E1482275F0C9500E59DF9 /* DateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateController.swift; sourceTree = "<group>"; };
 		3284061B274FFD97008032E7 /* RankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankViewController.swift; sourceTree = "<group>"; };
 		3284061D274FFEF3008032E7 /* RankCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankCollectionViewCell.swift; sourceTree = "<group>"; };
 		3284061F27500483008032E7 /* UIApplicationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplicationExtension.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				32657E76274CB84E0020C4A8 /* RankManager.swift */,
+				327E1482275F0C9500E59DF9 /* DateController.swift */,
 				3245B33D27580AD200DF2F2F /* ReviewFetcher.swift */,
 			);
 			path = Controller;
@@ -373,6 +376,7 @@
 				32B55381274F577400CFA954 /* RecommendCollectionView.swift in Sources */,
 				324F254927552856006EDFA6 /* SearchRecordTableViewCell.swift in Sources */,
 				3245B3382757C01300DF2F2F /* YoutubeCrawlingResult.swift in Sources */,
+				327E1483275F0C9500E59DF9 /* DateController.swift in Sources */,
 				328406222751176A008032E7 /* ProductDetailViewController.swift in Sources */,
 				3222C27F2756A9C300921B04 /* UIViewControllerExtension.swift in Sources */,
 				32657E5C274A82DC0020C4A8 /* NaverShoppingResult.swift in Sources */,
@@ -528,7 +532,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 267JUTDVY2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BuyOrNot/Info.plist;
@@ -557,7 +561,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 267JUTDVY2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BuyOrNot/Info.plist;
