@@ -9,6 +9,7 @@ import Foundation
 import RealmSwift
 
 final class RankManager {
+    static let shared = RankManager()
     var didLoadingEnd = false
 
     func refreshRank(completion: @escaping () -> Void) {
@@ -22,8 +23,8 @@ final class RankManager {
             completion()
         }
     }
+
     private init() {}
-    static let shared = RankManager()
 
     private func deleteAll() {
         DispatchQueue.global().async {
