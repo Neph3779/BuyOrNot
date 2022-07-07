@@ -31,7 +31,7 @@ final class RecommendCollectionView: UICollectionView {
 
     private func randomProducts() -> [Product] {
         let productArray = Array(try! Realm().objects(Product.self))
-        if DateController.shared.isDateNotOver() {
+        if DateController.shared.shouldShowItsProductOnly() {
             return productArray.filter { $0.brand == "APPLE" }
         }
 

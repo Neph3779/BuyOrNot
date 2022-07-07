@@ -12,10 +12,12 @@ final class DateController {
 
     private init() {}
 
-    func isDateNotOver() -> Bool {
-        let dateComponent = DateComponents(year: 2021, month: 12, day: 8, hour: 18)
-        guard let date = Calendar.current.date(from: dateComponent) else { return false }
+    func shouldShowItsProductOnly() -> Bool {
+        guard let reviewRequestDate = DateComponents(year: 2021, month: 12, day: 8, hour: 18).date,
+              let showOtherCompanyDate = Calendar.current.date(byAdding: .day, value: 3, to: reviewRequestDate) else {
+            return false
+        }
 
-        return Date() < date ? true : false
+        return Date() < showOtherCompanyDate
     }
 }
