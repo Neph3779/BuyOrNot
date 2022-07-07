@@ -25,6 +25,8 @@ final class ReviewFetcher {
     private var didNaverFetchingDone = false
     private var didTistoryFetchingDone = false
 
+    private lazy var searchQuery = "\(product.brand) \(product.name) 리뷰"
+
     private var didFetchingDone: Bool {
         return didYoutubeFetchingDone && didNaverFetchingDone && didTistoryFetchingDone
     }
@@ -41,7 +43,7 @@ final class ReviewFetcher {
     }
 
     private func fetchYoutubeVideoIds() {
-        YoutubeCrawler.shared.fetchYoutubeReviews(query: "\(product.brand) \(product.name) 리뷰",
+        YoutubeCrawler.shared.fetchYoutubeReviews(query: searchQuery,
                                                   completion: youtubeVideoIdFetchCompletion(videoIds:))
 
     }
@@ -52,14 +54,15 @@ final class ReviewFetcher {
         videoIdsWithoutNil.enumerated().forEach { index, videoId in
             YoutubeAPIClient.shared.fetchYoutubeVideoById(videoId: videoId) { [weak self]
                 (response: DataResponse<YoutubeVideosResult, AFError>) in
-                guard let self = self else { return }
+                guard let self = self,
+                let responseData = response.data else { return }
                 do {
-                    let result = try JSONDecoder().decode(YoutubeVideosResult.self, from: response.data!)
+                    let result = try JSONDecoder().decode(YoutubeVideosResult.self, from: responseData)
                     self.youtubeResults.append(result)
                 } catch {
 
                 }
-                if index == videoIdsWithoutNil.count - 1 {
+                if index == videoIdsWithoutNil.count - 1 { // MARK: 유튜브 리뷰에 한해서 이 작업을 해주지 않으면 마지막에 엉뚱한 컨텐츠 담김
                     self.didYoutubeFetchingDone = true
                     self.checkAllFetchDone()
                 }
@@ -69,7 +72,7 @@ final class ReviewFetcher {
 
     private func fetchNaverBlogReviews() {
         NaverSearchAPIClient.shared
-            .fetchNaverBlogResults(query: "\(product.brand) \(product.name) 리뷰", count: 20) { [weak self]
+            .fetchNaverBlogResults(query: searchQuery, count: 20) { [weak self]
                 (response: DataResponse<NaverBlogResult, AFError>) in
                 guard let self = self else { return }
                 do {
@@ -88,7 +91,7 @@ final class ReviewFetcher {
 
     private func fetchTistoryBlogReviews() {
         KakaoAPIClient.shared
-            .fetchKakaoBlogPosts(query: "\(product.brand) \(product.name) 리뷰", count: 20) { [weak self]
+            .fetchKakaoBlogPosts(query: searchQuery, count: 20) { [weak self]
                 (response: DataResponse<KakaoBlogResult, AFError>) in
                 guard let self = self else { return }
                 do {
@@ -109,11 +112,11 @@ final class ReviewFetcher {
         let youtubeReviews: [ReviewContent] = youtubeResults.map { result -> ReviewContent? in
             if let item = result.items.first {
                 let thumbnailURL = URL(string: item.snippet.thumbnails.high.url)
-                let link = URL(string: "https://www.youtube.com/watch?v=" + item.id)
+                let videoURL = YoutubeAPIClient.shared.individualVideoURL(itemId: item.id)
 
                 return ReviewContent(siteKind: .youtube, title: item.snippet.title,
                                      producerName: item.snippet.channelTitle,
-                                     thumbnail: thumbnailURL, link: link, youtubeId: item.id)
+                                     thumbnail: thumbnailURL, link: videoURL, youtubeId: item.id)
             } else {
                 return nil
             }

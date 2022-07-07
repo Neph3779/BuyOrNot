@@ -47,4 +47,14 @@ final class YoutubeAPIClient {
         AF.request(videosURL, method: .get, parameters: parameters)
             .responseDecodable(completionHandler: completion)
     }
+
+    func individualVideoURL(itemId: String) -> URL? {
+        var videoURLComponents = URLComponents()
+        videoURLComponents.scheme = "https"
+        videoURLComponents.host = "youtube.com"
+        videoURLComponents.path = "/watch"
+        videoURLComponents.queryItems = [URLQueryItem(name: "v", value: itemId)]
+
+        return videoURLComponents.url
+    }
 }
