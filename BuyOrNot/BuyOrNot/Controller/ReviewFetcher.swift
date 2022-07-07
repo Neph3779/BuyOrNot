@@ -162,14 +162,13 @@ final class ReviewFetcher {
 
             count += 1
         }
-
-        reviewFetcherDelegate?.setJoinedReview(reviewContents: joinedReview)
     }
 
     private func checkAllFetchDone() {
-        if self.didFetchingDone {
-            self.joinReviews()
-            self.reviewFetcherDelegate?.reloadData()
+        if didFetchingDone {
+            joinReviews()
+            reviewFetcherDelegate?.setJoinedReview(reviewContents: joinedReview)
+            reviewFetcherDelegate?.reloadData()
         }
     }
 }
