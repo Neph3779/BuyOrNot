@@ -10,16 +10,22 @@ import SwiftSoup
 import Alamofire
 
 final class YoutubeCrawler {
+    private var urlComponents: URLComponents = {
+        var urlComponents = URLComponents()
+        urlComponents.scheme = "https"
+        urlComponents.host = "youtube.com"
+        urlComponents.path = "/results"
+        return urlComponents
+    }()
     private let baseURL = "https://www.youtube.com/results?search_query="
     private init() {}
     static let shared = YoutubeCrawler()
 
     func fetchYoutubeReviews(query: String, completion: @escaping ([String?]) -> Void) {
         let searchQuery = query.split(separator: " ").joined(separator: "+")
-
-        guard let encodedString = (baseURL + searchQuery)
-                .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-              let url = URL(string: encodedString) else { return }
+        let percentEncodedQuery = searchQuery.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        urlComponents.percentEncodedQueryItems = [URLQueryItem(name: "search_query", value: percentEncodedQuery)]
+        guard let url = urlComponents.url else { return }
 
         AF.request(url, method: .get).responseString { response in
             do {
