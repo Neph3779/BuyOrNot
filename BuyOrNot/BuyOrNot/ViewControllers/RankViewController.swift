@@ -16,6 +16,7 @@ final class RankViewController: UIViewController {
     private let rankCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let backButtonImageView = UIImageView()
     private let loadingIndicator = UIActivityIndicatorView()
+    private let forceRefreshButtonImageView = UIImageView()
 
     init(category: ProductCategory) {
         self.category = category
@@ -35,6 +36,7 @@ final class RankViewController: UIViewController {
         setRankColletionView()
         setbackButtonImageView()
         setLoadingIndicator()
+        setForceRefreshButton()
         addNotificationObserver()
     }
 
@@ -101,6 +103,20 @@ final class RankViewController: UIViewController {
         }
     }
 
+    private func setForceRefreshButton() {
+        forceRefreshButtonImageView.image = UIImage(named: "arrow.clockwise")
+        forceRefreshButtonImageView.tintColor = .white
+        forceRefreshButtonImageView.isUserInteractionEnabled = true
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(refreshRank(_:)))
+        forceRefreshButtonImageView.addGestureRecognizer(gesture)
+        view.addSubview(forceRefreshButtonImageView)
+        forceRefreshButtonImageView.snp.makeConstraints { button in
+            button.top.equalTo(view.safeAreaLayoutGuide).inset(10)
+            button.trailing.equalTo(view.safeAreaLayoutGuide).inset(10)
+            button.width.height.equalTo(30)
+        }
+    }
+
     private func addNotificationObserver() {
         NotificationCenter.default
             .addObserver(self, selector: #selector(didLoadingEnd(_:)),
@@ -114,6 +130,9 @@ final class RankViewController: UIViewController {
     @objc private func didLoadingEnd(_ notification: Notification) {
         loadingIndicator.stopAnimating()
         rankCollectionView.reloadData()
+    }
+
+    @objc private func refreshRank(_ notification: Notification) {
     }
 }
 
