@@ -63,14 +63,14 @@ final class HomeViewController: UIViewController {
     }
 
     private func setLoadingIndicator(cell: UITableViewCell) {
-        if RankManager.shared.didLoadingEnd == false && Array(try! Realm().objects(Product.self)).count == 0 {
-            loadingIndicator.hidesWhenStopped = true
-            loadingIndicator.transform = CGAffineTransform.init(scaleX: 1.5, y: 1.5)
-            cell.addSubview(loadingIndicator)
-            loadingIndicator.snp.makeConstraints { indicator in
-                indicator.center.equalTo(cell.snp.center)
-                indicator.width.height.equalTo(200)
-            }
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.transform = CGAffineTransform.init(scaleX: 1.5, y: 1.5)
+        cell.addSubview(loadingIndicator)
+        loadingIndicator.snp.makeConstraints { indicator in
+            indicator.center.equalTo(cell.snp.center)
+            indicator.width.height.equalTo(200)
+        }
+        if Array(try! Realm().objects(Product.self)).isEmpty {
             loadingIndicator.startAnimating()
         }
     }
@@ -79,10 +79,23 @@ final class HomeViewController: UIViewController {
         NotificationCenter.default
             .addObserver(self, selector: #selector(didLoadingEnd(_:)),
                          name: NSNotification.Name("rankedProductsLoadingEnd"), object: nil)
+
+        NotificationCenter.default
+            .addObserver(self, selector: #selector(didDeleteAllEnd(_:)),
+                         name: NSNotification.Name("rankedProductsDeleteAllEnd"), object: nil)
     }
 
     @objc func didLoadingEnd(_ notification: Notification) {
-        loadingIndicator.stopAnimating()
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.loadingIndicator.stopAnimating()
+        }
+    }
+
+    @objc func didDeleteAllEnd(_ notification: Notification) {
+        DispatchQueue.main.async {
+            self.loadingIndicator.startAnimating()
+        }
     }
 }
 

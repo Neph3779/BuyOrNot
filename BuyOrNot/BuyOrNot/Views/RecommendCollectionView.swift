@@ -30,6 +30,9 @@ final class RecommendCollectionView: UICollectionView {
     }
 
     private func randomProducts() -> [Product] {
+        if try! Realm().objects(Product.self).isEmpty {
+            return []
+        }
         let productArray = Array(try! Realm().objects(Product.self))
         if DateController.shared.shouldShowItsProductOnly() {
             return productArray.filter { $0.brand == "APPLE" }
@@ -54,11 +57,24 @@ final class RecommendCollectionView: UICollectionView {
         NotificationCenter.default
             .addObserver(self, selector: #selector(didLoadingEnd(_:)),
                          name: NSNotification.Name("rankedProductsLoadingEnd"), object: nil)
+
+        NotificationCenter.default
+            .addObserver(self, selector: #selector(didDeleteAllEnd(_:)),
+                         name: NSNotification.Name("rankedProductsDeleteAllEnd"), object: nil)
     }
 
     @objc func didLoadingEnd(_ notification: Notification) {
-        products = randomProducts()
-        self.reloadData()
+        DispatchQueue.main.async {
+            self.products = self.randomProducts()
+            self.reloadData()
+        }
+    }
+
+    @objc func didDeleteAllEnd(_ notification: Notification) {
+        DispatchQueue.main.async {
+            self.products = self.randomProducts()
+            self.reloadData()
+        }
     }
 }
 

@@ -11,6 +11,9 @@ import RealmSwift
 
 final class RankViewController: UIViewController {
     private var category: ProductCategory
+    private var products: [Product] {
+        return Array(try! Realm().objects(Product.self).filter { $0.category == self.category.rawValue })
+    }
 
     private let categoryView = UIImageView()
     private let rankCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -91,14 +94,14 @@ final class RankViewController: UIViewController {
     }
 
     private func setLoadingIndicator() {
-        if RankManager.shared.didLoadingEnd == false
-            && Array(try! Realm().objects(Product.self)
-                        .filter { $0.category == self.category.rawValue }).count == 0 {
-            loadingIndicator.transform = CGAffineTransform.init(scaleX: 1.5, y: 1.5)
-            view.addSubview(loadingIndicator)
-            loadingIndicator.snp.makeConstraints { indicator in
-                indicator.center.equalTo(rankCollectionView.snp.center)
-            }
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.transform = CGAffineTransform.init(scaleX: 1.5, y: 1.5)
+        view.addSubview(loadingIndicator)
+        loadingIndicator.snp.makeConstraints { indicator in
+            indicator.center.equalTo(rankCollectionView.snp.center)
+        }
+        if Array(try! Realm().objects(Product.self)
+            .filter { $0.category == self.category.rawValue }).isEmpty {
             loadingIndicator.startAnimating()
         }
     }
@@ -121,6 +124,10 @@ final class RankViewController: UIViewController {
         NotificationCenter.default
             .addObserver(self, selector: #selector(didLoadingEnd(_:)),
                          name: NSNotification.Name("rankedProductsLoadingEnd"), object: nil)
+
+        NotificationCenter.default
+            .addObserver(self, selector: #selector(didDeleteAllEnd(_:)),
+                         name: NSNotification.Name("rankedProductsDeleteAllEnd"), object: nil)
     }
 
     @objc private func popView(_ sender: UITapGestureRecognizer) {
@@ -128,18 +135,27 @@ final class RankViewController: UIViewController {
     }
 
     @objc private func didLoadingEnd(_ notification: Notification) {
-        loadingIndicator.stopAnimating()
-        rankCollectionView.reloadData()
+        DispatchQueue.main.async {
+            self.loadingIndicator.stopAnimating()
+            self.rankCollectionView.reloadData()
+        }
     }
 
-    @objc private func refreshRank(_ notification: Notification) {
+    @objc func didDeleteAllEnd(_ notification: Notification) {
+        DispatchQueue.main.async {
+            self.rankCollectionView.reloadData()
+            self.loadingIndicator.startAnimating()
+        }
+    }
+
+    @objc private func refreshRank(_ sender: UITapGestureRecognizer) {
+        RankManager.shared.refreshRank()
     }
 }
 
 extension RankViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Array(try! Realm().objects(Product.self)
-                        .filter { $0.category == self.category.rawValue }).count
+        return products.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -147,8 +163,7 @@ extension RankViewController: UICollectionViewDataSource {
                                                             for: indexPath) as? RankCollectionViewCell else {
                   return UICollectionViewCell()
               }
-        let products = Array(try! Realm().objects(Product.self)
-                                    .filter { $0.category == self.category.rawValue })
+
         cell.setContents(product: products[indexPath.row])
 
         return cell

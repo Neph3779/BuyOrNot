@@ -15,13 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         if try! Realm().objects(Product.self).isEmpty {
-            RankManager.shared.refreshRank {
-                DispatchQueue.main.async {
-                    RankManager.shared.didLoadingEnd = true
-                    NotificationCenter.default
-                        .post(name: NSNotification.Name("rankedProductsLoadingEnd"), object: nil, userInfo: nil)
-                }
-            }
+            RankManager.shared.refreshRank()
         }
 
         setFetchInterval()
@@ -38,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        RankManager.shared.refreshRank { }
+        RankManager.shared.refreshRank()
     }
 
     func setFetchInterval() {
@@ -57,9 +51,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         scheduleAppRefresh()
         task.expirationHandler = {
         }
-        RankManager.shared.refreshRank {
-            task.setTaskCompleted(success: true)
-        }
+        RankManager.shared.refreshRank()
+        task.setTaskCompleted(success: true)
     }
 
     func scheduleAppRefresh() {
