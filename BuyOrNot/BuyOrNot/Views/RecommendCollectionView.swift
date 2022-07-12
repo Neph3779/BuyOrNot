@@ -64,14 +64,16 @@ final class RecommendCollectionView: UICollectionView {
     }
 
     @objc func didLoadingEnd(_ notification: Notification) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             self.products = self.randomProducts()
             self.reloadData()
         }
     }
 
     @objc func didDeleteAllEnd(_ notification: Notification) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             self.products = self.randomProducts()
             self.reloadData()
         }

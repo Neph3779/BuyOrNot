@@ -11,10 +11,7 @@ import RealmSwift
 
 final class RankViewController: UIViewController {
     private var category: ProductCategory
-    private var products: [Product] {
-        return Array(try! Realm().objects(Product.self).filter { $0.category == self.category.rawValue })
-    }
-
+    private var products = [Product]()
     private let categoryView = UIImageView()
     private let rankCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let backButtonImageView = UIImageView()
@@ -35,12 +32,22 @@ final class RankViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = ColorSet.backgroundColor
         navigationController?.navigationBar.isHidden = true
+        setProducts()
         setCategoryView()
         setRankColletionView()
         setbackButtonImageView()
         setLoadingIndicator()
         setForceRefreshButton()
         addNotificationObserver()
+    }
+
+    private func setProducts() {
+        if DateController.shared.shouldShowItsProductOnly() {
+            products = Array(try! Realm().objects(Product.self)
+                .filter { $0.category == self.category.rawValue && $0.brand == "APPLE" })
+        } else {
+            products = Array(try! Realm().objects(Product.self).filter { $0.category == self.category.rawValue })
+        }
     }
 
     private func setCategoryView() {
@@ -135,14 +142,18 @@ final class RankViewController: UIViewController {
     }
 
     @objc private func didLoadingEnd(_ notification: Notification) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.setProducts()
             self.loadingIndicator.stopAnimating()
             self.rankCollectionView.reloadData()
         }
     }
 
     @objc func didDeleteAllEnd(_ notification: Notification) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.setProducts()
             self.rankCollectionView.reloadData()
             self.loadingIndicator.startAnimating()
         }

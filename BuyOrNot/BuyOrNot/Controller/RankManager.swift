@@ -12,7 +12,8 @@ final class RankManager {
     static let shared = RankManager()
 
     func refreshRank() {
-        DispatchQueue.global().async {
+        DispatchQueue.global().async { [weak self] in
+            guard let self = self else { return }
             self.deleteAll()
             ProductCategory.allCases.forEach {
                 DanawaCrawler.shared.fetchRankData(category: $0).forEach { product in
