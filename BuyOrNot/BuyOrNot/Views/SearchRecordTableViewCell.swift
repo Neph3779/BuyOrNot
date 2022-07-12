@@ -30,8 +30,9 @@ final class SearchRecordTableViewCell: UITableViewCell {
         super.init(coder: coder)
     }
 
-    func setTitleLabelText(title: String) {
+    func setCellContents(title: String, shouldHideRemoveButton: Bool = false) {
         titleLabel.text = title
+        removeButtonImageView.isHidden = shouldHideRemoveButton
     }
 
     private func setRemoveButtonImageView() {

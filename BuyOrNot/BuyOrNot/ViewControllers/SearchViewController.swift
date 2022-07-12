@@ -167,12 +167,12 @@ extension SearchViewController: UITableViewDataSource {
 
         if searchText.isEmpty {
             let recordTitle = try! Realm().objects(SearchRecord.self).map { $0.title }[indexPath.row] ?? ""
-            cell.setTitleLabelText(title: recordTitle)
+            cell.setCellContents(title: recordTitle)
             cell.indexPath = indexPath
             cell.searchRecordTableViewCellDelegate = self
         } else {
             let product = relatedSearchProducts[indexPath.row]
-            cell.setTitleLabelText(title: product.name)
+            cell.setCellContents(title: "\(product.brand) \(product.name)", shouldHideRemoveButton: true)
         }
 
         return cell
