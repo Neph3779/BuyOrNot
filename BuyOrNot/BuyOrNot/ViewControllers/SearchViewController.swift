@@ -166,7 +166,7 @@ extension SearchViewController: UITableViewDataSource {
         let searchText = searchBar.text ?? ""
 
         if searchText.isEmpty {
-            let recordTitle = try! Realm().objects(SearchRecord.self).map { $0.title }[indexPath.row] ?? ""
+            let recordTitle = records[indexPath.row].title ?? ""
             cell.setCellContents(title: recordTitle)
             cell.indexPath = indexPath
             cell.searchRecordTableViewCellDelegate = self
