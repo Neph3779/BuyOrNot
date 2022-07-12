@@ -14,6 +14,14 @@ final class SearchViewController: UIViewController {
     private let backButtonImageView = UIImageView()
     private let searchBar = UISearchBar()
     private let searchRecordTableView = UITableView()
+    private var relatedSearchProducts: [Product] {
+        let searchText = searchBar.text?.lowercased() ?? ""
+        return try! Realm().objects(Product.self).filter {
+            $0.name.lowercased().contains(searchText) || $0.brand.lowercased().contains(searchText)
+        }.sorted {
+            $0.name < $1.name
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,9 +32,9 @@ final class SearchViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        searchBar.text?.removeAll()
         fetchRecords()
         searchRecordTableView.reloadData()
-        searchBar.text = ""
     }
 
     private func fetchRecords() {
@@ -118,20 +126,38 @@ extension SearchViewController: UISearchBarDelegate {
         guard let searchText = searchBar.text else { return }
         moveToProductView(with: searchText)
     }
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchRecordTableView.reloadData()
+    }
 }
 
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        try! Realm().objects(SearchRecord.self).count
+        let searchText = searchBar.text ?? ""
+        if searchText.isEmpty {
+            return try! Realm().objects(SearchRecord.self).count
+        } else {
+            return relatedSearchProducts.count
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchRecordTableViewCell.reuseIdentifier)
-                as? SearchRecordTableViewCell,
-              let title = records[indexPath.row].title else { return UITableViewCell() }
-        cell.setTitleLabelText(title: title)
-        cell.indexPath = indexPath
-        cell.searchRecordTableViewCellDelegate = self
+        guard let cell = tableView
+            .dequeueReusableCell(withIdentifier: SearchRecordTableViewCell.reuseIdentifier)
+                as? SearchRecordTableViewCell else { return UITableViewCell() }
+        let searchText = searchBar.text ?? ""
+
+        if searchText.isEmpty {
+            let recordTitle = try! Realm().objects(SearchRecord.self).map { $0.title }[indexPath.row] ?? ""
+            cell.setTitleLabelText(title: recordTitle)
+            cell.indexPath = indexPath
+            cell.searchRecordTableViewCellDelegate = self
+        } else {
+            let product = relatedSearchProducts[indexPath.row]
+            cell.setTitleLabelText(title: product.name)
+        }
+
         return cell
     }
 }
@@ -140,6 +166,9 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = searchRecordTableView.cellForRow(at: indexPath) as? SearchRecordTableViewCell,
               let searchText = cell.titleLabel.text else { return }
+        try! Realm().write({
+            try! Realm().add(SearchRecord(title: searchText))
+        })
         moveToProductView(with: searchText)
     }
 
