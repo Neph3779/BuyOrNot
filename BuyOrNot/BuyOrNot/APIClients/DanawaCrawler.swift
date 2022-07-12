@@ -26,10 +26,6 @@ final class DanawaCrawler {
 
             try productNames.enumerated().forEach { index, productName in
                 var fullName = try productName.text()
-                    .replacingOccurrences(of: ", 공기계", with: "")
-                    .replacingOccurrences(of: "NEW", with: "")
-                    .replacingOccurrences(of: "(정품)", with: "")
-                    .replacingOccurrences(of: ", 자급제", with: "")
 
                 stringToRemove.forEach {
                     fullName = fullName.replacingOccurrences(of: $0, with: "")
@@ -55,7 +51,8 @@ final class DanawaCrawler {
 }
 
 extension DanawaCrawler {
-    private var stringToRemove: [String] { return [", 공기계", "NEW", "(정품)"] }
+    private var stringToRemove: [String] { return [", 공기계", "NEW", "(정품)", ", 자급제"] }
+
     private func danawaUrl(category: ProductCategory) -> URL {
         switch category {
         case .phone:
