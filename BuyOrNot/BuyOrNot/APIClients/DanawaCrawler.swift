@@ -29,6 +29,7 @@ final class DanawaCrawler {
                     .replacingOccurrences(of: ", 공기계", with: "")
                     .replacingOccurrences(of: "NEW", with: "")
                     .replacingOccurrences(of: "(정품)", with: "")
+                    .replacingOccurrences(of: ", 자급제", with: "")
 
                 stringToRemove.forEach {
                     fullName = fullName.replacingOccurrences(of: $0, with: "")
