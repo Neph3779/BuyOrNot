@@ -14,6 +14,7 @@ final class SearchViewController: UIViewController {
     private let backButtonImageView = UIImageView()
     private let searchBar = UISearchBar()
     private let searchRecordTableView = UITableView()
+    private var keyboardHeight: CGFloat = 0
     private var relatedSearchProducts: [Product] {
         let searchText = searchBar.text?.lowercased() ?? ""
         return try! Realm().objects(Product.self).filter {
@@ -29,6 +30,13 @@ final class SearchViewController: UIViewController {
         setbackButtonImageView()
         setSearchBar()
         setSearchRecordTableView()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -116,6 +124,15 @@ final class SearchViewController: UIViewController {
     @objc private func popView(_ sender: UITapGestureRecognizer) {
         navigationController?.popViewController(animated: true)
     }
+
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            searchRecordTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+        }
+    }
+    @objc func keyboardWillHide(_ notification: Notification) {
+        searchRecordTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
 }
 
 extension SearchViewController: UISearchBarDelegate {
@@ -178,12 +195,15 @@ extension SearchViewController: UITableViewDelegate {
         headerView.backgroundView = UIView(frame: headerView.bounds)
         headerView.backgroundView?.backgroundColor = ColorSet.backgroundColor
 
+        let searchText = searchBar.text ?? ""
+        let headerText = searchText.isEmpty ? "최근 검색어" : "연관 검색어"
+
         if #available(iOS 14.0, *) {
             var content = headerView.defaultContentConfiguration()
-            content.text = "최근 검색어"
+            content.text = headerText
             headerView.contentConfiguration = content
         } else {
-            headerView.textLabel?.text = "최근 검색어"
+            headerView.textLabel?.text = headerText
         }
 
         return headerView
