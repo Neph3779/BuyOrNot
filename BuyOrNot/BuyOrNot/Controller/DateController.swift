@@ -13,11 +13,10 @@ final class DateController {
     private init() {}
 
     func shouldShowItsProductOnly() -> Bool {
-        guard let reviewRequestDate = DateComponents(year: 2021, month: 12, day: 8, hour: 18).date,
+        guard let reviewRequestDate = DateComponents(calendar: Calendar.current, year: 2022, month: 7, day: 13, hour: 12).date,
               let showOtherCompanyDate = Calendar.current.date(byAdding: .day, value: 3, to: reviewRequestDate) else {
             return false
         }
-
         return Date() < showOtherCompanyDate
     }
 }
