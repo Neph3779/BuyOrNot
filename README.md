@@ -1,7 +1,7 @@
 # BuyOrNot 앱
 
 ### 앱 다운로드 링크
-https://apps.apple.com/app/%EC%82%B4%EA%B9%8C-%EB%A7%90%EA%B9%8C-it-%EC%A0%84%EC%9E%90%EC%A0%9C%ED%92%88-%EB%A6%AC%EB%B7%B0-%EB%AA%A8%EC%9D%8C/id1596846381
+[살까 말까 - IT 전자제품 리뷰 모음](https://apps.apple.com/app/%EC%82%B4%EA%B9%8C-%EB%A7%90%EA%B9%8C-it-%EC%A0%84%EC%9E%90%EC%A0%9C%ED%92%88-%EB%A6%AC%EB%B7%B0-%EB%AA%A8%EC%9D%8C/id1596846381)
 
 
 
