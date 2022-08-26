@@ -18,51 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             RankManager.shared.refreshRank()
         }
 
-        setFetchInterval()
-
         window = UIWindow()
         let rootViewController = UINavigationController(rootViewController: HomeViewController())
         window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
         return true
-    }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        scheduleAppRefresh()
-    }
-
-    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        RankManager.shared.refreshRank()
-    }
-
-    func setFetchInterval() {
-        if #available(iOS 13.0, *) {
-            BGTaskScheduler.shared
-                .register(forTaskWithIdentifier: "com.Neph.BuyOrNot.RankedProduct.fetch", using: nil) { [weak self] task in
-                    self?.handleAppRefresh(task: task as! BGAppRefreshTask)
-                }
-        } else {
-            UIApplication.shared.setMinimumBackgroundFetchInterval(TimeInterval(86400))
-        }
-    }
-
-    @available(iOS 13.0, *)
-    func handleAppRefresh(task: BGAppRefreshTask) {
-        scheduleAppRefresh()
-        task.expirationHandler = {
-        }
-        RankManager.shared.refreshRank()
-        task.setTaskCompleted(success: true)
-    }
-
-    func scheduleAppRefresh() {
-        if #available(iOS 13.0, *) {
-            let request = BGAppRefreshTaskRequest(identifier: "com.Neph.BuyOrNot.RankedProduct.fetch")
-            request.earliestBeginDate = Date(timeIntervalSinceNow: 86400)
-            do {
-                try BGTaskScheduler.shared.submit(request)
-            } catch {
-            }
-        }
     }
 }
