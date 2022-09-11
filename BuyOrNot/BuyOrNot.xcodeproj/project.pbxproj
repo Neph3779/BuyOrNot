@@ -10,6 +10,7 @@
 		3222C27F2756A9C300921B04 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3222C27E2756A9C300921B04 /* UIViewControllerExtension.swift */; };
 		323C512028CDC52500280836 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 323C511F28CDC52500280836 /* Then */; };
 		323C512228CDDAAF00280836 /* HomeCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323C512128CDDAAF00280836 /* HomeCollectionHeaderView.swift */; };
+		323C512428CDF5F000280836 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323C512328CDF5F000280836 /* HomeViewModel.swift */; };
 		3245B3222757801800DF2F2F /* YoutubeCrawler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245B3212757801800DF2F2F /* YoutubeCrawler.swift */; };
 		3245B3382757C01300DF2F2F /* YoutubeCrawlingResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245B3372757C01300DF2F2F /* YoutubeCrawlingResult.swift */; };
 		3245B33C2757F73700DF2F2F /* YoutubeVideosResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245B33B2757F73700DF2F2F /* YoutubeVideosResult.swift */; };
@@ -61,6 +62,7 @@
 /* Begin PBXFileReference section */
 		3222C27E2756A9C300921B04 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		323C512128CDDAAF00280836 /* HomeCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionHeaderView.swift; sourceTree = "<group>"; };
+		323C512328CDF5F000280836 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		3245B3212757801800DF2F2F /* YoutubeCrawler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeCrawler.swift; sourceTree = "<group>"; };
 		3245B3372757C01300DF2F2F /* YoutubeCrawlingResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeCrawlingResult.swift; sourceTree = "<group>"; };
 		3245B33B2757F73700DF2F2F /* YoutubeVideosResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeVideosResult.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				32657E54274A6A170020C4A8 /* HomeViewController.swift */,
+				323C512328CDF5F000280836 /* HomeViewModel.swift */,
 				328406212751176A008032E7 /* ProductDetailViewController.swift */,
 				3284061B274FFD97008032E7 /* RankViewController.swift */,
 				32657E59274A70AD0020C4A8 /* SearchViewController.swift */,
@@ -397,6 +400,7 @@
 				3245B33C2757F73700DF2F2F /* YoutubeVideosResult.swift in Sources */,
 				32657E55274A6A170020C4A8 /* HomeViewController.swift in Sources */,
 				32B5537F274F56B200CFA954 /* UITableViewExtension.swift in Sources */,
+				323C512428CDF5F000280836 /* HomeViewModel.swift in Sources */,
 				32B456502752B88500EADAEF /* ReviewContent.swift in Sources */,
 				32657E69274ABA220020C4A8 /* NaverBlogResult.swift in Sources */,
 				3245B33E27580AD200DF2F2F /* ReviewFetcher.swift in Sources */,

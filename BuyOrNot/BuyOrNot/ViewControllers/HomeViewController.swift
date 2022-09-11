@@ -11,6 +11,7 @@ import RealmSwift
 import Then
 
 final class HomeViewController: UIViewController {
+    private let viewModel = HomeViewModel()
     private let searchIcon = UIImageView().then {
         $0.image = UIImage(named: "search")
         $0.tintColor = .darkGray
@@ -23,15 +24,15 @@ final class HomeViewController: UIViewController {
         $0.register(RecommendProductCell.self, forCellWithReuseIdentifier: RecommendProductCell.reuseIdentifier)
         $0.register(HomeCollectionHeaderView.self, forSupplementaryViewOfKind: "header",
                     withReuseIdentifier: HomeCollectionHeaderView.reuseIdentifier)
-//        $0.delegate = self
+        $0.delegate = self
         $0.dataSource = self
         $0.showsVerticalScrollIndicator = false
+        $0.backgroundColor = ColorSet.backgroundColor
     }
     private let loadingIndicator = UIActivityIndicatorView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.delegate = self
         view.backgroundColor = ColorSet.backgroundColor
         layout()
         addNotificationObserver()
@@ -50,7 +51,7 @@ final class HomeViewController: UIViewController {
         }
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints { collection in
-            collection.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
+            collection.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
             collection.top.equalTo(searchIcon.snp.bottom).offset(10)
         }
     }
@@ -58,16 +59,15 @@ final class HomeViewController: UIViewController {
     private func compositionalLayout() -> UICollectionViewLayout {
         return UICollectionViewCompositionalLayout { section, _ in
             if section == 0 {
-                let categoryItem = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.5),
+                let categoryItem = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
                                                                             heightDimension: .fractionalHeight(1)))
                 categoryItem.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
                 let categoryGroup = NSCollectionLayoutGroup
-                    .horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                    .horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.55),
                                                                    heightDimension: .fractionalHeight(0.6)),
                                 subitems: [categoryItem])
                 let categorySection = NSCollectionLayoutSection(group: categoryGroup)
                 categorySection.orthogonalScrollingBehavior = .continuous
-                categorySection.contentInsets = .init(top: 10, leading: 0, bottom: 50, trailing: 0)
 
                 let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                                             heightDimension: .estimated(100))
@@ -76,25 +76,25 @@ final class HomeViewController: UIViewController {
                                                                              alignment: .top)
 
                 categorySection.boundarySupplementaryItems = [headerItem]
-
+                categorySection.contentInsets = .init(top: 0, leading: 10, bottom: 50, trailing: 0)
                 return categorySection
             } else {
-                let recommendItem = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .absolute(200),
-                                                                             heightDimension: .absolute(200)))
+                let recommendItem = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                             heightDimension: .fractionalHeight(1)))
                 recommendItem.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
                 let recommendGroup = NSCollectionLayoutGroup
-                    .horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                                   heightDimension: .fractionalHeight(0.4)),
+                    .horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.55),
+                                                                   heightDimension: .absolute(200)),
                                 subitems: [recommendItem])
                 let recommendSection = NSCollectionLayoutSection(group: recommendGroup)
                 recommendSection.orthogonalScrollingBehavior = .continuous
-                recommendSection.contentInsets = .init(top: 10, leading: 0, bottom: 0, trailing: 0)
                 let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                                             heightDimension: .estimated(100))
                 let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize,
                                                                              elementKind: "header",
                                                                              alignment: .top)
                 recommendSection.boundarySupplementaryItems = [headerItem]
+                recommendSection.contentInsets = .init(top: 10, leading: 10, bottom: 0, trailing: 0)
                 return recommendSection
             }
         }
@@ -149,14 +149,28 @@ extension HomeViewController: UICollectionViewDataSource {
         if section == 0 {
             return ProductCategory.allCases.count
         } else {
-            return 20
+            if let productCount = viewModel.products?.count {
+                return productCount
+            }
+            return 0
         }
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
-            return collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCell.reuseIdentifier, for: indexPath)
+            guard let categoryCell = collectionView
+                .dequeueReusableCell(withReuseIdentifier: CategoryCell.reuseIdentifier, for: indexPath)
+                    as? CategoryCell else { return UICollectionViewCell() }
+            categoryCell.setUpContents(category: ProductCategory.allCases[indexPath.row])
+            return categoryCell
         } else {
-            return collectionView.dequeueReusableCell(withReuseIdentifier: RecommendProductCell.reuseIdentifier, for: indexPath)
+            guard let recommnedCell = collectionView
+                .dequeueReusableCell(withReuseIdentifier: RecommendProductCell.reuseIdentifier, for: indexPath)
+                    as? RecommendProductCell else { return UICollectionViewCell() }
+            if let product = viewModel.products?[indexPath.row] {
+                recommnedCell.setContents(product: product)
+            }
+
+            return recommnedCell
         }
     }
 }

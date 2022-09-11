@@ -17,7 +17,6 @@ final class CategoryCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .lightGray
         setUpCategoryLabel()
         setUpProductImageView()
         setUpCellAppearance()
@@ -27,10 +26,11 @@ final class CategoryCell: UICollectionViewCell {
         super.init(coder: coder)
     }
 
-    func setCategory(category: ProductCategory) {
+    func setUpContents(category: ProductCategory) {
         self.category = category
         productImageView.image = UIImage(named: category.image)
         categoryLabel.text = category.name
+        contentView.backgroundColor = category.backgroundColor
     }
 
     private func setUpCategoryLabel() {
