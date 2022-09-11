@@ -31,7 +31,7 @@ final class HomeCollectionHeaderView: UICollectionReusableView {
     func setUpContents(section: Section) {
         switch section {
         case .category:
-            titleLabel.text = "Category"
+            titleLabel.text = "CATEGORY"
             titleLabel.font = .boldSystemFont(ofSize: 40)
         case .recommend:
             titleLabel.text = "이런 제품은 어떠세요?"

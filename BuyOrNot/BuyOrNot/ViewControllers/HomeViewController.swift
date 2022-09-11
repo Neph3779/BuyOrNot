@@ -63,8 +63,8 @@ final class HomeViewController: UIViewController {
                                                                             heightDimension: .fractionalHeight(1)))
                 categoryItem.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
                 let categoryGroup = NSCollectionLayoutGroup
-                    .horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.55),
-                                                                   heightDimension: .fractionalHeight(0.6)),
+                    .horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.55),
+                                                  heightDimension: .fractionalHeight(0.5)),
                                 subitems: [categoryItem])
                 let categorySection = NSCollectionLayoutSection(group: categoryGroup)
                 categorySection.orthogonalScrollingBehavior = .continuous
@@ -76,15 +76,15 @@ final class HomeViewController: UIViewController {
                                                                              alignment: .top)
 
                 categorySection.boundarySupplementaryItems = [headerItem]
-                categorySection.contentInsets = .init(top: 0, leading: 10, bottom: 50, trailing: 0)
+                categorySection.contentInsets = .init(top: 20, leading: 10, bottom: 30, trailing: 0)
                 return categorySection
             } else {
                 let recommendItem = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
                                                                              heightDimension: .fractionalHeight(1)))
                 recommendItem.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
                 let recommendGroup = NSCollectionLayoutGroup
-                    .horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.55),
-                                                                   heightDimension: .absolute(200)),
+                    .horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.55),
+                                                  heightDimension: .absolute(200)),
                                 subitems: [recommendItem])
                 let recommendSection = NSCollectionLayoutSection(group: recommendGroup)
                 recommendSection.orthogonalScrollingBehavior = .continuous
@@ -94,7 +94,7 @@ final class HomeViewController: UIViewController {
                                                                              elementKind: "header",
                                                                              alignment: .top)
                 recommendSection.boundarySupplementaryItems = [headerItem]
-                recommendSection.contentInsets = .init(top: 10, leading: 10, bottom: 0, trailing: 0)
+                recommendSection.contentInsets = .init(top: 20, leading: 10, bottom: 0, trailing: 0)
                 return recommendSection
             }
         }
