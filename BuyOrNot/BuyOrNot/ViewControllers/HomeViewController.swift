@@ -21,13 +21,17 @@ final class HomeViewController: UIViewController {
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: compositionalLayout()).then {
         $0.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.reuseIdentifier)
         $0.register(RecommendProductCell.self, forCellWithReuseIdentifier: RecommendProductCell.reuseIdentifier)
-        $0.delegate = self
+        $0.register(HomeCollectionHeaderView.self, forSupplementaryViewOfKind: "header",
+                    withReuseIdentifier: HomeCollectionHeaderView.reuseIdentifier)
+//        $0.delegate = self
         $0.dataSource = self
+        $0.showsVerticalScrollIndicator = false
     }
     private let loadingIndicator = UIActivityIndicatorView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        collectionView.delegate = self
         view.backgroundColor = ColorSet.backgroundColor
         layout()
         addNotificationObserver()
@@ -52,17 +56,48 @@ final class HomeViewController: UIViewController {
     }
 
     private func compositionalLayout() -> UICollectionViewLayout {
-        let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
-                                                                             heightDimension: .fractionalHeight(1)))
-        item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
-        let group = NSCollectionLayoutGroup
-            .horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                           heightDimension: .fractionalHeight(0.5)),
-                        subitems: [item])
-        group.contentInsets = .init(top: 0, leading: 0, bottom: 10, trailing: 0)
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
-        return UICollectionViewCompositionalLayout(section: section)
+        return UICollectionViewCompositionalLayout { section, _ in
+            if section == 0 {
+                let categoryItem = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.5),
+                                                                            heightDimension: .fractionalHeight(1)))
+                categoryItem.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
+                let categoryGroup = NSCollectionLayoutGroup
+                    .horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                                   heightDimension: .fractionalHeight(0.6)),
+                                subitems: [categoryItem])
+                let categorySection = NSCollectionLayoutSection(group: categoryGroup)
+                categorySection.orthogonalScrollingBehavior = .continuous
+                categorySection.contentInsets = .init(top: 10, leading: 0, bottom: 50, trailing: 0)
+
+                let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                            heightDimension: .estimated(100))
+                let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize,
+                                                                             elementKind: "header",
+                                                                             alignment: .top)
+
+                categorySection.boundarySupplementaryItems = [headerItem]
+
+                return categorySection
+            } else {
+                let recommendItem = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .absolute(200),
+                                                                             heightDimension: .absolute(200)))
+                recommendItem.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
+                let recommendGroup = NSCollectionLayoutGroup
+                    .horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                                   heightDimension: .fractionalHeight(0.4)),
+                                subitems: [recommendItem])
+                let recommendSection = NSCollectionLayoutSection(group: recommendGroup)
+                recommendSection.orthogonalScrollingBehavior = .continuous
+                recommendSection.contentInsets = .init(top: 10, leading: 0, bottom: 0, trailing: 0)
+                let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                            heightDimension: .estimated(100))
+                let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize,
+                                                                             elementKind: "header",
+                                                                             alignment: .top)
+                recommendSection.boundarySupplementaryItems = [headerItem]
+                return recommendSection
+            }
+        }
     }
 
     @objc private func moveToSearchView(_ sender: UITapGestureRecognizer) {
@@ -127,4 +162,20 @@ extension HomeViewController: UICollectionViewDataSource {
 }
 
 extension HomeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let header = collectionView
+            .dequeueReusableSupplementaryView(ofKind: "header",
+                                              withReuseIdentifier: HomeCollectionHeaderView.reuseIdentifier,
+                                              for: indexPath) as? HomeCollectionHeaderView else {
+            return UICollectionReusableView()
+        }
+
+        if indexPath.section == 0 {
+            header.setUpContents(section: .category)
+        } else {
+            header.setUpContents(section: .recommend)
+        }
+
+        return header
+    }
 }
