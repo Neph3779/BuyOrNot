@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3222C27F2756A9C300921B04 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3222C27E2756A9C300921B04 /* UIViewControllerExtension.swift */; };
+		323C512028CDC52500280836 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 323C511F28CDC52500280836 /* Then */; };
 		3245B3222757801800DF2F2F /* YoutubeCrawler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245B3212757801800DF2F2F /* YoutubeCrawler.swift */; };
 		3245B3382757C01300DF2F2F /* YoutubeCrawlingResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245B3372757C01300DF2F2F /* YoutubeCrawlingResult.swift */; };
 		3245B33C2757F73700DF2F2F /* YoutubeVideosResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245B33B2757F73700DF2F2F /* YoutubeVideosResult.swift */; };
@@ -110,6 +111,7 @@
 				324F25432754F0E1006EDFA6 /* RealmSwift in Frameworks */,
 				32657E50274A68AD0020C4A8 /* Kingfisher in Frameworks */,
 				32657E58274A6D210020C4A8 /* SnapKit in Frameworks */,
+				323C512028CDC52500280836 /* Then in Frameworks */,
 				32657E48274A68740020C4A8 /* Alamofire in Frameworks */,
 				32657E53274A68BF0020C4A8 /* SwiftSoup in Frameworks */,
 				324F25412754F0E1006EDFA6 /* Realm in Frameworks */,
@@ -272,6 +274,7 @@
 				32657E57274A6D210020C4A8 /* SnapKit */,
 				324F25402754F0E1006EDFA6 /* Realm */,
 				324F25422754F0E1006EDFA6 /* RealmSwift */,
+				323C511F28CDC52500280836 /* Then */,
 			);
 			productName = BuyOrNot;
 			productReference = 32528AA7274529E4006988D6 /* BuyOrNot.app */;
@@ -307,6 +310,7 @@
 				32657E51274A68BF0020C4A8 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				32657E56274A6D210020C4A8 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				324F253F2754F0E1006EDFA6 /* XCRemoteSwiftPackageReference "realm-cocoa" */,
+				323C511E28CDC52500280836 /* XCRemoteSwiftPackageReference "Then" */,
 			);
 			productRefGroup = 32528AA8274529E4006988D6 /* Products */;
 			projectDirPath = "";
@@ -461,7 +465,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -516,7 +520,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -608,6 +612,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		323C511E28CDC52500280836 /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 		324F253F2754F0E1006EDFA6 /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-cocoa.git";
@@ -651,6 +663,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		323C511F28CDC52500280836 /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 323C511E28CDC52500280836 /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
+		};
 		324F25402754F0E1006EDFA6 /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 324F253F2754F0E1006EDFA6 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
