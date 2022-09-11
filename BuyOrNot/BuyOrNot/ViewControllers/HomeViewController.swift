@@ -131,11 +131,16 @@ final class HomeViewController: UIViewController {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.loadingIndicator.stopAnimating()
+            self.viewModel.setRandomProducts()
+            self.collectionView.reloadSections(.init(integer: 1))
         }
     }
 
     @objc func didDeleteAllEnd(_ notification: Notification) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.viewModel.removeProducts()
+            self.collectionView.reloadSections(.init(integer: 1))
             self.loadingIndicator.startAnimating()
         }
     }
@@ -145,6 +150,7 @@ extension HomeViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
     }
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
             return ProductCategory.allCases.count
@@ -155,6 +161,7 @@ extension HomeViewController: UICollectionViewDataSource {
             return 0
         }
     }
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
             guard let categoryCell = collectionView

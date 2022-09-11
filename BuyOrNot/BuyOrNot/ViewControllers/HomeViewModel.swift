@@ -9,19 +9,23 @@ import Foundation
 import RealmSwift
 
 final class HomeViewModel {
-    var products: [Product]?
+    private(set) var products: [Product]?
 
     init() {
-        products = randomProducts()
+        setRandomProducts()
     }
 
-    private func randomProducts() -> [Product] {
+    func removeProducts() {
+        products = []
+    }
+
+    func setRandomProducts() {
         if try! Realm().objects(Product.self).isEmpty {
-            return []
+           products = []
         }
         let productArray = Array(try! Realm().objects(Product.self))
         if DateController.shared.shouldShowItsProductOnly() {
-            return productArray.filter { $0.brand == "APPLE" }
+            products = productArray.filter { $0.brand == "APPLE" }
         }
 
         var randomArray = Array(repeating: 0, count: productArray.count).map { _ in
@@ -36,6 +40,6 @@ final class HomeViewModel {
             randomProductArray.append(productArray[randomArray[i]])
         }
 
-        return randomProductArray
+        products = randomProductArray
     }
 }
