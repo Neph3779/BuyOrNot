@@ -192,4 +192,16 @@ extension HomeViewController: UICollectionViewDelegate {
 
         return header
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCell else { return }
+            let category = cell.category
+            navigationController?.pushViewController(RankViewController(category: category), animated: true)
+        } else {
+            guard let cell = collectionView.cellForItem(at: indexPath) as? RecommendProductCell,
+                  let product = cell.product else { return }
+            navigationController?.pushViewController(ProductDetailViewController(product: product), animated: true)
+        }
+    }
 }
