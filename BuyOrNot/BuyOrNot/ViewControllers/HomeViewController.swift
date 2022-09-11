@@ -12,12 +12,12 @@ import Then
 
 final class HomeViewController: UIViewController {
     private let viewModel = HomeViewModel()
-    private let searchIcon = UIImageView().then {
-        $0.image = UIImage(named: "search")
+    private let searchButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
         $0.tintColor = .darkGray
-        $0.isUserInteractionEnabled = true
-        let gesture = UITapGestureRecognizer(target: HomeViewController.self, action: #selector(moveToSearchView(_:)))
-        $0.addGestureRecognizer(gesture)
+        $0.contentMode = .scaleAspectFill
+        $0.setPreferredSymbolConfiguration(.init(pointSize: 28), forImageIn: .normal)
+        $0.addTarget(self, action: #selector(moveToSearchView(_:)), for: .touchUpInside) // MARK: ignore warning
     }
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: compositionalLayout()).then {
         $0.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.reuseIdentifier)
@@ -43,16 +43,16 @@ final class HomeViewController: UIViewController {
     }
 
     private func layout() {
-        view.addSubview(searchIcon)
-        searchIcon.snp.makeConstraints { imageView in
-            imageView.top.equalTo(view.safeAreaLayoutGuide).inset(10)
-            imageView.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
-            imageView.width.height.equalTo(30)
+        view.addSubview(searchButton)
+        searchButton.snp.makeConstraints { button in
+            button.top.equalTo(view.safeAreaLayoutGuide).inset(10)
+            button.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
+            button.width.height.equalTo(50)
         }
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints { collection in
             collection.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
-            collection.top.equalTo(searchIcon.snp.bottom).offset(10)
+            collection.top.equalTo(searchButton.snp.bottom).offset(10)
         }
     }
 
@@ -100,7 +100,7 @@ final class HomeViewController: UIViewController {
         }
     }
 
-    @objc private func moveToSearchView(_ sender: UITapGestureRecognizer) {
+    @objc private func moveToSearchView(_ sender: UIButton) {
         navigationController?.pushViewController(SearchViewController(), animated: true)
     }
 
