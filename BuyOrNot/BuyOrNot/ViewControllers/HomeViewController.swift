@@ -8,19 +8,33 @@
 import UIKit
 import SnapKit
 import RealmSwift
+import Then
 
 final class HomeViewController: UIViewController {
-    private let searchIcon = UIImageView()
-    private let outerTableView = UITableView(frame: .zero, style: .grouped)
-    private let categoryCollectionView = CategoryCollectionView()
-    private let recommendCollectionView = RecommendCollectionView()
+    private let viewModel = HomeViewModel()
+    private let searchIcon = UIImageView().then {
+        $0.image = UIImage(named: "search")
+        $0.tintColor = .darkGray
+        $0.isUserInteractionEnabled = true
+        let gesture = UITapGestureRecognizer(target: HomeViewController.self, action: #selector(moveToSearchView(_:)))
+        $0.addGestureRecognizer(gesture)
+    }
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: compositionalLayout()).then {
+        $0.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.reuseIdentifier)
+        $0.register(RecommendProductCell.self, forCellWithReuseIdentifier: RecommendProductCell.reuseIdentifier)
+        $0.register(HomeCollectionHeaderView.self, forSupplementaryViewOfKind: "header",
+                    withReuseIdentifier: HomeCollectionHeaderView.reuseIdentifier)
+        $0.delegate = self
+        $0.dataSource = self
+        $0.showsVerticalScrollIndicator = false
+        $0.backgroundColor = ColorSet.backgroundColor
+    }
     private let loadingIndicator = UIActivityIndicatorView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = ColorSet.backgroundColor
-        setSearchIcon()
-        setOuterTableView()
+        layout()
         addNotificationObserver()
     }
 
@@ -28,38 +42,66 @@ final class HomeViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
     }
 
-    private func setSearchIcon() {
-        searchIcon.image = UIImage(named: "search")
-        searchIcon.tintColor = .darkGray
-        searchIcon.isUserInteractionEnabled = true
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(moveToSearchView(_:)))
-        searchIcon.addGestureRecognizer(gesture)
+    private func layout() {
         view.addSubview(searchIcon)
         searchIcon.snp.makeConstraints { imageView in
             imageView.top.equalTo(view.safeAreaLayoutGuide).inset(10)
             imageView.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
             imageView.width.height.equalTo(30)
         }
+        view.addSubview(collectionView)
+        collectionView.snp.makeConstraints { collection in
+            collection.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+            collection.top.equalTo(searchIcon.snp.bottom).offset(10)
+        }
+    }
+
+    private func compositionalLayout() -> UICollectionViewLayout {
+        return UICollectionViewCompositionalLayout { section, _ in
+            if section == 0 {
+                let categoryItem = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                            heightDimension: .fractionalHeight(1)))
+                categoryItem.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
+                let categoryGroup = NSCollectionLayoutGroup
+                    .horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.55),
+                                                  heightDimension: .fractionalHeight(0.5)),
+                                subitems: [categoryItem])
+                let categorySection = NSCollectionLayoutSection(group: categoryGroup)
+                categorySection.orthogonalScrollingBehavior = .continuous
+
+                let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                            heightDimension: .estimated(100))
+                let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize,
+                                                                             elementKind: "header",
+                                                                             alignment: .top)
+
+                categorySection.boundarySupplementaryItems = [headerItem]
+                categorySection.contentInsets = .init(top: 20, leading: 10, bottom: 30, trailing: 0)
+                return categorySection
+            } else {
+                let recommendItem = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                             heightDimension: .fractionalHeight(1)))
+                recommendItem.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
+                let recommendGroup = NSCollectionLayoutGroup
+                    .horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.55),
+                                                  heightDimension: .absolute(200)),
+                                subitems: [recommendItem])
+                let recommendSection = NSCollectionLayoutSection(group: recommendGroup)
+                recommendSection.orthogonalScrollingBehavior = .continuous
+                let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                            heightDimension: .estimated(100))
+                let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize,
+                                                                             elementKind: "header",
+                                                                             alignment: .top)
+                recommendSection.boundarySupplementaryItems = [headerItem]
+                recommendSection.contentInsets = .init(top: 20, leading: 10, bottom: 0, trailing: 0)
+                return recommendSection
+            }
+        }
     }
 
     @objc private func moveToSearchView(_ sender: UITapGestureRecognizer) {
         navigationController?.pushViewController(SearchViewController(), animated: true)
-    }
-
-    private func setOuterTableView() {
-        outerTableView.register(UITableViewCell.self, forCellReuseIdentifier: "outerTableViewCell")
-        outerTableView.register(UITableViewHeaderFooterView.self,
-                                forHeaderFooterViewReuseIdentifier: "outerTableViewHeader")
-        outerTableView.dataSource = self
-        outerTableView.delegate = self
-        outerTableView.backgroundColor = .clear
-        outerTableView.separatorColor = .clear
-
-        view.addSubview(outerTableView)
-        outerTableView.snp.makeConstraints { tableView in
-            tableView.top.equalTo(searchIcon.snp.bottom).offset(10)
-            tableView.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
     }
 
     private func setLoadingIndicator(cell: UITableViewCell) {
@@ -99,66 +141,67 @@ final class HomeViewController: UIViewController {
     }
 }
 
-extension HomeViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int { 2 }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { 1 }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = outerTableView.dequeueReusableCell(withIdentifier: "outerTableViewCell") else {
-            return UITableViewCell()
+extension HomeViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if section == 0 {
+            return ProductCategory.allCases.count
+        } else {
+            if let productCount = viewModel.products?.count {
+                return productCount
+            }
+            return 0
         }
-        cell.backgroundColor = .clear
-        cell.selectionStyle = .none
-
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
-            cell.setContentView(view: categoryCollectionView)
-        } else if indexPath.section == 1 {
-            cell.setContentView(view: recommendCollectionView)
-        }
+            guard let categoryCell = collectionView
+                .dequeueReusableCell(withReuseIdentifier: CategoryCell.reuseIdentifier, for: indexPath)
+                    as? CategoryCell else { return UICollectionViewCell() }
+            categoryCell.setUpContents(category: ProductCategory.allCases[indexPath.row])
+            return categoryCell
+        } else {
+            guard let recommnedCell = collectionView
+                .dequeueReusableCell(withReuseIdentifier: RecommendProductCell.reuseIdentifier, for: indexPath)
+                    as? RecommendProductCell else { return UICollectionViewCell() }
+            if let product = viewModel.products?[indexPath.row] {
+                recommnedCell.setContents(product: product)
+            }
 
-        return cell
+            return recommnedCell
+        }
     }
 }
 
-extension HomeViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+extension HomeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let header = collectionView
+            .dequeueReusableSupplementaryView(ofKind: "header",
+                                              withReuseIdentifier: HomeCollectionHeaderView.reuseIdentifier,
+                                              for: indexPath) as? HomeCollectionHeaderView else {
+            return UICollectionReusableView()
+        }
+
         if indexPath.section == 0 {
-            let cellHeight = ViewSize.categoryCellSize.height
-            return cellHeight + 20
+            header.setUpContents(section: .category)
         } else {
-            let cellHeight = ViewSize.recommendCellSize.height
-            return cellHeight + 20
+            header.setUpContents(section: .recommend)
         }
+
+        return header
     }
 
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "outerTableViewHeader") else {
-            return UIView()
-        }
-
-        if #available(iOS 14.0, *) {
-            var content = headerView.defaultContentConfiguration()
-            content.textProperties.font = section == 0 ? .boldSystemFont(ofSize: 40)
-            : .boldSystemFont(ofSize: 18)
-
-            content.text = section == 0 ? "Category" : "이런 제품은 어떠세요?"
-            content.textProperties.color = .darkGray
-            headerView.contentConfiguration = content
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCell else { return }
+            let category = cell.category
+            navigationController?.pushViewController(RankViewController(category: category), animated: true)
         } else {
-            headerView.textLabel?.font = section == 0 ? .boldSystemFont(ofSize: 40)
-            : .boldSystemFont(ofSize: 18)
-
-            headerView.textLabel?.text = section == 0 ? "Category" : "이런 제품은 어떠세요?"
-            headerView.textLabel?.textColor = .darkGray
-        }
-
-        return headerView
-    }
-
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath == IndexPath(row: 0, section: 1) {
-            setLoadingIndicator(cell: cell)
+            guard let cell = collectionView.cellForItem(at: indexPath) as? RecommendProductCell,
+                  let product = cell.product else { return }
+            navigationController?.pushViewController(ProductDetailViewController(product: product), animated: true)
         }
     }
 }

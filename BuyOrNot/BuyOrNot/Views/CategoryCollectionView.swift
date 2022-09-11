@@ -37,7 +37,7 @@ extension CategoryCollectionView: UICollectionViewDataSource {
                                                             for: indexPath) as? CategoryCell else {
             return UICollectionViewCell()
         }
-        cell.setCategory(category: ProductCategory.allCases[index])
+        cell.setUpContents(category: ProductCategory.allCases[index])
         cell.contentView.backgroundColor = ProductCategory.allCases[index].backgroundColor
         return cell
     }
