@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import RealmSwift
 import Then
-
+// TODO: 로딩 인디케이터 제작
 final class HomeViewController: UIViewController {
     private let viewModel = HomeViewModel()
     private let searchButton = UIButton().then {
@@ -102,19 +102,6 @@ final class HomeViewController: UIViewController {
 
     @objc private func moveToSearchView(_ sender: UIButton) {
         navigationController?.pushViewController(SearchViewController(), animated: true)
-    }
-
-    private func setLoadingIndicator(cell: UITableViewCell) {
-        loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.transform = CGAffineTransform.init(scaleX: 1.5, y: 1.5)
-        cell.addSubview(loadingIndicator)
-        loadingIndicator.snp.makeConstraints { indicator in
-            indicator.center.equalTo(cell.snp.center)
-            indicator.width.height.equalTo(200)
-        }
-        if Array(try! Realm().objects(Product.self)).isEmpty {
-            loadingIndicator.startAnimating()
-        }
     }
 
     private func addNotificationObserver() {

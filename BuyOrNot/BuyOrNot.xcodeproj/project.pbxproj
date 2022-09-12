@@ -41,7 +41,6 @@
 		327E1483275F0C9500E59DF9 /* DateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327E1482275F0C9500E59DF9 /* DateController.swift */; };
 		3284061C274FFD97008032E7 /* RankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284061B274FFD97008032E7 /* RankViewController.swift */; };
 		3284061E274FFEF3008032E7 /* RankCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284061D274FFEF3008032E7 /* RankCollectionViewCell.swift */; };
-		3284062027500483008032E7 /* UIApplicationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284061F27500483008032E7 /* UIApplicationExtension.swift */; };
 		328406222751176A008032E7 /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328406212751176A008032E7 /* ProductDetailViewController.swift */; };
 		328406242751219C008032E7 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328406232751219C008032E7 /* Product.swift */; };
 		3284062627512453008032E7 /* ReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284062527512453008032E7 /* ReviewCollectionViewCell.swift */; };
@@ -51,9 +50,7 @@
 		32B456502752B88500EADAEF /* ReviewContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B4564F2752B88500EADAEF /* ReviewContent.swift */; };
 		32B55379274E928800CFA954 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B55378274E928800CFA954 /* ColorSet.swift */; };
 		32B5537B274F269A00CFA954 /* RecommendProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B5537A274F269A00CFA954 /* RecommendProductCell.swift */; };
-		32B5537D274F4FA600CFA954 /* CategoryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B5537C274F4FA600CFA954 /* CategoryCollectionView.swift */; };
 		32B5537F274F56B200CFA954 /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B5537E274F56B200CFA954 /* UITableViewExtension.swift */; };
-		32B55381274F577400CFA954 /* RecommendCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B55380274F577400CFA954 /* RecommendCollectionView.swift */; };
 		32B55385274F87E500CFA954 /* ViewSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B55384274F87E500CFA954 /* ViewSize.swift */; };
 		32CEBEEA274D72CB00D62074 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CEBEE9274D72CB00D62074 /* CategoryCell.swift */; };
 		32D289602753452300B4BE43 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D2895F2753452300B4BE43 /* StringExtension.swift */; };
@@ -89,7 +86,6 @@
 		327E1482275F0C9500E59DF9 /* DateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateController.swift; sourceTree = "<group>"; };
 		3284061B274FFD97008032E7 /* RankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankViewController.swift; sourceTree = "<group>"; };
 		3284061D274FFEF3008032E7 /* RankCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankCollectionViewCell.swift; sourceTree = "<group>"; };
-		3284061F27500483008032E7 /* UIApplicationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplicationExtension.swift; sourceTree = "<group>"; };
 		328406212751176A008032E7 /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
 		328406232751219C008032E7 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		3284062527512453008032E7 /* ReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -99,9 +95,7 @@
 		32B4564F2752B88500EADAEF /* ReviewContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewContent.swift; sourceTree = "<group>"; };
 		32B55378274E928800CFA954 /* ColorSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
 		32B5537A274F269A00CFA954 /* RecommendProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendProductCell.swift; sourceTree = "<group>"; };
-		32B5537C274F4FA600CFA954 /* CategoryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionView.swift; sourceTree = "<group>"; };
 		32B5537E274F56B200CFA954 /* UITableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
-		32B55380274F577400CFA954 /* RecommendCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCollectionView.swift; sourceTree = "<group>"; };
 		32B55384274F87E500CFA954 /* ViewSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSize.swift; sourceTree = "<group>"; };
 		32CEBEE9274D72CB00D62074 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		32D2895F2753452300B4BE43 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
@@ -234,7 +228,6 @@
 			isa = PBXGroup;
 			children = (
 				32B5537E274F56B200CFA954 /* UITableViewExtension.swift */,
-				3284061F27500483008032E7 /* UIApplicationExtension.swift */,
 				32D2895F2753452300B4BE43 /* StringExtension.swift */,
 				3222C27E2756A9C300921B04 /* UIViewControllerExtension.swift */,
 			);
@@ -245,9 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				32CEBEE9274D72CB00D62074 /* CategoryCell.swift */,
-				32B5537C274F4FA600CFA954 /* CategoryCollectionView.swift */,
 				32B5537A274F269A00CFA954 /* RecommendProductCell.swift */,
-				32B55380274F577400CFA954 /* RecommendCollectionView.swift */,
 				3284061D274FFEF3008032E7 /* RankCollectionViewCell.swift */,
 				3284062527512453008032E7 /* ReviewCollectionViewCell.swift */,
 				324F254827552856006EDFA6 /* SearchRecordTableViewCell.swift */,
@@ -367,11 +358,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3245B3222757801800DF2F2F /* YoutubeCrawler.swift in Sources */,
-				32B5537D274F4FA600CFA954 /* CategoryCollectionView.swift in Sources */,
 				32B5537B274F269A00CFA954 /* RecommendProductCell.swift in Sources */,
 				32D289602753452300B4BE43 /* StringExtension.swift in Sources */,
 				324F2547275509D9006EDFA6 /* SearchRecord.swift in Sources */,
-				3284062027500483008032E7 /* UIApplicationExtension.swift in Sources */,
 				3284061C274FFD97008032E7 /* RankViewController.swift in Sources */,
 				32657E77274CB84E0020C4A8 /* RankManager.swift in Sources */,
 				3284061E274FFEF3008032E7 /* RankCollectionViewCell.swift in Sources */,
@@ -383,7 +372,6 @@
 				32657E6F274AD3D30020C4A8 /* ProductCategory.swift in Sources */,
 				3284062627512453008032E7 /* ReviewCollectionViewCell.swift in Sources */,
 				32657E66274AAE960020C4A8 /* NaverSearchAPIClient.swift in Sources */,
-				32B55381274F577400CFA954 /* RecommendCollectionView.swift in Sources */,
 				324F254927552856006EDFA6 /* SearchRecordTableViewCell.swift in Sources */,
 				3245B3382757C01300DF2F2F /* YoutubeCrawlingResult.swift in Sources */,
 				327E1483275F0C9500E59DF9 /* DateController.swift in Sources */,
