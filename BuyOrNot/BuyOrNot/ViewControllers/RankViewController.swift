@@ -129,11 +129,11 @@ final class RankViewController: UIViewController {
 
     private func addNotificationObserver() {
         NotificationCenter.default
-            .addObserver(self, selector: #selector(didLoadingEnd(_:)),
+            .addObserver(self, selector: #selector(shouldStopLoadingIndicator(_:)),
                          name: NSNotification.Name("rankedProductsLoadingEnd"), object: nil)
 
         NotificationCenter.default
-            .addObserver(self, selector: #selector(didDeleteAllEnd(_:)),
+            .addObserver(self, selector: #selector(shouldStartLoadingIndicator(_:)),
                          name: NSNotification.Name("rankedProductsDeleteAllEnd"), object: nil)
     }
 
@@ -141,7 +141,7 @@ final class RankViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
 
-    @objc private func didLoadingEnd(_ notification: Notification) {
+    @objc private func shouldStopLoadingIndicator(_ notification: Notification) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.setProducts()
@@ -150,7 +150,7 @@ final class RankViewController: UIViewController {
         }
     }
 
-    @objc func didDeleteAllEnd(_ notification: Notification) {
+    @objc func shouldStartLoadingIndicator(_ notification: Notification) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.setProducts()

@@ -9,9 +9,10 @@ import UIKit
 import SnapKit
 import RealmSwift
 import Then
-// TODO: 로딩 인디케이터 제작
+
 final class HomeViewController: UIViewController {
     private let viewModel = HomeViewModel()
+    private var isLoading = false
     private let searchButton = UIButton().then {
         $0.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
         $0.tintColor = .darkGray
@@ -29,7 +30,6 @@ final class HomeViewController: UIViewController {
         $0.showsVerticalScrollIndicator = false
         $0.backgroundColor = ColorSet.backgroundColor
     }
-    private let loadingIndicator = UIActivityIndicatorView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,6 +57,11 @@ final class HomeViewController: UIViewController {
     }
 
     private func compositionalLayout() -> UICollectionViewLayout {
+        let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                    heightDimension: .estimated(100))
+        let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize,
+                                                                     elementKind: "header",
+                                                                     alignment: .top)
         return UICollectionViewCompositionalLayout { section, _ in
             if section == 0 {
                 let categoryItem = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
@@ -69,30 +74,26 @@ final class HomeViewController: UIViewController {
                 let categorySection = NSCollectionLayoutSection(group: categoryGroup)
                 categorySection.orthogonalScrollingBehavior = .continuous
 
-                let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                            heightDimension: .estimated(100))
-                let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize,
-                                                                             elementKind: "header",
-                                                                             alignment: .top)
-
                 categorySection.boundarySupplementaryItems = [headerItem]
                 categorySection.contentInsets = .init(top: 20, leading: 10, bottom: 30, trailing: 0)
                 return categorySection
             } else {
-                let recommendItem = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                             heightDimension: .fractionalHeight(1)))
+                let recommendItem: NSCollectionLayoutItem
+                let recommendGroup: NSCollectionLayoutGroup
+                recommendItem = .init(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                        heightDimension: .fractionalHeight(1)))
                 recommendItem.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
-                let recommendGroup = NSCollectionLayoutGroup
-                    .horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.55),
-                                                  heightDimension: .absolute(200)),
-                                subitems: [recommendItem])
+                if self.isLoading {
+                    recommendGroup = .horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                   heightDimension: .absolute(200)),
+                                                 subitems: [recommendItem])
+                } else {
+                    recommendGroup = .horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.55),
+                                                                   heightDimension: .absolute(200)),
+                                                 subitems: [recommendItem])
+                }
                 let recommendSection = NSCollectionLayoutSection(group: recommendGroup)
                 recommendSection.orthogonalScrollingBehavior = .continuous
-                let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                            heightDimension: .estimated(100))
-                let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize,
-                                                                             elementKind: "header",
-                                                                             alignment: .top)
                 recommendSection.boundarySupplementaryItems = [headerItem]
                 recommendSection.contentInsets = .init(top: 20, leading: 10, bottom: 0, trailing: 0)
                 return recommendSection
@@ -100,35 +101,35 @@ final class HomeViewController: UIViewController {
         }
     }
 
+    private func addNotificationObserver() {
+        NotificationCenter.default
+            .addObserver(self, selector: #selector(shouldStopLoadingIndicator(_:)),
+                         name: NSNotification.Name("rankedProductsLoadingEnd"), object: nil)
+
+        NotificationCenter.default
+            .addObserver(self, selector: #selector(shouldStartLoadingIndicator(_:)),
+                         name: NSNotification.Name("rankedProductsDeleteAllEnd"), object: nil)
+    }
+
     @objc private func moveToSearchView(_ sender: UIButton) {
         navigationController?.pushViewController(SearchViewController(), animated: true)
     }
 
-    private func addNotificationObserver() {
-        NotificationCenter.default
-            .addObserver(self, selector: #selector(didLoadingEnd(_:)),
-                         name: NSNotification.Name("rankedProductsLoadingEnd"), object: nil)
-
-        NotificationCenter.default
-            .addObserver(self, selector: #selector(didDeleteAllEnd(_:)),
-                         name: NSNotification.Name("rankedProductsDeleteAllEnd"), object: nil)
-    }
-
-    @objc func didLoadingEnd(_ notification: Notification) {
+    @objc func shouldStartLoadingIndicator(_ notification: Notification) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.loadingIndicator.stopAnimating()
-            self.viewModel.setRandomProducts()
+            self.viewModel.removeProducts()
+            self.isLoading = true
             self.collectionView.reloadSections(.init(integer: 1))
         }
     }
 
-    @objc func didDeleteAllEnd(_ notification: Notification) {
+    @objc func shouldStopLoadingIndicator(_ notification: Notification) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.viewModel.removeProducts()
+            self.viewModel.setRandomProducts()
+            self.isLoading = false
             self.collectionView.reloadSections(.init(integer: 1))
-            self.loadingIndicator.startAnimating()
         }
     }
 }
@@ -142,10 +143,8 @@ extension HomeViewController: UICollectionViewDataSource {
         if section == 0 {
             return ProductCategory.allCases.count
         } else {
-            if let productCount = viewModel.products?.count {
-                return productCount
-            }
-            return 0
+            guard let productCount = viewModel.products?.count else { return 0 }
+            return isLoading ? 1 : productCount
         }
     }
 
@@ -158,12 +157,13 @@ extension HomeViewController: UICollectionViewDataSource {
             return categoryCell
         } else {
             guard let recommnedCell = collectionView
-                .dequeueReusableCell(withReuseIdentifier: RecommendProductCell.reuseIdentifier, for: indexPath)
-                    as? RecommendProductCell else { return UICollectionViewCell() }
-            if let product = viewModel.products?[indexPath.row] {
-                recommnedCell.setContents(product: product)
+                .dequeueReusableCell(withReuseIdentifier: RecommendProductCell.reuseIdentifier,
+                                     for: indexPath) as? RecommendProductCell else { return UICollectionViewCell() }
+            if isLoading {
+                recommnedCell.showLoadingIndicator()
+            } else if let product = viewModel.products?[indexPath.row] {
+                recommnedCell.setUpContents(product: product)
             }
-
             return recommnedCell
         }
     }

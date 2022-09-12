@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import Then
 
 final class RecommendProductCell: UICollectionViewCell {
     static let reuseIdentifier = "recommendProductCell"
@@ -26,6 +27,7 @@ final class RecommendProductCell: UICollectionViewCell {
     private let productImageView = UIImageView()
     private let brandNameLabel = UILabel()
     private let titleLabel = UILabel()
+    private let loadingIndicator = UIActivityIndicatorView(style: .medium)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,13 +36,19 @@ final class RecommendProductCell: UICollectionViewCell {
         setUpBrandNameLabel()
         setUpTitleLabel()
         setCellAppearance()
+        setUpLoadingIndicator()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-    func setContents(product: Product) {
+    override func prepareForReuse() {
+        stackView.isHidden = false
+        loadingIndicator.stopAnimating()
+    }
+
+    func setUpContents(product: Product) {
         self.product = product
         if let url = product.image,
            let image = URL(string: url) {
@@ -50,6 +58,11 @@ final class RecommendProductCell: UICollectionViewCell {
         }
         brandNameLabel.text = product.brand
         titleLabel.text = product.name
+    }
+
+    func showLoadingIndicator() {
+        stackView.isHidden = true
+        loadingIndicator.startAnimating()
     }
 
     private func setUpStackView() {
@@ -79,6 +92,13 @@ final class RecommendProductCell: UICollectionViewCell {
         titleLabel.text = "제품명"
         titleLabel.textAlignment = .center
         stackView.addArrangedSubview(titleLabel)
+    }
+
+    private func setUpLoadingIndicator() {
+        contentView.addSubview(loadingIndicator)
+        loadingIndicator.snp.makeConstraints { indicator in
+            indicator.center.equalToSuperview()
+        }
     }
 
     private func setCellAppearance() {
