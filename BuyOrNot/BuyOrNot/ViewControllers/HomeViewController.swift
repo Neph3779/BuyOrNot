@@ -11,8 +11,7 @@ import RealmSwift
 import Then
 
 final class HomeViewController: UIViewController {
-    private let viewModel = HomeViewModel()
-    private var isLoading = false // TODO: ViewModel로 옮기기
+    private let homeViewModel = HomeViewModel()
     private let searchButton = UIButton().then {
         $0.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
         $0.tintColor = .darkGray
@@ -33,16 +32,22 @@ final class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = ColorSet.backgroundColor
+        bind()
         layout()
-        addNotificationObserver()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = true
     }
 
+    private func bind() {
+        homeViewModel.reloadRecommendProductSection = {
+            self.collectionView.reloadSections(IndexSet(integer: 1))
+        }
+    }
+
     private func layout() {
+        view.backgroundColor = ColorSet.backgroundColor
         view.addSubview(searchButton)
         searchButton.snp.makeConstraints { button in
             button.top.equalTo(view.safeAreaLayoutGuide).inset(10)
@@ -100,7 +105,7 @@ final class HomeViewController: UIViewController {
         recommendItem = .init(layoutSize: .init(widthDimension: .fractionalWidth(1),
                                                 heightDimension: .fractionalHeight(1)))
         recommendItem.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
-        if self.isLoading {
+        if homeViewModel.isLoading {
             recommendGroup = .horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
                                                            heightDimension: .absolute(200)),
                                          subitems: [recommendItem])
@@ -116,36 +121,8 @@ final class HomeViewController: UIViewController {
         return recommendSection
     }
 
-    private func addNotificationObserver() {
-        NotificationCenter.default
-            .addObserver(self, selector: #selector(shouldStopLoadingIndicator(_:)),
-                         name: NSNotification.Name("rankedProductsLoadingEnd"), object: nil)
-
-        NotificationCenter.default
-            .addObserver(self, selector: #selector(shouldStartLoadingIndicator(_:)),
-                         name: NSNotification.Name("rankedProductsDeleteAllEnd"), object: nil)
-    }
-
     @objc private func moveToSearchView(_ sender: UIButton) {
         navigationController?.pushViewController(SearchViewController(), animated: true)
-    }
-
-    @objc func shouldStartLoadingIndicator(_ notification: Notification) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.viewModel.removeProducts()
-            self.isLoading = true
-            self.collectionView.reloadSections(.init(integer: 1))
-        }
-    }
-
-    @objc func shouldStopLoadingIndicator(_ notification: Notification) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.viewModel.setRandomProducts()
-            self.isLoading = false
-            self.collectionView.reloadSections(.init(integer: 1))
-        }
     }
 }
 
@@ -158,8 +135,8 @@ extension HomeViewController: UICollectionViewDataSource {
         if section == 0 {
             return ProductCategory.allCases.count
         } else {
-            guard let productCount = viewModel.products?.count else { return 0 }
-            return isLoading ? 1 : productCount
+            guard let productCount = homeViewModel.products?.count else { return 0 }
+            return homeViewModel.isLoading ? 1 : productCount
         }
     }
 
@@ -174,9 +151,9 @@ extension HomeViewController: UICollectionViewDataSource {
             guard let recommnedCell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: RecommendProductCell.reuseIdentifier,
                                      for: indexPath) as? RecommendProductCell else { return UICollectionViewCell() }
-            if isLoading {
+            if homeViewModel.isLoading {
                 recommnedCell.showLoadingIndicator()
-            } else if let product = viewModel.products?[indexPath.row] {
+            } else if let product = homeViewModel.products?[indexPath.row] {
                 recommnedCell.setUpContents(product: product)
             }
             return recommnedCell

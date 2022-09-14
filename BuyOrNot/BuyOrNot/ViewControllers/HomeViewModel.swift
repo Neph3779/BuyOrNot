@@ -10,9 +10,12 @@ import RealmSwift
 
 final class HomeViewModel {
     private(set) var products: [Product]?
+    var reloadRecommendProductSection: (() -> Void)?
+    private(set) var isLoading = false
 
     init() {
         setRandomProducts()
+        addNotificationObserver()
     }
 
     func removeProducts() {
@@ -41,5 +44,33 @@ final class HomeViewModel {
         }
 
         products = randomProductArray
+    }
+
+    private func addNotificationObserver() {
+        NotificationCenter.default
+            .addObserver(self, selector: #selector(shouldStopLoadingIndicator(_:)),
+                         name: NSNotification.Name("rankedProductsLoadingEnd"), object: nil)
+
+        NotificationCenter.default
+            .addObserver(self, selector: #selector(shouldStartLoadingIndicator(_:)),
+                         name: NSNotification.Name("rankedProductsDeleteAllEnd"), object: nil)
+    }
+
+    @objc private func shouldStartLoadingIndicator(_ notification: Notification) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.removeProducts()
+            self.isLoading = true
+            self.reloadRecommendProductSection?()
+        }
+    }
+
+    @objc private func shouldStopLoadingIndicator(_ notification: Notification) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.setRandomProducts()
+            self.isLoading = false
+            self.reloadRecommendProductSection?()
+        }
     }
 }
