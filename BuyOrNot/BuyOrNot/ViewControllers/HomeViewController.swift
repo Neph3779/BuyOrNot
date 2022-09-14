@@ -169,14 +169,18 @@ extension HomeViewController {
 
     private func setUpDatasourceForSupplementaryView() {
         dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) in
-            guard let header = self.collectionView
-                .dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeCollectionHeaderView.reuseIdentifier,
+            guard let sectionKind = Section(rawValue: indexPath.section),
+                  let header = self.collectionView
+                .dequeueReusableSupplementaryView(ofKind: kind,
+                                                  withReuseIdentifier: HomeCollectionHeaderView.reuseIdentifier,
                                                   for: indexPath) as? HomeCollectionHeaderView else {
                 return UICollectionReusableView()
             }
-            if indexPath.section == 0 {
+
+            switch sectionKind {
+            case .category:
                 header.setUpContents(section: .category)
-            } else {
+            case .recommendProduct:
                 header.setUpContents(section: .recommend)
             }
             return header
@@ -195,11 +199,14 @@ extension HomeViewController {
 
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
+        guard let sectionKind = Section(rawValue: indexPath.section) else { return }
+
+        switch sectionKind {
+        case .category:
             guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCell else { return }
             let category = cell.category
             navigationController?.pushViewController(RankViewController(category: category), animated: true)
-        } else {
+        case .recommendProduct:
             guard let cell = collectionView.cellForItem(at: indexPath) as? RecommendProductCell,
                   let product = cell.product else { return }
             navigationController?.pushViewController(ProductDetailViewController(product: product), animated: true)
