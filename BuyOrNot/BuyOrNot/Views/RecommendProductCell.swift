@@ -44,7 +44,7 @@ final class RecommendProductCell: UICollectionViewCell {
     }
 
     override func prepareForReuse() {
-        contentView.backgroundColor = .clear
+        contentView.backgroundColor = .white
         stackView.isHidden = false
         loadingIndicator.stopAnimating()
     }
