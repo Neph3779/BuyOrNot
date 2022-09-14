@@ -44,6 +44,7 @@ final class RecommendProductCell: UICollectionViewCell {
     }
 
     override func prepareForReuse() {
+        contentView.backgroundColor = .clear
         stackView.isHidden = false
         loadingIndicator.stopAnimating()
     }
@@ -61,6 +62,7 @@ final class RecommendProductCell: UICollectionViewCell {
     }
 
     func showLoadingIndicator() {
+        contentView.backgroundColor = ColorSet.backgroundColor
         stackView.isHidden = true
         loadingIndicator.startAnimating()
     }
