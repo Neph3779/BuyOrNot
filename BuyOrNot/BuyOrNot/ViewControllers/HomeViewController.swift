@@ -12,7 +12,7 @@ import Then
 
 final class HomeViewController: UIViewController {
     private let viewModel = HomeViewModel()
-    private var isLoading = false
+    private var isLoading = false // TODO: ViewModel로 옮기기
     private let searchButton = UIButton().then {
         $0.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
         $0.tintColor = .darkGray
@@ -57,48 +57,63 @@ final class HomeViewController: UIViewController {
     }
 
     private func compositionalLayout() -> UICollectionViewLayout {
+        return UICollectionViewCompositionalLayout { [weak self] section, _ in
+            guard let self = self else { return .none }
+            if section == 0 {
+                return self.sectionForCategorys()
+            } else {
+                return self.sectionForRecommendProducts()
+            }
+        }
+    }
+
+    private func sectionForCategorys() -> NSCollectionLayoutSection {
         let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                                     heightDimension: .estimated(100))
         let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize,
                                                                      elementKind: "header",
                                                                      alignment: .top)
-        return UICollectionViewCompositionalLayout { section, _ in
-            if section == 0 {
-                let categoryItem = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                            heightDimension: .fractionalHeight(1)))
-                categoryItem.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
-                let categoryGroup = NSCollectionLayoutGroup
-                    .horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.55),
-                                                  heightDimension: .fractionalHeight(0.5)),
-                                subitems: [categoryItem])
-                let categorySection = NSCollectionLayoutSection(group: categoryGroup)
-                categorySection.orthogonalScrollingBehavior = .continuous
+        let categoryItem = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                    heightDimension: .fractionalHeight(1)))
+        categoryItem.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
+        let categoryGroup = NSCollectionLayoutGroup
+            .horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.55),
+                                          heightDimension: .fractionalHeight(0.5)),
+                        subitems: [categoryItem])
+        let categorySection = NSCollectionLayoutSection(group: categoryGroup)
+        categorySection.orthogonalScrollingBehavior = .continuous
 
-                categorySection.boundarySupplementaryItems = [headerItem]
-                categorySection.contentInsets = .init(top: 20, leading: 10, bottom: 30, trailing: 0)
-                return categorySection
-            } else {
-                let recommendItem: NSCollectionLayoutItem
-                let recommendGroup: NSCollectionLayoutGroup
-                recommendItem = .init(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                        heightDimension: .fractionalHeight(1)))
-                recommendItem.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
-                if self.isLoading {
-                    recommendGroup = .horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                   heightDimension: .absolute(200)),
-                                                 subitems: [recommendItem])
-                } else {
-                    recommendGroup = .horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.55),
-                                                                   heightDimension: .absolute(200)),
-                                                 subitems: [recommendItem])
-                }
-                let recommendSection = NSCollectionLayoutSection(group: recommendGroup)
-                recommendSection.orthogonalScrollingBehavior = .continuous
-                recommendSection.boundarySupplementaryItems = [headerItem]
-                recommendSection.contentInsets = .init(top: 20, leading: 10, bottom: 0, trailing: 0)
-                return recommendSection
-            }
+        categorySection.boundarySupplementaryItems = [headerItem]
+        categorySection.contentInsets = .init(top: 20, leading: 10, bottom: 30, trailing: 0)
+        return categorySection
+    }
+
+    private func sectionForRecommendProducts() -> NSCollectionLayoutSection {
+        let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                    heightDimension: .estimated(100))
+        let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize,
+                                                                     elementKind: "header",
+                                                                     alignment: .top)
+
+        let recommendItem: NSCollectionLayoutItem
+        let recommendGroup: NSCollectionLayoutGroup
+        recommendItem = .init(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                heightDimension: .fractionalHeight(1)))
+        recommendItem.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
+        if self.isLoading {
+            recommendGroup = .horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                           heightDimension: .absolute(200)),
+                                         subitems: [recommendItem])
+        } else {
+            recommendGroup = .horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.55),
+                                                           heightDimension: .absolute(200)),
+                                         subitems: [recommendItem])
         }
+        let recommendSection = NSCollectionLayoutSection(group: recommendGroup)
+        recommendSection.orthogonalScrollingBehavior = .continuous
+        recommendSection.boundarySupplementaryItems = [headerItem]
+        recommendSection.contentInsets = .init(top: 20, leading: 10, bottom: 0, trailing: 0)
+        return recommendSection
     }
 
     private func addNotificationObserver() {
