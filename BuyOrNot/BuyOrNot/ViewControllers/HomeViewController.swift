@@ -25,15 +25,17 @@ final class HomeViewController: UIViewController {
         $0.register(HomeCollectionHeaderView.self, forSupplementaryViewOfKind: "header",
                     withReuseIdentifier: HomeCollectionHeaderView.reuseIdentifier)
         $0.delegate = self
-        $0.dataSource = self
         $0.showsVerticalScrollIndicator = false
         $0.backgroundColor = ColorSet.backgroundColor
     }
+    var dataSource: UICollectionViewDiffableDataSource<Section, AnyHashable>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
         layout()
+        configureDatasource()
+        applyDataSource()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -62,11 +64,14 @@ final class HomeViewController: UIViewController {
     }
 
     private func compositionalLayout() -> UICollectionViewLayout {
-        return UICollectionViewCompositionalLayout { [weak self] section, _ in
-            guard let self = self else { return .none }
-            if section == 0 {
+        return UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
+            guard let self = self,
+            let sectionKind = Section(rawValue: sectionIndex) else { return .none }
+
+            switch sectionKind {
+            case .category:
                 return self.sectionForCategorys()
-            } else {
+            case .recommendProduct:
                 return self.sectionForRecommendProducts()
             }
         }
@@ -126,59 +131,69 @@ final class HomeViewController: UIViewController {
     }
 }
 
-extension HomeViewController: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+// MARK: - DiffableDatasource
+extension HomeViewController {
+    enum Section: Int, CaseIterable {
+        case category
+        case recommendProduct
     }
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0 {
-            return ProductCategory.allCases.count
-        } else {
-            guard let productCount = homeViewModel.products?.count else { return 0 }
-            return homeViewModel.isLoading ? 1 : productCount
-        }
+    private func configureDatasource() {
+        setUpDatasourceForCell()
+        setUpDatasourceForSupplementaryView()
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.section == 0 {
-            guard let categoryCell = collectionView
-                .dequeueReusableCell(withReuseIdentifier: CategoryCell.reuseIdentifier, for: indexPath)
-                    as? CategoryCell else { return UICollectionViewCell() }
-            categoryCell.setUpContents(category: ProductCategory.allCases[indexPath.row])
-            return categoryCell
-        } else {
-            guard let recommnedCell = collectionView
-                .dequeueReusableCell(withReuseIdentifier: RecommendProductCell.reuseIdentifier,
-                                     for: indexPath) as? RecommendProductCell else { return UICollectionViewCell() }
-            if homeViewModel.isLoading {
-                recommnedCell.showLoadingIndicator()
-            } else if let product = homeViewModel.products?[indexPath.row] {
-                recommnedCell.setUpContents(product: product)
+    private func setUpDatasourceForCell() {
+        dataSource = UICollectionViewDiffableDataSource<Section, AnyHashable>(
+            collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell in
+                if let category = item as? ProductCategory,
+                   let categoryCell = collectionView
+                    .dequeueReusableCell(withReuseIdentifier: CategoryCell.reuseIdentifier,
+                                         for: indexPath) as? CategoryCell {
+                    categoryCell.setUpContents(category: category)
+                    return categoryCell
+                } else if let product = item as? Product,
+                          let recommnedCell = collectionView
+                    .dequeueReusableCell(withReuseIdentifier: RecommendProductCell.reuseIdentifier,
+                                         for: indexPath) as? RecommendProductCell {
+                    if self.homeViewModel.isLoading {
+                        recommnedCell.showLoadingIndicator()
+                    } else {
+                        recommnedCell.setUpContents(product: product)
+                    }
+                    return recommnedCell
+                }
+                return UICollectionViewCell()
             }
-            return recommnedCell
+    }
+
+    private func setUpDatasourceForSupplementaryView() {
+        dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) in
+            guard let header = self.collectionView
+                .dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeCollectionHeaderView.reuseIdentifier,
+                                                  for: indexPath) as? HomeCollectionHeaderView else {
+                return UICollectionReusableView()
+            }
+            if indexPath.section == 0 {
+                header.setUpContents(section: .category)
+            } else {
+                header.setUpContents(section: .recommend)
+            }
+            return header
         }
+    }
+
+    private func applyDataSource() {
+        guard let products = homeViewModel.products else { return }
+        var snapShot = NSDiffableDataSourceSnapshot<Section, AnyHashable>()
+        snapShot.appendSections([.category, .recommendProduct])
+        snapShot.appendItems(ProductCategory.allCases, toSection: .category)
+        snapShot.appendItems(products, toSection: .recommendProduct)
+        dataSource.apply(snapShot)
     }
 }
 
 extension HomeViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView
-            .dequeueReusableSupplementaryView(ofKind: "header",
-                                              withReuseIdentifier: HomeCollectionHeaderView.reuseIdentifier,
-                                              for: indexPath) as? HomeCollectionHeaderView else {
-            return UICollectionReusableView()
-        }
-
-        if indexPath.section == 0 {
-            header.setUpContents(section: .category)
-        } else {
-            header.setUpContents(section: .recommend)
-        }
-
-        return header
-    }
-
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCell else { return }
