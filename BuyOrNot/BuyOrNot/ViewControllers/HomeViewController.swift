@@ -28,7 +28,7 @@ final class HomeViewController: UIViewController {
         $0.showsVerticalScrollIndicator = false
         $0.backgroundColor = ColorSet.backgroundColor
     }
-    var dataSource: UICollectionViewDiffableDataSource<Section, AnyHashable>!
+    private var dataSource: UICollectionViewDiffableDataSource<Section, AnyHashable>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
