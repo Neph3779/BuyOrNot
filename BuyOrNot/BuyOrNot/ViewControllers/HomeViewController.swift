@@ -28,7 +28,7 @@ final class HomeViewController: UIViewController {
         $0.showsVerticalScrollIndicator = false
         $0.backgroundColor = ColorSet.backgroundColor
     }
-    private var dataSource: UICollectionViewDiffableDataSource<Section, AnyHashable>!
+    private var dataSource: UICollectionViewDiffableDataSource<Section, ItemWrapper>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -138,22 +138,29 @@ extension HomeViewController {
         case recommendProduct
     }
 
+    enum ItemWrapper: Hashable {
+        case category(ProductCategory)
+        case product(Product)
+    }
+
     private func configureDatasource() {
         setUpDatasourceForCell()
         setUpDatasourceForSupplementaryView()
     }
 
     private func setUpDatasourceForCell() {
-        dataSource = UICollectionViewDiffableDataSource<Section, AnyHashable>(
-            collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell in
-                if let category = item as? ProductCategory,
+        dataSource = UICollectionViewDiffableDataSource<Section, ItemWrapper>(
+            collectionView: collectionView) { (collectionView, indexPath, itemWrapper) -> UICollectionViewCell in
+                if case let .category(category) = itemWrapper,
                    let categoryCell = collectionView
                     .dequeueReusableCell(withReuseIdentifier: CategoryCell.reuseIdentifier,
                                          for: indexPath) as? CategoryCell {
                     categoryCell.setUpContents(category: category)
                     return categoryCell
-                } else if let product = item as? Product,
-                          let recommnedCell = collectionView
+                }
+
+                if case let .product(product) = itemWrapper,
+                   let recommnedCell = collectionView
                     .dequeueReusableCell(withReuseIdentifier: RecommendProductCell.reuseIdentifier,
                                          for: indexPath) as? RecommendProductCell {
                     if self.homeViewModel.isLoading {
@@ -189,26 +196,25 @@ extension HomeViewController {
 
     private func applyDataSource() {
         guard let products = homeViewModel.products else { return }
-        var snapShot = NSDiffableDataSourceSnapshot<Section, AnyHashable>()
+        var snapShot = NSDiffableDataSourceSnapshot<Section, ItemWrapper>()
         snapShot.appendSections([.category, .recommendProduct])
-        snapShot.appendItems(ProductCategory.allCases, toSection: .category)
-        snapShot.appendItems(products, toSection: .recommendProduct)
+        ProductCategory.allCases.forEach {
+            snapShot.appendItems([.category($0)], toSection: .category)
+        }
+        products.forEach {
+            snapShot.appendItems([.product($0)], toSection: .recommendProduct)
+        }
         dataSource.apply(snapShot)
     }
 }
 
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let sectionKind = Section(rawValue: indexPath.section) else { return }
-
-        switch sectionKind {
-        case .category:
-            guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCell else { return }
-            let category = cell.category
+        guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
+        switch item {
+        case .category(let category):
             navigationController?.pushViewController(RankViewController(category: category), animated: true)
-        case .recommendProduct:
-            guard let cell = collectionView.cellForItem(at: indexPath) as? RecommendProductCell,
-                  let product = cell.product else { return }
+        case .product(let product):
             navigationController?.pushViewController(ProductDetailViewController(product: product), animated: true)
         }
     }
