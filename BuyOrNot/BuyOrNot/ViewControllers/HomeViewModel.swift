@@ -11,6 +11,8 @@ import RealmSwift
 final class HomeViewModel {
     private(set) var products: [Product]?
     var reloadRecommendProductSection: (() -> Void)?
+    var highlightedIndexPathForCategoryCell: IndexPath?
+    var highlightedIndexPathForRecommendProductCell: IndexPath?
     private(set) var isLoading = false
 
     init() {

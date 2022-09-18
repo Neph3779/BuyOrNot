@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Then
 
 final class CategoryCell: UICollectionViewCell {
     static let reuseIdentifier = "categoryCell"
@@ -14,12 +15,17 @@ final class CategoryCell: UICollectionViewCell {
     private let categoryLabel = UILabel()
     private let productImageView = UIImageView()
     private(set) var category: ProductCategory = .phone
-
+    let selectMask = UIView(frame: .zero).then {
+        $0.backgroundColor = .darkGray
+        $0.layer.opacity = 0.5
+        $0.isHidden = true
+    }
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpCategoryLabel()
         setUpProductImageView()
         setUpCellAppearance()
+        setUpSelectMask()
     }
 
     required init?(coder: NSCoder) {
@@ -57,5 +63,13 @@ final class CategoryCell: UICollectionViewCell {
 
     private func setUpCellAppearance() {
         contentView.layer.cornerRadius = 10
+    }
+
+    private func setUpSelectMask() {
+        contentView.addSubview(selectMask)
+        selectMask.layer.cornerRadius = 10
+        selectMask.snp.makeConstraints { mask in
+            mask.edges.equalTo(contentView)
+        }
     }
 }

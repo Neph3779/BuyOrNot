@@ -40,6 +40,13 @@ final class HomeViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = true
+        if let categoryHighlightedIndex = homeViewModel.highlightedIndexPathForCategoryCell,
+        let cell = collectionView.cellForItem(at: categoryHighlightedIndex) as? CategoryCell {
+            cell.selectMask.isHidden = true
+        } else if let recommendHighlightedIndex = homeViewModel.highlightedIndexPathForRecommendProductCell,
+                  let cell = collectionView.cellForItem(at: recommendHighlightedIndex) as? RecommendProductCell {
+            cell.selectMask.isHidden = true
+        }
     }
 
     private func bind() {
@@ -216,6 +223,16 @@ extension HomeViewController: UICollectionViewDelegate {
             navigationController?.pushViewController(RankViewController(category: category), animated: true)
         case .product(let product):
             navigationController?.pushViewController(ProductDetailViewController(product: product), animated: true)
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? CategoryCell {
+            homeViewModel.highlightedIndexPathForCategoryCell = indexPath
+            cell.selectMask.isHidden = false
+        } else if let cell = collectionView.cellForItem(at: indexPath) as? RecommendProductCell {
+            homeViewModel.highlightedIndexPathForRecommendProductCell = indexPath
+            cell.selectMask.isHidden = false
         }
     }
 }

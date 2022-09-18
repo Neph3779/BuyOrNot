@@ -28,6 +28,11 @@ final class RecommendProductCell: UICollectionViewCell {
     private let brandNameLabel = UILabel()
     private let titleLabel = UILabel()
     private let loadingIndicator = UIActivityIndicatorView(style: .medium)
+    let selectMask = UIView(frame: .zero).then {
+        $0.backgroundColor = .darkGray
+        $0.layer.opacity = 0.5
+        $0.isHidden = true
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,6 +42,7 @@ final class RecommendProductCell: UICollectionViewCell {
         setUpTitleLabel()
         setCellAppearance()
         setUpLoadingIndicator()
+        setUpSelectMask()
     }
 
     required init?(coder: NSCoder) {
@@ -118,5 +124,13 @@ final class RecommendProductCell: UICollectionViewCell {
         layer.masksToBounds = false
         layer.shadowPath = UIBezierPath(roundedRect: bounds,
                                         cornerRadius: contentView.layer.cornerRadius).cgPath
+    }
+
+    private func setUpSelectMask() {
+        contentView.addSubview(selectMask)
+        selectMask.layer.cornerRadius = 10
+        selectMask.snp.makeConstraints { mask in
+            mask.edges.equalTo(contentView)
+        }
     }
 }
