@@ -43,8 +43,9 @@ final class HomeViewController: UIViewController {
         if let categoryHighlightedIndex = homeViewModel.highlightedIndexPathForCategoryCell,
         let cell = collectionView.cellForItem(at: categoryHighlightedIndex) as? CategoryCell {
             cell.selectMask.isHidden = true
-        } else if let recommendHighlightedIndex = homeViewModel.highlightedIndexPathForRecommendProductCell,
-                  let cell = collectionView.cellForItem(at: recommendHighlightedIndex) as? RecommendProductCell {
+        }
+        if let recommendHighlightedIndex = homeViewModel.highlightedIndexPathForRecommendProductCell,
+           let cell = collectionView.cellForItem(at: recommendHighlightedIndex) as? RecommendProductCell {
             cell.selectMask.isHidden = true
         }
     }
