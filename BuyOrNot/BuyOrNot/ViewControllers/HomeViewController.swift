@@ -219,21 +219,17 @@ extension HomeViewController {
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
-        switch item {
-        case .category(let category):
-            navigationController?.pushViewController(RankViewController(category: category), animated: true)
-        case .product(let product):
-            navigationController?.pushViewController(ProductDetailViewController(product: product), animated: true)
-        }
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) as? CategoryCell {
+        if case let .category(category) = item,
+           let cell = collectionView.cellForItem(at: indexPath) as? CategoryCell {
             homeViewModel.highlightedIndexPathForCategoryCell = indexPath
             cell.selectMask.isHidden = false
-        } else if let cell = collectionView.cellForItem(at: indexPath) as? RecommendProductCell {
+            navigationController?.pushViewController(RankViewController(category: category), animated: true)
+        }
+        if case let .product(product) = item,
+           let cell = collectionView.cellForItem(at: indexPath) as? RecommendProductCell {
             homeViewModel.highlightedIndexPathForRecommendProductCell = indexPath
             cell.selectMask.isHidden = false
+            navigationController?.pushViewController(ProductDetailViewController(product: product), animated: true)
         }
     }
 }
