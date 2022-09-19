@@ -38,6 +38,7 @@
 		32657E6B274ABD560020C4A8 /* DanawaCrawler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6A274ABD560020C4A8 /* DanawaCrawler.swift */; };
 		32657E6F274AD3D30020C4A8 /* ProductCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E6E274AD3D30020C4A8 /* ProductCategory.swift */; };
 		32657E77274CB84E0020C4A8 /* RankManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32657E76274CB84E0020C4A8 /* RankManager.swift */; };
+		3265A75728D86235000A2B7B /* TapReactCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265A75628D86235000A2B7B /* TapReactCollectionViewCell.swift */; };
 		327E1483275F0C9500E59DF9 /* DateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327E1482275F0C9500E59DF9 /* DateController.swift */; };
 		3284061C274FFD97008032E7 /* RankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284061B274FFD97008032E7 /* RankViewController.swift */; };
 		3284061E274FFEF3008032E7 /* RankCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284061D274FFEF3008032E7 /* RankCollectionViewCell.swift */; };
@@ -83,6 +84,7 @@
 		32657E6A274ABD560020C4A8 /* DanawaCrawler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DanawaCrawler.swift; sourceTree = "<group>"; };
 		32657E6E274AD3D30020C4A8 /* ProductCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCategory.swift; sourceTree = "<group>"; };
 		32657E76274CB84E0020C4A8 /* RankManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankManager.swift; sourceTree = "<group>"; };
+		3265A75628D86235000A2B7B /* TapReactCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapReactCollectionViewCell.swift; sourceTree = "<group>"; };
 		327E1482275F0C9500E59DF9 /* DateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateController.swift; sourceTree = "<group>"; };
 		3284061B274FFD97008032E7 /* RankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankViewController.swift; sourceTree = "<group>"; };
 		3284061D274FFEF3008032E7 /* RankCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 		32CEBEEB274D72ED00D62074 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3265A75628D86235000A2B7B /* TapReactCollectionViewCell.swift */,
 				32CEBEE9274D72CB00D62074 /* CategoryCell.swift */,
 				32B5537A274F269A00CFA954 /* RecommendProductCell.swift */,
 				3284061D274FFEF3008032E7 /* RankCollectionViewCell.swift */,
@@ -362,6 +365,7 @@
 				32D289602753452300B4BE43 /* StringExtension.swift in Sources */,
 				324F2547275509D9006EDFA6 /* SearchRecord.swift in Sources */,
 				3284061C274FFD97008032E7 /* RankViewController.swift in Sources */,
+				3265A75728D86235000A2B7B /* TapReactCollectionViewCell.swift in Sources */,
 				32657E77274CB84E0020C4A8 /* RankManager.swift in Sources */,
 				3284061E274FFEF3008032E7 /* RankCollectionViewCell.swift in Sources */,
 				32CEBEEA274D72CB00D62074 /* CategoryCell.swift in Sources */,

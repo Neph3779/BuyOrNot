@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-final class RankCollectionViewCell: UICollectionViewCell {
+final class RankCollectionViewCell: TapReactCollectionViewCell {
     static let reuseidentifier = "rankTableViewCell"
     var product: Product?
     private let productImageView = UIImageView()
@@ -19,7 +19,6 @@ final class RankCollectionViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
         setProductImageView()
         setLabelStackView()
         setTitleLabel()

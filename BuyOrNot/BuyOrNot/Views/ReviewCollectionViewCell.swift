@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Kingfisher
 
-final class ReviewCollectionViewCell: UICollectionViewCell {
+final class ReviewCollectionViewCell: TapReactCollectionViewCell {
     static let reuseIdentifier = "reviewCollectionViewCell"
 
     private(set) var reviewContent: ReviewContent?
