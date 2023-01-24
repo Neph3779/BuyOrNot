@@ -52,7 +52,7 @@ final class HomeViewController: UIViewController {
 
     private func bind() {
         homeViewModel.reloadRecommendProductSection = {
-            self.collectionView.reloadSections(IndexSet(integer: 1))
+            self.applyDataSource()
         }
     }
 
